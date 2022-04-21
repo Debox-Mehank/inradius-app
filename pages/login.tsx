@@ -45,6 +45,7 @@ const Login: NextPage = () => {
         <React.Fragment>
             <Head>
                 <title>Welcome to InRadius!</title>
+                <link rel="shortcut icon" href="/favicon.png" />
             </Head>
             <div className='w-full h-screen'>
                 {/* Logo */}
@@ -60,14 +61,22 @@ const Login: NextPage = () => {
                     </div>
                 </div>
 
-                <div className='w-full h-full grid grid-cols-1 lg:grid-cols-2 overflow-hidden'>
+                <div className='w-full h-full grid grid-cols-1 lg:grid-cols-2'>
                     {/*Information Section */}
-                    <div className='w-full h-full bg-white hidden lg:flex flex-col justify-center'>
-                        <div className='w-full h-full flex justify-center items-center'>
-                            <h2 className='px-8 whitespace-pre-line text-3xl lg:text-4xl font-bold tracking-widest leading-relaxed pt-16'>{"You are 8 steps away getting a\njob "} <span className='text-primary'>closer</span> {" to your home!"}</h2>
+                    <div className='w-full h-full bg-white hidden lg:flex flex-col'>
+                        <div className='w-full flex items-end pt-16 px-16' style={{ height: "45%" }}>
+                            <h2 className='whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16'>{"You are 8 steps away getting a job "} <span className='text-primary'>closer</span> {" to your home!"}</h2>
                         </div>
-                        <div className='w-full h-full max-h-96 flex justify-center items-center'>
-                            <Image src={login_static} alt="" />
+                        <div className='w-full flex items-center justify-center p-12' style={{ height: "55%" }}>
+                            <div className='h-full w-full relative'>
+                                <Image
+                                    alt=''
+                                    src={login_static}
+                                    layout='fill'
+                                    objectFit='cover'
+                                    className='rounded-xl'
+                                />
+                            </div>
                         </div>
                     </div>
 

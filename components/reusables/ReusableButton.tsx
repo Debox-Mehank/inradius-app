@@ -15,9 +15,12 @@ const ReusableButton = ({ title, bg, text, link, onClick, type }: ReusableButton
     return (
         <motion.button type={type} onClick={onClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} className={`px-3 py-2 text-sm ${bg} ${text} rounded-md shadow font-semibold`}>
             {link ? (
-                <a href={link} target="_blank" rel="noopener noreferrer">
+                <Link href={link}>
                     {title}
-                </a>
+                </Link>
+                // <a href={link} target="_blank" rel="noopener noreferrer">
+                //     {title}
+                // </a>
             ) : title}
         </motion.button>
     )

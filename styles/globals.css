@@ -19,3 +19,46 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* AOS Delays */
+body [data-aos-delay='3200'][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay='3200'].aos-animate {
+  transition-delay: 3.2s;
+}
+
+body [data-aos-delay='3400'][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay='3400'].aos-animate {
+  transition-delay: 3.4s;
+}
+
+body [data-aos-delay='3600'][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay='3600'].aos-animate {
+  transition-delay: 3.6s;
+}
+
+/* Home1 */
+.bg-map {
+  background-image: url("/Radius_Job_Banner.gif");
+}
+
+/* Home2 */
+.bg-traffic {
+  background-image: url("/traffic_bg.jpg");
+}
+
+/* Home3 */
+.bg-traffic {
+  background-image: url("/home3/MainBannerImage1.jpg");
+}
+
+.bg-bus {
+  background-image: url("/home3/MainBannerImage2.jpg");
+}
+
+.bg-rickshaw {
+  background-image: url("/home3/MainBannerImage3.jpg");
+}
+
+.bg-train {
+  background-image: url("/home3/MainBannerImage4.jpg");
+}

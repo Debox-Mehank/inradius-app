@@ -18,13 +18,19 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return <>
     <Head>
-      <link rel="shortcut icon" href="/favicon.png" />
+      <link rel="shortcut icon" href="/favicon.ico" />
       <title>InRadius</title>
-      {/* <meta
-        name="description"
-        content="Inradius "
-      /> */}
     </Head>
+    <Script id="gtm-script" strategy='lazyOnload' src='https://www.googletagmanager.com/gtag/js?id=G-RXXJZJCD69' />
+    <Script id="gtm" strategy='lazyOnload'>
+      {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-RXXJZJCD69');
+        `}
+    </Script>
     <Component {...pageProps} />
   </>
 }

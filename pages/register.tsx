@@ -9,6 +9,8 @@ import LogoWhite from '../components/reusables/LogoWhite';
 import type { NextPage } from 'next'
 import { FormTemplateType, FieldTypes } from '../utils/custom_types';
 import register_static from "../assets/register_static.png";
+import { useDispatch } from 'react-redux';
+import { setUser, UserState, UserType } from '../features/userSlice';
 
 const EmployeeRegistrationFormTemplate: FormTemplateType = {
     title: "Employee Registration",
@@ -115,8 +117,16 @@ const Register: NextPage = () => {
     const router = useRouter()
     const { type } = router.query
 
-    const onSubmit = () => {
-        console.log("Register");
+    const dispatch = useDispatch()
+
+    const onSubmit = (data: UserState) => {
+        dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
+        // if (type === "employee") {
+        //     // Saving the data in redux userSlice
+        // } else if (type === "employer") {
+
+        // }
+        router.push("/complete-registration?page=location")
     }
 
     return (
@@ -162,7 +172,9 @@ const Register: NextPage = () => {
                     <div className='w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide'>
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
-                            <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} />
+                            {type && (
+                                <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} />
+                            )}
                             <p className='text-center text-white font-light text-xs py-2'>Already have an account ? <span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>
                         </div>
                     </div>

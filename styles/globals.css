@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,8 +14,9 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  font-family: "Montserrat", sans-serif;
 }
 
 * {
@@ -61,4 +64,19 @@ body [data-aos-delay='3600'][data-aos].aos-animate,
 
 .bg-train {
   background-image: url("/home3/MainBannerImage4.jpg");
+}
+
+/* Circular Progress Bar */
+.circular_progress_bar::before {
+  content: "";
+  position: absolute;
+  height: 86%;
+  width: 86%;
+  background-color: white;
+  border-radius: 50%;
+}
+
+/* Registration Screens BG */
+.reg-bg {
+  background-image: url("/Map_light.png");
 }

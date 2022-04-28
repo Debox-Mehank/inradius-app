@@ -21,3 +21,22 @@ export interface FormTemplateType {
     fields: FormFieldsType[],
     buttonText: string,
 }
+
+export interface ReactSelectOptionType {
+    value: string,
+    label: string
+}
+
+export interface ReactSelectIndustryDependentOptionType {
+    value: string,
+    label: string,
+    industry: string
+}
+
+export interface WorkExpType {
+    company: string,
+    designation: ReactSelectOptionType,
+    desc: string,
+    start: number,
+    end: number
+}

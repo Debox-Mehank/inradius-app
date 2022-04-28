@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { FormTemplateType } from "../../utils/custom_types"
 import ReusableButton from "./ReusableButton"
 
 interface ResuableFormProps {
   template: FormTemplateType
-  onSubmit: () => void
+  onSubmit: (values: any) => void
 }
 
 const ReusableForm = ({ template, onSubmit }: ResuableFormProps) => {

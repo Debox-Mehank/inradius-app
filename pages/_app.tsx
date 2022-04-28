@@ -2,11 +2,14 @@ import { useEffect } from "react"
 import Head from "next/head";
 import Script from "next/script"
 import Aos from "aos"
+import { Provider } from "react-redux"
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "aos/dist/aos.css"
+import 'react-circular-progressbar/dist/styles.css';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { store } from "../app/store";
 config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -31,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           gtag('config', 'G-RXXJZJCD69');
         `}
     </Script>
-    <Component {...pageProps} />
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
   </>
 }
 

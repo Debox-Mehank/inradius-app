@@ -1,20 +1,16 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
-import ProgressBar from "./ProgressBar"
 import SidebarItem from "./SidebarItem"
 
-interface SidebarProps {
+interface SidebarCompanyProps {
 }
 
-const Sidebar = ({ }: SidebarProps) => {
+const SidebarCompany = ({ }: SidebarCompanyProps) => {
     const registration = useSelector((state: RootState) => state.registration)
 
     return (
         <div className='w-full h-full col-span-2 bg-darkGray text-white flex flex-col justify-between items-center'>
-            <div className="pt-8 pb-4 px-8">
-                <ProgressBar />
-            </div>
-            <div className="w-full h-full flex flex-col gap-4 justify-start items-start pb-6 pt-4 px-6">
+            <div className="w-full h-full flex flex-col gap-4 justify-start items-start p-6">
                 {registration.location && (
                     <SidebarItem text={registration.location.value} />
                 )}
@@ -51,4 +47,4 @@ const Sidebar = ({ }: SidebarProps) => {
     )
 }
 
-export default Sidebar
+export default SidebarCompany

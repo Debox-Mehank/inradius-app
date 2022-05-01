@@ -7,32 +7,28 @@ import { RootState } from "../../app/store";
 import { Dispatch, SetStateAction } from "react";
 
 interface NextButtonProps {
-    onSubmit?: () => void
-    validate?: boolean
-    setShowError?: Dispatch<SetStateAction<boolean>>
+    onSubmit?: (nextFunc: () => void) => void
 }
 
-const NextButton = ({ onSubmit, validate, setShowError }: NextButtonProps) => {
+const NextButton = ({ onSubmit }: NextButtonProps) => {
     const router = useRouter()
     const registration = useSelector((state: RootState) => state.registration)
     const dispatch = useDispatch();
     return (
-        <div className={`${registration.currentStep === registration.steps.length ? 'w-max text-xs' : 'w-10'} h-8 bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`} onClick={() => {
-            if (validate) {
-                setShowError!(false)
+        <button type="submit" className={`${registration.currentStep === registration.steps.length ? 'w-max text-xs' : 'w-10'} h-8 bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`} onClick={() => {
+            const nextFunc = () => {
                 if (registration.progress.toFixed(1) !== "100.0") {
                     dispatch(incrementProgress())
                     dispatch(incrementStep())
-                    if (registration.currentStep === registration.steps.length) {
-                        if (onSubmit !== undefined) {
-                            onSubmit()
-                        }
-                    } else {
+                    if (registration.currentStep !== registration.steps.length) {
                         router.push("/complete-registration?page=" + registration.steps[registration.currentStep])
                     }
                 }
+            }
+            if (onSubmit) {
+                onSubmit(nextFunc)
             } else {
-                setShowError!(true)
+                nextFunc()
             }
         }}>
             {registration.currentStep === registration.steps.length ? (
@@ -41,7 +37,7 @@ const NextButton = ({ onSubmit, validate, setShowError }: NextButtonProps) => {
 
                 <FontAwesomeIcon icon={faChevronRight} size="sm" />
             )}
-        </div>
+        </button>
     )
 }
 

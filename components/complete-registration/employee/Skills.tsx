@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Select from "react-select"
 import { RootState } from "../../../app/store"
@@ -41,23 +42,106 @@ const Skills = () => {
         { label: "Mailchimp", value: "Mailchimp", industry: "Marketing" },
         { label: "Facebook Ads", value: "Facebook Ads", industry: "Marketing" },
     ]
+
+    const [errors, setErrors] = useState<any>({})
+
+    const onSubmit = (nextFunc: () => void) => {
+        if (!skill1) {
+            const errObj = { "skill1": { message: "This field is required." } }
+            setErrors((prev: any) => {
+                const err = { ...errObj, ...prev }
+                console.log(err);
+                return err
+            })
+        }
+        if (!skill2) {
+            const errObj = { "skill2": { message: "This field is required." } }
+            setErrors((prev: any) => {
+                const err = { ...errObj, ...prev }
+                console.log(err);
+                return err
+            })
+        }
+        if (!skill3) {
+            const errObj = { "skill3": { message: "This field is required." } }
+            setErrors((prev: any) => {
+                const err = { ...errObj, ...prev }
+                console.log(err);
+                return err
+            })
+        }
+        if (!skill4) {
+            const errObj = { "skill4": { message: "This field is required." } }
+            setErrors((prev: any) => {
+                const err = { ...errObj, ...prev }
+                console.log(err);
+                return err
+            })
+        }
+
+        if (skill1 && skill2 && skill3 && skill4) {
+            setErrors({})
+            nextFunc()
+        }
+    }
+
     return (
         <div data-aos="slide-left" data-aos-duration="500" data-aos-easing="ease-in-out" data-aos-mirror="true" className='w-full h-full grid place-items-center'>
             <div className='flex flex-col max-w-sm w-full'>
-                <PageHeading text="Skills & Expertise" />
+                <PageHeading text={"Skills & Expertise"} />
                 <div className="w-full flex flex-col gap-4">
-                    <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                        getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 1..." value={skill1} onChange={(value) => dispatch(setSkill1(value!))} styles={reactSelectColorStyles} />
-                    <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                        getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 2..." value={skill2} onChange={(value) => dispatch(setSkill2(value!))} styles={reactSelectColorStyles} />
-                    <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                        getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 3..." value={skill3} onChange={(value) => dispatch(setSkill3(value!))} styles={reactSelectColorStyles} />
-                    <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                        getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 4..." value={skill4} onChange={(value) => dispatch(setSkill4(value!))} styles={reactSelectColorStyles} />
+                    <div className="w-full">
+                        <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 1..." value={skill1} onChange={(value) => {
+                                const errObj = errors
+                                delete errObj['skill1']
+                                setErrors(errObj)
+                                dispatch(setSkill1(value!))
+                            }} styles={reactSelectColorStyles} />
+                        {errors['skill1'] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['skill1']['message']}</p>
+                        )}
+                    </div>
+                    <div className="w-full">
+                        <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 2..." value={skill2} onChange={(value) => {
+                                const errObj = errors
+                                delete errObj['skill2']
+                                setErrors(errObj)
+                                dispatch(setSkill2(value!))
+                            }} styles={reactSelectColorStyles} />
+                        {errors['skill2'] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['skill2']['message']}</p>
+                        )}
+                    </div>
+                    <div className="w-full">
+                        <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 3..." value={skill3} onChange={(value) => {
+                                const errObj = errors
+                                delete errObj['skill3']
+                                setErrors(errObj)
+                                dispatch(setSkill3(value!))
+                            }} styles={reactSelectColorStyles} />
+                        {errors['skill3'] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['skill3']['message']}</p>
+                        )}
+                    </div>
+                    <div className="w-full">
+                        <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 4..." value={skill4} onChange={(value) => {
+                                const errObj = errors
+                                delete errObj['skill4']
+                                setErrors(errObj)
+                                dispatch(setSkill4(value!))
+                            }} styles={reactSelectColorStyles} />
+                        {errors['skill4'] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['skill4']['message']}</p>
+                        )}
+                    </div>
                 </div>
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevButton />
-                    <NextButton />
+                    <NextButton onSubmit={onSubmit} />
                 </div>
             </div>
         </div>

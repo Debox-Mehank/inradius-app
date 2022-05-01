@@ -121,12 +121,11 @@ const Register: NextPage = () => {
 
     const onSubmit = (data: UserState) => {
         dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
-        // if (type === "employee") {
-        //     // Saving the data in redux userSlice
-        // } else if (type === "employer") {
-
-        // }
-        router.push("/complete-registration?page=location")
+        if (type === "employee") {
+            router.push("/complete-registration?page=location")
+        } else if (type === "employer") {
+            router.push("/complete-verification?page=upload-documents")
+        }
     }
 
     return (

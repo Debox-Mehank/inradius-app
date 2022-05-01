@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
 import registrationReducer from "../features/registrationSlice"
+import companyRegistrationReducer from "../features/companyRegistrationSlice"
 import userReducer from "../features/userSlice"
 import userLocationReducer from "../features/locationSlice"
 
@@ -7,7 +8,8 @@ export const store = configureStore({
     reducer: {
         registration: registrationReducer,
         user: userReducer,
-        userLocation: userLocationReducer
+        userLocation: userLocationReducer,
+        companyRegistration: companyRegistrationReducer
     }
 })
 

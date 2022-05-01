@@ -23,6 +23,55 @@ body {
   box-sizing: border-box;
 }
 
+/* Custom Range Slider */
+
+.input-range__slider {
+  background: #e55d29;
+  border: none;
+}
+
+.input-range__track {
+  background: #e7e7e7;
+}
+
+.input-range__track--active {
+  background: #e55d29;
+}
+
+.input-range__label--min .input-range__label-container,
+.input-range__label--max .input-range__label-container {
+  font-family: "Montserrat",
+    sans-serif;
+  font-size: 12px;
+  color: rgb(107, 114, 128);
+  font-weight: 600;
+}
+
+.input-range__label--value {
+  top: -2rem;
+}
+
+.input-range__label--value .input-range__label-container {
+  font-family: "Montserrat",
+    sans-serif;
+  background-color: #e55d29;
+  padding: 2px 5px;
+  border-radius: 2px;
+  font-size: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+
+/* input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #e55d29;
+  cursor: pointer;
+} */
+
 /* AOS Delays */
 body [data-aos-delay='3200'][data-aos].aos-animate,
 [data-aos][data-aos][data-aos-delay='3200'].aos-animate {

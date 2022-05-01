@@ -1,5 +1,6 @@
 import { GoogleMap, MarkerF, CircleF, useJsApiLoader } from '@react-google-maps/api';
 import React, { useCallback } from 'react';
+import InputRange from 'react-input-range';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { setRadius } from '../../features/registrationSlice';
@@ -23,7 +24,7 @@ const Map = () => {
     })
 
     const handleSliderChange = useCallback((e: any) => {
-        dispatch(setRadius(e.target.value))
+        dispatch(setRadius(e))
     }, [])
 
     if (!isLoaded) {
@@ -48,7 +49,10 @@ const Map = () => {
                         strokeOpacity: 0.7,
                     }} />
             </GoogleMap>
-            <RangeSlider start={5} end={15} value={radius ? radius : 5} onChange={handleSliderChange} />
+            <div className='w-full mt-8 mb-4'>
+                <InputRange maxValue={15} minValue={5} step={1} onChange={handleSliderChange} value={radius ? radius : 5} formatLabel={(value, _) => `${value} km`} />
+            </div>
+            {/* <RangeSlider start={5} end={15} value={radius ? radius : 5} onChange={handleSliderChange} /> */}
         </>
     )
 }

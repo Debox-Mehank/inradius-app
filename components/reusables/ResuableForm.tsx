@@ -19,6 +19,7 @@ const ReusableForm = ({ template, onSubmit }: ResuableFormProps) => {
             return (
               <div key={idx} className={`flex flex-col w-full justify-start ${field.cols}`}>
                 <input type={field.type.toString()} className={`bg-white px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs w-full`} placeholder={field.title} {...register(field.name, field.validation)} />
+                {console.log(errors)}
                 {errors[field.name] && (
                   <p className="text-xs text-red-500 px-1 font-medium py-1">{errors[field.name]['message']}</p>
                 )}

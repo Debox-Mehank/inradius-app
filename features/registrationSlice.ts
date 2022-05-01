@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReactSelectIndustryDependentOptionType, ReactSelectOptionType, WorkExpType } from "../utils/custom_types";
+import { ExpInYearsAndMonthsType, ReactSelectIndustryDependentOptionType, ReactSelectOptionType, WorkExpType } from "../utils/custom_types";
 
 const DEFAULT_STEPS = ["location", "radius", "industry-domain", "qualification", "skills", "work-experience", "total-relevant-experience", "current-expected-pay", "linkedin-resume"]
 // const DEFAULT_STEPS = ["location", "radius"]
 
 interface RegistrationState {
-    steps: string[],
-    currentStep: number,
+    steps: string[]
+    currentStep: number
     progress: number
     location: ReactSelectOptionType | null
     radius: number | null
@@ -17,7 +17,11 @@ interface RegistrationState {
     skill2: ReactSelectIndustryDependentOptionType | null
     skill3: ReactSelectIndustryDependentOptionType | null
     skill4: ReactSelectIndustryDependentOptionType | null
-    workexp: WorkExpType[] | []
+    workexp: WorkExpType[]
+    totalexp: ExpInYearsAndMonthsType | null
+    relevantexp: ExpInYearsAndMonthsType | null
+    linkedin: string | null
+    resume: File | null
 }
 
 const initialState: RegistrationState = {
@@ -33,7 +37,11 @@ const initialState: RegistrationState = {
     skill2: null,
     skill3: null,
     skill4: null,
-    workexp: []
+    workexp: [{ company: null, designation: null, end: null, start: null, errors: null }],
+    totalexp: null,
+    relevantexp: null,
+    linkedin: null,
+    resume: null
 }
 
 export const registrationSlice = createSlice({
@@ -90,6 +98,36 @@ export const registrationSlice = createSlice({
         setWorkExp: (state, action: PayloadAction<WorkExpType[]>) => {
             state.workexp = action.payload
         },
+        addWorkExp: (state) => {
+            state.workexp.push({ company: null, designation: null, end: null, start: null, errors: null })
+        },
+        removeWorkExp: (state) => {
+            state.workexp.pop()
+        },
+        setCompany: (state, action: PayloadAction<{ idx: number, company: string }>) => {
+            state.workexp[action.payload.idx]['company'] = action.payload.company
+        },
+        setDesignation: (state, action: PayloadAction<{ idx: number, designation: ReactSelectOptionType }>) => {
+            state.workexp[action.payload.idx]['designation'] = action.payload.designation
+        },
+        setStart: (state, action: PayloadAction<{ idx: number, start: string }>) => {
+            state.workexp[action.payload.idx]['start'] = action.payload.start
+        },
+        setEnd: (state, action: PayloadAction<{ idx: number, end: string }>) => {
+            state.workexp[action.payload.idx]['end'] = action.payload.end
+        },
+        setTotalExp: (state, action: PayloadAction<ExpInYearsAndMonthsType>) => {
+            state.totalexp = action.payload
+        },
+        setRelevantExp: (state, action: PayloadAction<ExpInYearsAndMonthsType>) => {
+            state.relevantexp = action.payload
+        },
+        setLinkedIn: (state, action: PayloadAction<string>) => {
+            state.linkedin = action.payload
+        },
+        setResume: (state, action: PayloadAction<File>) => {
+            state.resume = action.payload
+        },
         setRegistrationData: (state, action: PayloadAction<RegistrationState>) => {
             console.log("ACTION SET REG DATA : " + action.payload)
             state.progress = action.payload.progress
@@ -98,6 +136,6 @@ export const registrationSlice = createSlice({
     }
 })
 
-export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4 } = registrationSlice.actions
+export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setWorkExp, addWorkExp, removeWorkExp, setCompany, setDesignation, setStart, setEnd, setTotalExp, setRelevantExp, setLinkedIn, setResume } = registrationSlice.actions
 
 export default registrationSlice.reducer

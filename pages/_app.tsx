@@ -7,6 +7,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "aos/dist/aos.css"
 import 'react-circular-progressbar/dist/styles.css';
+import 'react-input-range/lib/css/index.css';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { store } from "../app/store";

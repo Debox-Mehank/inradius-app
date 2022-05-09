@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from "next/head";
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import LogoWhite from '../components/reusables/LogoWhite';
 import type { NextPage } from 'next'
 import { FormTemplateType, FieldTypes } from '../utils/custom_types';
 import login_static from "../assets/login_static.png";
+import { useForm } from 'react-hook-form';
 
 const LoginFormTemplate: FormTemplateType = {
     title: "Login",
@@ -29,7 +30,6 @@ const LoginFormTemplate: FormTemplateType = {
             type: FieldTypes.password,
             validation: {
                 required: "password cannot be empty!",
-                pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/, message: "enter valid password!" },
             },
             cols: "col-span-2",
             desc: <p className="text-xs text-white px-1 font-medium hover:text-primary transition-all py-1 text-right cursor-pointer">{"Forgot password?"}</p>
@@ -38,9 +38,14 @@ const LoginFormTemplate: FormTemplateType = {
 }
 
 const Login: NextPage = () => {
+    const { register, handleSubmit, formState, watch } = useForm()
+
     const onSubmit = () => {
         console.log("Login");
     }
+
+    const [counter, setCounter] = useState(0)
+
     return (
         <React.Fragment>
             <Head>
@@ -84,7 +89,7 @@ const Login: NextPage = () => {
                     <div className='w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide'>
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
-                            <ReusableForm template={LoginFormTemplate} onSubmit={onSubmit} />
+                            <ReusableForm template={LoginFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
                             <p className='text-center text-white font-light text-xs py-2'>{"Don't have an account ? "}<span className="cursor-pointer text-primary font-medium"> <Link href={'/register?type=employee'}>Click here</Link> </span></p>
                         </div>
                     </div>

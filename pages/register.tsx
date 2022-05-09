@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from "next/head";
 import Link from 'next/link';
 import Image from 'next/image';
@@ -11,111 +11,128 @@ import { FormTemplateType, FieldTypes } from '../utils/custom_types';
 import register_static from "../assets/register_static.png";
 import { useDispatch } from 'react-redux';
 import { setUser, UserState, UserType } from '../features/userSlice';
-
-const EmployeeRegistrationFormTemplate: FormTemplateType = {
-    title: "Employee Registration",
-    buttonText: "Create Account",
-    fields: [
-        {
-            title: "First Name*",
-            name: "firstName",
-            type: FieldTypes.text,
-            validation: {
-                required: "first name cannot be empty!"
-            },
-            cols: "col-span-2 lg:col-span-1"
-        },
-        {
-            title: "Last Name*",
-            name: "lastName",
-            type: FieldTypes.text,
-            validation: {
-                required: "last name cannot be empty!"
-            },
-            cols: "col-span-2 lg:col-span-1"
-        },
-        {
-            title: "Email*",
-            name: "email",
-            type: FieldTypes.email,
-            validation: {
-                required: "email cannot be empty!",
-                pattern: { value: /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/, message: "enter valid email!" },
-            },
-            cols: "col-span-2"
-        },
-        {
-            title: "Password*",
-            name: "password",
-            type: FieldTypes.password,
-            validation: {
-                required: "password cannot be empty!",
-                pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[.@$!%*#?&])[A-Za-z\d.@$!%*#?&]{8,}$/, message: "enter valid password!" },
-            },
-            cols: "col-span-2",
-            desc: <p className="text-xs text-white px-1 font-light py-1">{"Password should be 8-12 characters long with atleast one uppercase letter, containing a number (0-9) and a speacial character (@,#,%,$...)"}</p>
-        }
-    ]
-}
-
-const EmployeerRegistrationFormTemplate: FormTemplateType = {
-    title: "Employer Registration",
-    buttonText: "Create Account",
-    fields: [
-        {
-            title: "First Name*",
-            name: "firstName",
-            type: FieldTypes.text,
-            validation: {
-                required: "first name cannot be empty!"
-            },
-            cols: "col-span-2 lg:col-span-1"
-        },
-        {
-            title: "Last Name*",
-            name: "lastName",
-            type: FieldTypes.text,
-            validation: {
-                required: "last name cannot be empty!"
-            },
-            cols: "col-span-2 lg:col-span-1"
-        },
-        {
-            title: "Company Name*",
-            name: "companyName",
-            type: FieldTypes.text,
-            validation: {
-                required: "company name cannot be empty!"
-            },
-            cols: "col-span-2"
-        },
-        {
-            title: "Email*",
-            name: "email",
-            type: FieldTypes.email,
-            validation: {
-                required: "email cannot be empty!",
-                pattern: { value: /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/, message: "enter valid email!" },
-            },
-            cols: "col-span-2"
-        },
-        {
-            title: "Password*",
-            name: "password",
-            type: FieldTypes.password,
-            validation: {
-                required: "password cannot be empty!",
-                pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[.@$!%*#?&])[A-Za-z\d.@$!%*#?&]{8,}$/, message: "enter valid password!" },
-            },
-            cols: "col-span-2",
-            desc: <p className="text-xs text-white px-1 font-light py-1">{"Password should be 8-12 characters long with atleast one uppercase letter, containing a number (0-9) and a speacial character (@,#,%,$...)"}</p>
-        }
-    ]
-}
+import { useForm } from 'react-hook-form';
 
 const Register: NextPage = () => {
     const router = useRouter()
     const { type } = router.query
+
+    const { register, handleSubmit, formState, watch } = useForm()
+
+    const EmployeeRegistrationFormTemplate: FormTemplateType = {
+        title: "Employee Registration",
+        buttonText: "Create Account",
+        fields: [
+            {
+                title: "First Name*",
+                name: "firstName",
+                type: FieldTypes.text,
+                validation: {
+                    required: "first name cannot be empty!"
+                },
+                cols: "col-span-2 lg:col-span-1"
+            },
+            {
+                title: "Last Name*",
+                name: "lastName",
+                type: FieldTypes.text,
+                validation: {
+                    required: "last name cannot be empty!"
+                },
+                cols: "col-span-2 lg:col-span-1"
+            },
+            {
+                title: "Email*",
+                name: "email",
+                type: FieldTypes.email,
+                validation: {
+                    required: "email cannot be empty!",
+                    pattern: { value: /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/, message: "enter valid email!" },
+                },
+                cols: "col-span-2"
+            },
+            {
+                title: "Password*",
+                name: "password",
+                type: FieldTypes.password,
+                validation: {
+                    required: "password cannot be empty!",
+                    pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[.@$!%*#?&])[A-Za-z\d.@$!%*#?&]{8,}$/, message: "enter valid password!" },
+                },
+                cols: "col-span-2",
+                desc: <p className="text-xs text-white px-1 font-light py-1">{"Password should be 8-12 characters long with atleast one uppercase letter, containing a number (0-9) and a speacial character (@,#,%,$...)"}</p>
+            },
+            {
+                title: "Confirm Password*",
+                name: "cnfPassword",
+                type: FieldTypes.password,
+                validation: {
+                    required: "confirm password cannot be empty!",
+                    validate: (val: string) => {
+                        if (watch('password') != val) {
+                            return "both passwords do no match!";
+                        }
+                    }
+                },
+                cols: "col-span-2",
+            }
+        ]
+    }
+
+    const EmployeerRegistrationFormTemplate: FormTemplateType = {
+        title: "Employer Registration",
+        buttonText: "Create Account",
+        fields: [
+            {
+                title: "First Name*",
+                name: "firstName",
+                type: FieldTypes.text,
+                validation: {
+                    required: "first name cannot be empty!"
+                },
+                cols: "col-span-2 lg:col-span-1"
+            },
+            {
+                title: "Last Name*",
+                name: "lastName",
+                type: FieldTypes.text,
+                validation: {
+                    required: "last name cannot be empty!"
+                },
+                cols: "col-span-2 lg:col-span-1"
+            },
+            {
+                title: "Company Name*",
+                name: "companyName",
+                type: FieldTypes.text,
+                validation: {
+                    required: "company name cannot be empty!"
+                },
+                cols: "col-span-2"
+            },
+            {
+                title: "Email*",
+                name: "email",
+                type: FieldTypes.email,
+                validation: {
+                    required: "email cannot be empty!",
+                    pattern: { value: /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/, message: "enter valid email!" },
+                },
+                cols: "col-span-2"
+            },
+            {
+                title: "Password*",
+                name: "password",
+                type: FieldTypes.password,
+                validation: {
+                    required: "password cannot be empty!",
+                    pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[.@$!%*#?&])[A-Za-z\d.@$!%*#?&]{8,}$/, message: "enter valid password!" },
+                },
+                cols: "col-span-2",
+                desc: <p className="text-xs text-white px-1 font-light py-1">{"Password should be 8-12 characters long with atleast one uppercase letter, containing a number (0-9) and a speacial character (@,#,%,$...)"}</p>
+            }
+        ]
+    }
 
     const dispatch = useDispatch()
 
@@ -127,6 +144,8 @@ const Register: NextPage = () => {
             router.push("/complete-verification?page=upload-documents")
         }
     }
+
+    const [counter, setCounter] = useState(0)
 
     return (
         <React.Fragment>
@@ -172,7 +191,7 @@ const Register: NextPage = () => {
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
                             {type && (
-                                <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} />
+                                <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
                             )}
                             <p className='text-center text-white font-light text-xs py-2'>Already have an account ? <span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>
                         </div>

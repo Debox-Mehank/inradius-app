@@ -46,3 +46,8 @@ export interface ExpInYearsAndMonthsType {
     years: ReactSelectOptionType | null,
     months: ReactSelectOptionType | null
 }
+
+export interface SurveyType {
+    question: string,
+    options: string[],
+}

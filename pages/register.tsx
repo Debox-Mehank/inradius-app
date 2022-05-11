@@ -138,7 +138,7 @@ const Register: NextPage = () => {
     const onSubmit = async (data: UserState) => {
         dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
         try{
-            const response = await api.post("api", {firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? "employee" : "employer", isSurveyComplete: false, isProfileComplete: false});
+            const response = await api.post("", {firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? "employee" : "employer", isSurveyComplete: false, isProfileComplete: false});
             console.log(response)
             localStorage.setItem("id", response.data)
             router.push("/survey")

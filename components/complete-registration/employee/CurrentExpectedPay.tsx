@@ -107,7 +107,7 @@ const CurrentAndExpectedPay = () => {
                         <Select<ReactSelectOptionType> options={monthOptions} getOptionLabel={(months: ReactSelectOptionType) => months.label}
                             getOptionValue={(months: ReactSelectOptionType) => months.value} className="w-full" placeholder="Select Thousands" value={currentpay?.thousands} onChange={(value) => {
                                 const totexp: CurrentAndExpectedPay = {
-                                    lakhs: currentpay?.thousands ?? null,
+                                    lakhs: currentpay?.lakhs ?? null,
                                     thousands: value!
                                 }
                                 dispatch(setCurrentPay(totexp))

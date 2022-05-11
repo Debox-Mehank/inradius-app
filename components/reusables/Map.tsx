@@ -4,6 +4,7 @@ import InputRange from 'react-input-range';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { setRadius } from '../../features/registrationSlice';
+import { api } from '../../utils/AxiosClient';
 import RangeSlider from './RangeSlider';
 
 
@@ -15,12 +16,11 @@ const Map = () => {
         lat: userLocation.latitude!,
         lng: userLocation.longitude!,
     }
-
     const dispatch = useDispatch()
 
     const { isLoaded } = useJsApiLoader({
         id: "google-maps-script",
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!, // process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ?? "AIzaSyCj2UxICHi4wVE3U0mgMh9HteU1X-94hDQ"
+        googleMapsApiKey: "AIzaSyCj2UxICHi4wVE3U0mgMh9HteU1X-94hDQ"
     })
 
     const handleSliderChange = useCallback((e: any) => {
@@ -35,7 +35,11 @@ const Map = () => {
         <>
             <GoogleMap onLoad={(map: google.maps.Map) => {
                 dispatch(setRadius(5))
-            }} zoom={12} onUnmount={() => {
+            }} zoom={12} onUnmount={async() =>{
+                const id = localStorage.getItem("id")
+                const response = await api.post("update", { id, latitude: String(center.lat), longitude: String(center.lng), radius})
+                console.log(response)
+
                 console.log("unmount map")
             }} center={center} mapContainerClassName="w-full h-3/5 rounded-md" options={{ disableDefaultUI: true }}>
                 <MarkerF

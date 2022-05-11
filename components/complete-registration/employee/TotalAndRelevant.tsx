@@ -49,12 +49,25 @@ const TotalAndRelevant = () => {
     const [errors, setErrors] = useState<any>({})
 
     const onSubmit = (nextFunc: () => void) => {
-        if (!location) {
-            const errObj = { "location": { message: "Please select your location." } }
+        if (!totalexp) {
+            const errObj = { "total experience": { message: "Please select your total experience." } }
             setErrors(errObj)
-        } else {
+        } 
+        else if(!relevantexp){
+            const errObj = { "relevant experience": { message: "Please select your relevant experience." } }
+            setErrors(errObj) 
+        }
+        else {
+            const totalExp = parseFloat(`${totalexp.years?.value}.${totalexp.months?.value}`)
+            const relevantExp = parseFloat(`${relevantexp.years?.value}.${relevantexp.months?.value}`)
+            if(relevantExp > totalExp){
+            const errObj = { "exp error": { message: "Please make your relevant experience less than your total experience." } }
+            setErrors(errObj) 
+            }
+            else{
             setErrors({})
             nextFunc()
+            }
         }
     }
 
@@ -105,6 +118,15 @@ const TotalAndRelevant = () => {
                             }} styles={reactSelectColorStyles} />
                     </div>
                 </div>
+                {errors['total experience'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['total experience']['message']}</p>
+                )}
+                {errors['relevant experience'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['relevant experience']['message']}</p>
+                )}
+                {errors['exp error'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['exp error']['message']}</p>
+                )}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevButton />
                     <NextButton onSubmit={onSubmit} />

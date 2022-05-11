@@ -5,20 +5,23 @@ import type {NextPage} from "next"
 import { useSelector } from 'react-redux'
 import { RootState } from '../app/store'
 import type { SurveyType } from '../utils/custom_types'
+import { api } from '../utils/AxiosClient'
+
 const survey : NextPage = () => {
-    const router = useRouter()
-    const { type } = router.query
+  const router = useRouter()
   const [questions, setQuestions] = useState<SurveyType[]>([{question: "Would it improve your health if your job is within 10 kms of your house?", options: ["Yes", "No"]}, {question: "How much time do you spend on travelling?", options: ["30 mins", "50 mins"]}, {question: "How much time do you lose with your family due to travelling?", options: ["30 mins", "50 mins"]}])
   const [progress, setProgress] = useState(1)
   const answers : string[] = []
   const user = useSelector((state: RootState) => state.user)
-  const clickHandler = (e : React.MouseEvent<HTMLElement>) => {
+  const clickHandler = async (e : React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLButtonElement;
     if((progress-1) < questions.length-1){
     setProgress(prev => ++prev)
     answers.push(target.outerText)
     }
     else {
+      const id = localStorage.getItem("id")
+      const response = await api.post("update", { id, isSurveyComplete: true })
       if(user.type === "Employee"){
       router.push("/complete-registration?page=location")
       }

@@ -12,8 +12,11 @@ import register_static from "../assets/register_static.png";
 import { useDispatch } from 'react-redux';
 import { setUser, UserState, UserType } from '../features/userSlice';
 import { useForm } from 'react-hook-form';
-
+import axios from "axios";
 const Register: NextPage = () => {
+    const api = axios.create({
+        baseURL: "http://localhost:3000/",
+      });
     const router = useRouter()
     const { type } = router.query
 
@@ -135,11 +138,17 @@ const Register: NextPage = () => {
     }
 
     const dispatch = useDispatch()
-
-    const onSubmit = (data: UserState) => {
+    const onSubmit = async (data: UserState) => {
         dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
-        router.push("/survey")
-    }
+        try{
+            const response = await api.post("api", {firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? "employee" : "employer", isSurveyComplete: false, isProfileComplete: false});
+            console.log(response)
+            localStorage.setItem("id", response.data)
+            router.push("/survey")
+        }
+        catch(e){
+        console.log(e)}
+        }
 
     const [counter, setCounter] = useState(0)
 

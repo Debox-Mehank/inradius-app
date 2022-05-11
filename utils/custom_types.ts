@@ -36,7 +36,7 @@ export interface ReactSelectIndustryDependentOptionType {
 export interface WorkExpType {
     company: string | null,
     designation: ReactSelectOptionType | null,
-    // desc: string | null,
+    description: string | null,
     start: string | null,
     end: string | null,
     errors: any
@@ -45,6 +45,11 @@ export interface WorkExpType {
 export interface ExpInYearsAndMonthsType {
     years: ReactSelectOptionType | null,
     months: ReactSelectOptionType | null
+}
+
+export interface CurrentAndExpectedPay {
+    lakhs: ReactSelectOptionType | null,
+    thousands: ReactSelectOptionType | null
 }
 
 export interface SurveyType {

@@ -8,10 +8,9 @@ import { ReactSelectIndustryDependentOptionType, ReactSelectOptionType } from ".
 import NextButton from '../NextButton'
 import PageHeading from "../PageHeading"
 import PrevButton from '../PrevButton'
-
+import { api } from "../../../utils/AxiosClient"
 const Skills = () => {
     const industry = useSelector((state: RootState) => state.registration.industry)
-
     const skill1 = useSelector((state: RootState) => state.registration.skill1)
     const skill2 = useSelector((state: RootState) => state.registration.skill2)
     const skill3 = useSelector((state: RootState) => state.registration.skill3)
@@ -45,7 +44,7 @@ const Skills = () => {
 
     const [errors, setErrors] = useState<any>({})
 
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async (nextFunc: () => void) => {
         if (!skill1) {
             const errObj = { "skill1": { message: "This field is required." } }
             setErrors((prev: any) => {
@@ -81,6 +80,8 @@ const Skills = () => {
 
         if (skill1 && skill2 && skill3 && skill4) {
             setErrors({})
+            const id = localStorage.getItem("id")
+            await api.post("update", { id, skill1: skill1.value, skill2: skill2.value, skill3: skill3.value, skill4: skill4.value})
             nextFunc()
         }
     }
@@ -92,7 +93,7 @@ const Skills = () => {
                 <div className="w-full flex flex-col gap-4">
                     <div className="w-full">
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 1..." value={skill1} onChange={(value) => {
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your top skill here" value={skill1} onChange={(value) => {
                                 const errObj = errors
                                 delete errObj['skill1']
                                 setErrors(errObj)
@@ -104,7 +105,7 @@ const Skills = () => {
                     </div>
                     <div className="w-full">
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 2..." value={skill2} onChange={(value) => {
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 2nd top skill here" value={skill2} onChange={(value) => {
                                 const errObj = errors
                                 delete errObj['skill2']
                                 setErrors(errObj)
@@ -116,7 +117,7 @@ const Skills = () => {
                     </div>
                     <div className="w-full">
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 3..." value={skill3} onChange={(value) => {
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 3rd top skill here" value={skill3} onChange={(value) => {
                                 const errObj = errors
                                 delete errObj['skill3']
                                 setErrors(errObj)
@@ -128,7 +129,7 @@ const Skills = () => {
                     </div>
                     <div className="w-full">
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
-                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select Skill 4..." value={skill4} onChange={(value) => {
+                            getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 4th top skill here" value={skill4} onChange={(value) => {
                                 const errObj = errors
                                 delete errObj['skill4']
                                 setErrors(errObj)

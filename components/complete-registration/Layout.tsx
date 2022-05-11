@@ -6,7 +6,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
     return (
-        <div className='w-full h-full grid grid-cols-10 overflow-hidden'>
+        <div className='w-full h-full grid grid-cols-10'>
             <Sidebar />
             <div className='w-full h-full col-span-8 relative'>
                 {children}

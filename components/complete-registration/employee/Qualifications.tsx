@@ -8,6 +8,7 @@ import { ReactSelectOptionType } from "../../../utils/custom_types"
 import NextButton from '../NextButton'
 import PageHeading from "../PageHeading"
 import PrevButton from '../PrevButton'
+import { api } from "../../../utils/AxiosClient"
 
 const Qualifications = () => {
     const qualification = useSelector((state: RootState) => state.registration.qualification)
@@ -23,12 +24,14 @@ const Qualifications = () => {
 
     const [errors, setErrors] = useState<any>({})
 
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async(nextFunc: () => void) => {
         if (!qualification) {
             const errObj = { "qualification": { message: "Please select your qualification." } }
             setErrors(errObj)
         } else {
             setErrors({})
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, qual: qualification.value})
             nextFunc()
         }
     }

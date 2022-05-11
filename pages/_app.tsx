@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     document.addEventListener('scroll', (e) => { Aos.refresh() }, { capture: true, passive: true })
     return () => document.removeEventListener('scroll', (e) => { Aos.refresh() })
   }, [])
-
   return <>
     <Head>
       <link rel="shortcut icon" href="/favicon.ico" />

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Select from "react-select"
 import { RootState } from "../../../app/store"
 import { setLocation } from "../../../features/registrationSlice"
+import { api } from "../../../utils/AxiosClient"
 import { reactSelectColorStyles } from "../../../utils/common"
 import { ReactSelectOptionType } from "../../../utils/custom_types"
 import NextButton from '../NextButton'
@@ -19,12 +20,15 @@ const LocationDropdown = () => {
 
     const [errors, setErrors] = useState<any>({})
 
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async (nextFunc: () => void) => {
         if (!location) {
             const errObj = { "location": { message: "Please select your location." } }
             setErrors(errObj)
         } else {
             setErrors({})
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, locationDropdown: location.value })
+            console.log(response)
             nextFunc()
         }
     }

@@ -8,6 +8,7 @@ import { ReactSelectIndustryDependentOptionType, ReactSelectOptionType } from ".
 import NextButton from '../NextButton'
 import PageHeading from "../PageHeading"
 import PrevButton from '../PrevButton'
+import { api } from "../../../utils/AxiosClient"
 
 const IndustryDomain = () => {
     const industry = useSelector((state: RootState) => state.registration.industry)
@@ -33,7 +34,7 @@ const IndustryDomain = () => {
 
     const [errors, setErrors] = useState<any>({})
 
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async (nextFunc: () => void) => {
         if (!industry) {
             const errObj = { "industry": { message: "Please select your industry." } }
             setErrors((prev: any) => {
@@ -53,6 +54,8 @@ const IndustryDomain = () => {
         }
 
         if (industry && domain) {
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, industry: industry.value, domain: domain.value })
             setErrors({})
             nextFunc()
         }

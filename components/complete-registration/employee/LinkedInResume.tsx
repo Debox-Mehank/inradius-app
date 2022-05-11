@@ -7,6 +7,7 @@ import { setLinkedIn } from '../../../features/registrationSlice'
 import NextButton from '../NextButton'
 import PageHeading from '../PageHeading'
 import PrevButton from '../PrevButton'
+import { api } from '../../../utils/AxiosClient'
 
 const LinkedInResume = () => {
     const linkedin = useSelector((state: RootState) => state.registration.linkedin)
@@ -15,12 +16,10 @@ const LinkedInResume = () => {
     const router = useRouter()
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    const onSubmitHandler = (nextFunc: () => void) => {
-        console.log(JSON.stringify(errors));
-        if (JSON.stringify(errors) === JSON.stringify({})) {
-            console.log("here");
-            nextFunc()
-        }
+    const onSubmitHandler = async (nextFunc: () => void) => {
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, isProfileComplete: true })
+            router.push("/dashboard?type=employee")
     }
 
     const onSubmit = (values: any) => {

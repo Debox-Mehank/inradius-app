@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ExpInYearsAndMonthsType, ReactSelectIndustryDependentOptionType, ReactSelectOptionType, WorkExpType } from "../utils/custom_types";
+import { ExpInYearsAndMonthsType, CurrentAndExpectedPay, ReactSelectIndustryDependentOptionType, ReactSelectOptionType, WorkExpType } from "../utils/custom_types";
 
 const DEFAULT_STEPS = ["location", "radius", "industry-domain", "qualification", "skills", "work-experience", "total-relevant-experience", "current-expected-pay", "linkedin-resume"]
 // const DEFAULT_STEPS = ["location", "radius"]
@@ -20,6 +20,8 @@ interface RegistrationState {
     workexp: WorkExpType[]
     totalexp: ExpInYearsAndMonthsType | null
     relevantexp: ExpInYearsAndMonthsType | null
+    currentpay: CurrentAndExpectedPay | null
+    expectedpay: CurrentAndExpectedPay | null
     linkedin: string | null
     resume: File | null
 }
@@ -37,9 +39,11 @@ const initialState: RegistrationState = {
     skill2: null,
     skill3: null,
     skill4: null,
-    workexp: [{ company: null, designation: null, end: null, start: null, errors: null }],
+    workexp: [{ company: null, designation: null, description: null, end: null, start: null, errors: null }],
     totalexp: null,
     relevantexp: null,
+    currentpay: null,
+    expectedpay: null,
     linkedin: null,
     resume: null
 }
@@ -99,7 +103,7 @@ export const registrationSlice = createSlice({
             state.workexp = action.payload
         },
         addWorkExp: (state) => {
-            state.workexp.push({ company: null, designation: null, end: null, start: null, errors: null })
+            state.workexp.push({ company: null, designation: null, description: null, end: null, start: null, errors: null })
         },
         removeWorkExp: (state) => {
             state.workexp.pop()
@@ -113,6 +117,9 @@ export const registrationSlice = createSlice({
         setStart: (state, action: PayloadAction<{ idx: number, start: string }>) => {
             state.workexp[action.payload.idx]['start'] = action.payload.start
         },
+        setDescription: (state, action: PayloadAction<{ idx: number, description: string }>) => {
+            state.workexp[action.payload.idx]['description'] = action.payload.description
+        },
         setEnd: (state, action: PayloadAction<{ idx: number, end: string }>) => {
             state.workexp[action.payload.idx]['end'] = action.payload.end
         },
@@ -121,6 +128,12 @@ export const registrationSlice = createSlice({
         },
         setRelevantExp: (state, action: PayloadAction<ExpInYearsAndMonthsType>) => {
             state.relevantexp = action.payload
+        },
+        setCurrentPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+            state.currentpay = action.payload
+        },
+        setExpectedPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+            state.expectedpay = action.payload
         },
         setLinkedIn: (state, action: PayloadAction<string>) => {
             state.linkedin = action.payload
@@ -136,6 +149,6 @@ export const registrationSlice = createSlice({
     }
 })
 
-export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setWorkExp, addWorkExp, removeWorkExp, setCompany, setDesignation, setStart, setEnd, setTotalExp, setRelevantExp, setLinkedIn, setResume } = registrationSlice.actions
+export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setWorkExp, addWorkExp, removeWorkExp, setCompany, setDesignation, setStart, setEnd, setTotalExp, setRelevantExp, setLinkedIn, setResume, setDescription, setCurrentPay, setExpectedPay } = registrationSlice.actions
 
 export default registrationSlice.reducer

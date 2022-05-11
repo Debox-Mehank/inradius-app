@@ -8,7 +8,8 @@ interface SidebarProps {
 
 const Sidebar = ({ }: SidebarProps) => {
     const registration = useSelector((state: RootState) => state.registration)
-
+    const firstName = useSelector((state: RootState) => state.user.firstName)
+    const lastName = useSelector((state: RootState) => state.user.lastName)
     return (
         <div className='w-full h-full col-span-2 bg-darkGray text-white flex flex-col justify-between items-center'>
             <div className="pt-8 pb-4 px-8">
@@ -44,8 +45,7 @@ const Sidebar = ({ }: SidebarProps) => {
                 )}
             </div>
             <div className="bg-primary p-6 w-full justify-self-end flex justify-center items-center gap-4 rounded-t-md">
-                <div className="w-12 h-12 rounded-full bg-white text-black font-bold grid place-items-center">MJ</div>
-                <p className="text-md font-medium text-white">Mehank Jain</p>
+                <div className="w-12 h-12 rounded-full bg-white text-black font-bold grid place-items-center">{`${firstName![0]}${lastName![0]}`}</div>
             </div>
         </div>
     )

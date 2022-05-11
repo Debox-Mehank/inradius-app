@@ -7,7 +7,7 @@ import { RootState } from '../app/store'
 import type { SurveyType } from '../utils/custom_types'
 import { api } from '../utils/AxiosClient'
 
-function survey(){
+function Survey(){
   const router = useRouter()
   const [questions, setQuestions] = useState<SurveyType[]>([{question: "Would it improve your health if your job is within 10 kms of your house?", options: ["Yes", "No"]}, {question: "How much time do you spend on travelling?", options: ["30 mins", "50 mins"]}, {question: "How much time do you lose with your family due to travelling?", options: ["30 mins", "50 mins"]}])
   const [progress, setProgress] = useState(1)
@@ -44,4 +44,4 @@ function survey(){
   )
 }
 
-export default survey
+export default Survey

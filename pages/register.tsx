@@ -195,7 +195,7 @@ const Register: NextPage = () => {
                             {type && (
                                 <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
                             )}
-                            <p className='text-center text-white font-light text-xs py-2'>Already have an account ? <span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>
+                            <p className='text-center text-white font-light text-xs py-2'>Already have an account ?<span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>
                         </div>
                     </div>
                 </div>

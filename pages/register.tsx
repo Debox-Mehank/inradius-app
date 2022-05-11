@@ -12,11 +12,8 @@ import register_static from "../assets/register_static.png";
 import { useDispatch } from 'react-redux';
 import { setUser, UserState, UserType } from '../features/userSlice';
 import { useForm } from 'react-hook-form';
-import axios from "axios";
+import { api } from '../utils/AxiosClient';
 const Register: NextPage = () => {
-    const api = axios.create({
-        baseURL: "http://localhost:3000/",
-      });
     const router = useRouter()
     const { type } = router.query
 

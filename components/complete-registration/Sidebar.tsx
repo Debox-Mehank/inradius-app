@@ -45,7 +45,7 @@ const Sidebar = ({ }: SidebarProps) => {
                 )}
             </div>
             <div className="bg-primary p-6 w-full justify-self-end flex justify-center items-center gap-4 rounded-t-md">
-                <div className="w-12 h-12 rounded-full bg-white text-black font-bold grid place-items-center">{`${firstName![0]}${lastName![0]}`}</div>
+                <div className="w-12 h-12 rounded-full bg-white text-black font-bold grid place-items-center">{firstName !== null || firstName !== undefined ? `${firstName![0]}${lastName![0]}` : ""}</div>
             </div>
         </div>
     )

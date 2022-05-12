@@ -41,10 +41,10 @@ const JobDesc = () => {
                 <PageHeading text="Job Title and Description"/>
                 <div className="flex flex-col gap-4">
                             <div className="w-full flex flex-col justify-between gap-4 items-center pb-8">
-                                <input type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Job Title"} value={title ?? ""} onChange={(e) => {
+                                <input type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Senior Manager - Human Resources"} value={title ?? ""} onChange={(e) => {
                                     dispatch(setDesignation(String(e.target.value)))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
-                                <textarea className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Job Description"} value={desc ?? ""} onChange={(e) => {
+                                <textarea className={`bg-lightGray px-2 lg:px-4 h-[16rem] rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Job Description"} value={desc ?? ""} onChange={(e) => {
                                     dispatch(setDesc(String(e.target.value)))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                         </div>

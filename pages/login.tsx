@@ -89,7 +89,7 @@ const Login: NextPage = () => {
                     <div className='w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide'>
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
-                            <ReusableForm template={LoginFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
+                            <ReusableForm loading={"false"} template={LoginFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
                             <p className='text-center text-white font-light text-xs py-2'>{"Don't have an account ? "}<span className="cursor-pointer text-primary font-medium"> <Link href={'/register?type=employee'}>Click here</Link> </span></p>
                         </div>
                     </div>

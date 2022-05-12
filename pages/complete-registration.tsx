@@ -11,6 +11,7 @@ import Qualifications from '../components/complete-registration/employee/Qualifi
 import Skills from '../components/complete-registration/employee/Skills'
 import TotalAndRelevant from '../components/complete-registration/employee/TotalAndRelevant'
 import WorkExp from '../components/complete-registration/employee/WorkExp'
+import JobDesc from '../components/complete-registration/employer/JobDesc'
 import Layout from '../components/complete-registration/Layout'
 import { setUserLocation, UserLocationType } from '../features/locationSlice'
 // import { setRegistrationData } from '../features/registrationSlice'
@@ -21,7 +22,8 @@ const CompleteRegistration = () => {
 
     // Registration Data From Redux
     const registration = useSelector((state: RootState) => state.registration)
-
+    const user = useSelector((state: RootState) => state.user)
+    console.log(user.type)
     const dispatch = useDispatch()
 
     const onSuccess = (location: GeolocationPosition) => {
@@ -39,9 +41,9 @@ const CompleteRegistration = () => {
     // Get Location
     useEffect(() => {
         if (page) {
-            if (registration.steps[registration.currentStep - 1] !== page) {
-                router.replace("/complete-registration?page=" + registration.steps[registration.currentStep - 1])
-            }
+            // if (registration.steps[registration.currentStep - 1] !== page) {
+            //     router.replace("/complete-registration?page=" + registration.steps[registration.currentStep - 1])
+            // }
             if (!("geolocation" in navigator)) {
                 // onError({
                 //     code: 0,
@@ -56,7 +58,7 @@ const CompleteRegistration = () => {
 
     return (
         <Layout>
-            {page ? <>
+            {String(user.type) === "Employee" && page ? <>
                 {page === "location" && (
                     <LocationDropdown />
                 )}
@@ -84,7 +86,36 @@ const CompleteRegistration = () => {
                 {page === "linkedin-resume" && (
                     <LinkedInResume />
                 )}
-            </> : <p>Loading..</p>}
+            </> : null}
+            {String(user.type) === "Employer" && page ? <>
+                {page === "job-desc" && (
+                    <JobDesc />
+                )}
+                {page === "radius" && (
+                    <LocationRadius />
+                )}
+                {page === "industry-domain" && (
+                    <IndustryDomain />
+                )}
+                {page === "qualification" && (
+                    <Qualifications />
+                )}
+                {page === "skills" && (
+                    <Skills />
+                )}
+                {page === "work-experience" && (
+                    <WorkExp />
+                )}
+                {page === "total-relevant-experience" && (
+                    <TotalAndRelevant />
+                )}
+                {page === "current-expected-pay" && (
+                    <CurrentAndExpectedPay />
+                )}
+                {page === "linkedin-resume" && (
+                    <LinkedInResume />
+                )}
+            </> : null}
         </Layout>
     )
 

@@ -13,9 +13,10 @@ interface ResuableFormProps {
   formState: FormState<FieldValues>
   watch: UseFormWatch<FieldValues>
   setCounter: React.Dispatch<React.SetStateAction<number>>
+  loading: string
 }
 
-const ReusableForm = ({ template, onSubmit, register, handleSubmit, formState: { errors }, watch, setCounter }: ResuableFormProps) => {
+const ReusableForm = ({ loading, template, onSubmit, register, handleSubmit, formState: { errors }, watch, setCounter }: ResuableFormProps) => {
 
   const [showPass, setShowPass] = useState<any[string]>([])
 
@@ -90,7 +91,7 @@ const ReusableForm = ({ template, onSubmit, register, handleSubmit, formState: {
       <h4 className={`text-2xl lg:text-3xl font-bold text-white text-center py-2`}>{template.title}</h4>
       {renderFields()}
       <div className="w-full text-center">
-        <ReusableButton bg="bg-primary" title={template.buttonText} text="text-white" type="submit" />
+        <ReusableButton loading={loading} bg="bg-primary" title={template.buttonText} text="text-white" type="submit" />
       </div>
     </form>
   )

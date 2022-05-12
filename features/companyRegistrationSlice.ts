@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReactSelectIndustryDependentOptionType, ReactSelectOptionType } from "../utils/custom_types";
+import { CurrentAndExpectedPay, ReactSelectIndustryDependentOptionType, ReactSelectOptionType } from "../utils/custom_types";
 
-const DEFAULT_STEPS = ["upload-documents", "job-ind-dom-desg", "job-skills", "job-qualification", "job-pay", "job-desc", "job-location", "job-radius"]
+const DEFAULT_STEPS = ["upload-documents", "job-desc" , "location-dropdown", "radius", "industry-domain", "skills", "pay"]
 
 interface CompanyRegistrationState {
     steps: string[]
@@ -12,13 +12,14 @@ interface CompanyRegistrationState {
     letterhead: string | null
     letterheadfile: FileList | null
     domain: ReactSelectIndustryDependentOptionType | null
-    designation: ReactSelectOptionType | null
+    designation: string | null
     skill1: ReactSelectIndustryDependentOptionType | null
     skill2: ReactSelectIndustryDependentOptionType | null
     skill3: ReactSelectIndustryDependentOptionType | null
     skill4: ReactSelectIndustryDependentOptionType | null
     qualification: ReactSelectOptionType | null
-    pay: number | null
+    frompay: CurrentAndExpectedPay | null
+    topay: CurrentAndExpectedPay | null
     desc: string | null
     location: ReactSelectOptionType | null
     radius: number | null
@@ -40,7 +41,8 @@ const initialState: CompanyRegistrationState = {
     skill3: null,
     skill4: null,
     qualification: null,
-    pay: null,
+    frompay: null,
+    topay: null,
     desc: null,
     location: null,
     radius: null,
@@ -86,7 +88,7 @@ export const companyRegistrationSlice = createSlice({
         setDomain: (state, action: PayloadAction<ReactSelectIndustryDependentOptionType>) => {
             state.domain = action.payload
         },
-        setDesignation: (state, action: PayloadAction<ReactSelectOptionType>) => {
+        setDesignation: (state, action: PayloadAction<string>) => {
             state.designation = action.payload
         },
         setSkill1: (state, action: PayloadAction<ReactSelectIndustryDependentOptionType>) => {
@@ -104,8 +106,11 @@ export const companyRegistrationSlice = createSlice({
         setQualification: (state, action: PayloadAction<ReactSelectOptionType>) => {
             state.qualification = action.payload
         },
-        setPay: (state, action: PayloadAction<number>) => {
-            state.pay = action.payload
+        setFromPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+            state.frompay = action.payload
+        },
+        setToPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+            state.topay = action.payload
         },
         setDesc: (state, action: PayloadAction<string>) => {
             state.desc = action.payload
@@ -127,6 +132,6 @@ export const companyRegistrationSlice = createSlice({
     }
 })
 
-export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setDesignation, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setPay, setStatus, setLinkedIn, setLetterHead, setLetterHeadFile, setDesc } = companyRegistrationSlice.actions
+export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setDesignation, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setStatus, setLinkedIn, setLetterHead, setLetterHeadFile, setDesc, setFromPay, setToPay } = companyRegistrationSlice.actions
 
 export default companyRegistrationSlice.reducer

@@ -1,15 +1,20 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
+import ProgressBar from "./ProgressBar"
+import ProgressBarCompany from "./ProgressBarCompany"
 import SidebarItem from "./SidebarItem"
 
 interface SidebarCompanyProps {
 }
 
 const SidebarCompany = ({ }: SidebarCompanyProps) => {
-    const registration = useSelector((state: RootState) => state.registration)
-
+    const registration = useSelector((state: RootState) => state.companyRegistration)
+    const companyname = useSelector((state: RootState) => state.user.companyName)
     return (
         <div className='w-full h-full col-span-2 bg-darkGray text-white flex flex-col justify-between items-center'>
+            <div className="pt-8 pb-4 px-8">
+                <ProgressBarCompany />
+            </div>
             <div className="w-full h-full flex flex-col gap-4 justify-start items-start p-6">
                 {registration.location && (
                     <SidebarItem text={registration.location.value} />
@@ -40,8 +45,7 @@ const SidebarCompany = ({ }: SidebarCompanyProps) => {
                 )}
             </div>
             <div className="bg-primary p-6 w-full justify-self-end flex justify-center items-center gap-4 rounded-t-md">
-                <div className="w-12 h-12 rounded-full bg-white text-black font-bold grid place-items-center">MJ</div>
-                <p className="text-md font-medium text-white">Mehank Jain</p>
+                <p className="text-md font-medium text-white">{companyname !== undefined && companyname !== null ? companyname : ""}</p>
             </div>
         </div>
     )

@@ -130,18 +130,44 @@ const Register: NextPage = () => {
                 },
                 cols: "col-span-2",
                 desc: <p className="text-xs text-white px-1 font-light py-1">{"Password should be 8-12 characters long with atleast one uppercase letter, containing a number (0-9) and a speacial character (@,#,%,$...)"}</p>
+            },
+            {
+                title: "Confirm Password*",
+                name: "cnfPassword",
+                type: FieldTypes.password,
+                validation: {
+                    required: "confirm password cannot be empty!",
+                    validate: (val: string) => {
+                        if (watch('password') != val) {
+                            return "both passwords do no match!";
+                        }
+                    }
+                },
+                cols: "col-span-2",
             }
         ]
     }
 
     const dispatch = useDispatch()
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState("false");
     const onSubmit = async (data: UserState) => {
-        dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
         try{
+            //setLoading(true)
+            const resp = await api.post("getUser", {email: data.email})
+            if(resp.data === "Account Doesn't Exist"){
+            setLoading("true")
             const response = await api.post("", {firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? "employee" : "employer", isSurveyComplete: false, isProfileComplete: false});
+            setLoading("false")
+            dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
             console.log(response)
             localStorage.setItem("id", response.data)
             router.push("/survey")
+            }
+            else{
+                setLoading("false")
+                setError("An Account With this email already exists")
+            }
         }
         catch(e){
         console.log(e)}
@@ -193,9 +219,15 @@ const Register: NextPage = () => {
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
                             {type && (
-                                <ReusableForm template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
+                                <ReusableForm loading={loading} template={type === "employee" ? EmployeeRegistrationFormTemplate : EmployeerRegistrationFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
                             )}
-                            <p className='text-center text-white font-light text-xs py-2'>Already have an account ?<span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>
+                            {
+                                error === "" ?
+                            <p className='text-center text-white font-light text-xs py-2'>Already have an account ?<span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>:
+                            
+                            <p className="text-center text-xs text-red-500 px-1 font-medium py-2">{error}<p className='text-center text-red-500 font-medium text-xs py-2'><span className="cursor-pointer text-white font-medium"> <Link href={'/login'}>Click here</Link></span> to Login</p></p>
+                            
+                            }   
                         </div>
                     </div>
                 </div>

@@ -28,6 +28,19 @@ const CurrentAndExpectedPay = () => {
         { label: "10 Lakh", value: "10" },
         { label: "11 Lakh", value: "11" },
         { label: "12 Lakh", value: "12" },
+        { label: "13 Lakh", value: "13" },
+        { label: "14 Lakh", value: "14" },
+        { label: "15 Lakh", value: "15" },
+        { label: "16 Lakh", value: "16" },
+        { label: "17 Lakh", value: "17" },
+        { label: "18 Lakh", value: "18" },
+        { label: "19 Lakh", value: "19" },
+        { label: "20 Lakh", value: "20" },
+        { label: "21 Lakh", value: "21" },
+        { label: "22 Lakh", value: "22" },
+        { label: "23 Lakh", value: "23" },
+        { label: "24 Lakh", value: "24" },
+        { label: "25 Lakh", value: "25" },
     ]
 
     const monthOptions: ReactSelectOptionType[] = [
@@ -55,6 +68,20 @@ const CurrentAndExpectedPay = () => {
         { label: "10 Lakh", value: "10" },
         { label: "11 Lakh", value: "11" },
         { label: "12 Lakh", value: "12" },
+        { label: "12 Lakh", value: "12" },
+        { label: "13 Lakh", value: "13" },
+        { label: "14 Lakh", value: "14" },
+        { label: "15 Lakh", value: "15" },
+        { label: "16 Lakh", value: "16" },
+        { label: "17 Lakh", value: "17" },
+        { label: "18 Lakh", value: "18" },
+        { label: "19 Lakh", value: "19" },
+        { label: "20 Lakh", value: "20" },
+        { label: "21 Lakh", value: "21" },
+        { label: "22 Lakh", value: "22" },
+        { label: "23 Lakh", value: "23" },
+        { label: "24 Lakh", value: "24" },
+        { label: "25 Lakh", value: "25" },
     ]
 
     const expectedPayThousand: ReactSelectOptionType[] = [

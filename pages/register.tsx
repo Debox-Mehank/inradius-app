@@ -153,7 +153,7 @@ const Register: NextPage = () => {
     const [loading, setLoading] = useState("false");
     const onSubmit = async (data: UserState) => {
         try{
-            //setLoading(true)
+            setLoading("true")
             const resp = await api.post("getUser", {email: data.email})
             if(resp.data === "Account Doesn't Exist"){
             setLoading("true")

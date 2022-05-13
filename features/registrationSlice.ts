@@ -22,6 +22,7 @@ interface RegistrationState {
     relevantexp: ExpInYearsAndMonthsType | null
     currentpay: CurrentAndExpectedPay | null
     expectedpay: CurrentAndExpectedPay | null
+    fresher: boolean | null
     linkedin: string | null
     resume: File | null
 }
@@ -45,6 +46,7 @@ const initialState: RegistrationState = {
     currentpay: null,
     expectedpay: null,
     linkedin: null,
+    fresher: false,
     resume: null
 }
 
@@ -141,6 +143,9 @@ export const registrationSlice = createSlice({
         setResume: (state, action: PayloadAction<File>) => {
             state.resume = action.payload
         },
+        setFresher: (state, action: PayloadAction<boolean>) => {
+            state.fresher = action.payload
+        },
         setRegistrationData: (state, action: PayloadAction<RegistrationState>) => {
             console.log("ACTION SET REG DATA : " + action.payload)
             state.progress = action.payload.progress
@@ -149,6 +154,6 @@ export const registrationSlice = createSlice({
     }
 })
 
-export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setWorkExp, addWorkExp, removeWorkExp, setCompany, setDesignation, setStart, setEnd, setTotalExp, setRelevantExp, setLinkedIn, setResume, setDescription, setCurrentPay, setExpectedPay } = registrationSlice.actions
+export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setWorkExp, addWorkExp, removeWorkExp, setCompany, setDesignation, setStart, setEnd, setTotalExp, setRelevantExp, setLinkedIn, setResume, setDescription, setCurrentPay, setExpectedPay, setFresher } = registrationSlice.actions
 
 export default registrationSlice.reducer

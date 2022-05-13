@@ -8,32 +8,24 @@ import { Dispatch, SetStateAction } from "react";
 
 interface NextButtonProps {
     onSubmit?: (nextFunc: () => void) => void
-    fresher?: boolean
 }
 
-const NextButton = ({ onSubmit, fresher }: NextButtonProps) => {
+const TextButton = ({ onSubmit }: NextButtonProps) => {
     const router = useRouter()
     const registration = useSelector((state: RootState) => state.registration)
     const dispatch = useDispatch();
     return (
-        <button type="submit" className={`${registration.currentStep === registration.steps.length ? 'w-max text-xs' : 'w-10'} h-8 bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`} onClick={() => {
+        <p className={`text-center cursor-pointer text-red-500 font-medium text-sm py-2`} onClick={() => {
             const nextFunc = () => {
                 if (registration.progress.toFixed(1) !== "100.0") {
-                    if(fresher){
+                    dispatch(incrementProgress())
                     dispatch(incrementProgress())
                     dispatch(incrementStep())
-                    dispatch(setFresher(false))
-                    if (registration.currentStep !== registration.steps.length) {
-                        router.push("/complete-registration?page=" + registration.steps[registration.currentStep])
-                    }
-                    }
-                    else{
-                    dispatch(incrementProgress())
                     dispatch(incrementStep())
+                    dispatch(setFresher(true))
                     if (registration.currentStep !== registration.steps.length) {
-                        router.push("/complete-registration?page=" + registration.steps[registration.currentStep])
+                        router.push("/complete-registration?page=" + registration.steps[registration.currentStep+1])
                     }
-                }
                 }
             }
             if (onSubmit) {
@@ -42,14 +34,9 @@ const NextButton = ({ onSubmit, fresher }: NextButtonProps) => {
                 nextFunc()
             }
         }}>
-            {registration.currentStep === registration.steps.length ? (
-                "Submit"
-            ) : (
-
-                <FontAwesomeIcon icon={faChevronRight} size="sm" />
-            )}
-        </button>
+            &nbsp;Click here&nbsp;
+        </p>
     )
 }
 
-export default NextButton
+export default TextButton

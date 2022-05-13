@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
@@ -14,12 +14,18 @@ const LinkedInResume = () => {
     const dispatch = useDispatch()
 
     const router = useRouter()
-    const { register, handleSubmit, formState: { errors } } = useForm()
-
+    const { register, handleSubmit, formState: {errors} } = useForm()
+    const [error, setErrors] = useState<any>({})
     const onSubmitHandler = async (nextFunc: () => void) => {
             const id = localStorage.getItem("id")
             const response = await api.post("update", { id, isProfileComplete: true })
+            if(!linkedin){
+                const errObj = {"linkedin": {message: "Please enter your linkedin profile address"}}
+                setErrors(errObj)
+            }
+           else{ 
             router.push("/dashboard?type=employee")
+           }
     }
 
     const onSubmit = (values: any) => {
@@ -32,9 +38,9 @@ const LinkedInResume = () => {
                 <PageHeading text={"LinkedIn & Resume"} />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={`flex flex-col w-full justify-start my-4`}>
-                        <input type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`} placeholder={"Add LinkedIn Profile"} style={{ paddingTop: "9px", paddingBottom: "9px" }} value={linkedin ? linkedin : ""} onChange={(e) => dispatch(setLinkedIn(e.target.value))} />
-                        {errors["linkedin"] && (
-                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors["linkedin"]['message']}</p>
+                        <input type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`} placeholder={"Add LinkedIn Profile"} style={{ paddingTop: "9px", paddingBottom: "9px" }} value={linkedin ? linkedin : ""} onChange={(e) => {dispatch(setLinkedIn(e.target.value)); setErrors({})}} />
+                        {error["linkedin"] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{error["linkedin"]['message']}</p>
                         )}
                     </div>
                     <div className={`flex flex-col w-full justify-start`}>

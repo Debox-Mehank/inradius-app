@@ -77,11 +77,18 @@ const Skills = () => {
                 return err
             })
         }
+        if(skill1 && skill2 && skill3 && skill4 && ((skill1.value === skill2.value) || (skill1.value === skill2.value) || (skill1.value === skill3.value) || (skill1.value === skill4.value) || (skill2.value === skill3.value) || (skill3.value === skill4.value) || (skill2.value === skill4.value))){
+            const errObj = {"repeat": {message: "Skills cannot be repeated"}}
+            setErrors((prev: any) => {
+                const err = {...errObj, ...prev}
+                return err
+            }) 
+        }
 
-        if (skill1 && skill2 && skill3 && skill4) {
+        else if(skill1 && skill2 && skill3 && skill4){
             setErrors({})
             const id = localStorage.getItem("id")
-            await api.post("update", { id, skill1: skill1.value, skill2: skill2.value, skill3: skill3.value, skill4: skill4.value})
+            await api.post("update", { id, skill1: skill1!.value, skill2: skill2!.value, skill3: skill3!.value, skill4: skill4!.value})
             nextFunc()
         }
     }
@@ -95,6 +102,7 @@ const Skills = () => {
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
                             getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your top skill here" value={skill1} onChange={(value) => {
                                 const errObj = errors
+                                delete errObj['repeat']
                                 delete errObj['skill1']
                                 setErrors(errObj)
                                 dispatch(setSkill1(value!))
@@ -107,6 +115,7 @@ const Skills = () => {
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
                             getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 2nd top skill here" value={skill2} onChange={(value) => {
                                 const errObj = errors
+                                delete errObj['repeat']
                                 delete errObj['skill2']
                                 setErrors(errObj)
                                 dispatch(setSkill2(value!))
@@ -119,6 +128,7 @@ const Skills = () => {
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
                             getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 3rd top skill here" value={skill3} onChange={(value) => {
                                 const errObj = errors
+                                delete errObj['repeat']
                                 delete errObj['skill3']
                                 setErrors(errObj)
                                 dispatch(setSkill3(value!))
@@ -131,6 +141,7 @@ const Skills = () => {
                         <Select<ReactSelectIndustryDependentOptionType> options={options.filter(el => el.industry === industry?.value)} getOptionLabel={(skill: ReactSelectIndustryDependentOptionType) => skill.label}
                             getOptionValue={(skill: ReactSelectIndustryDependentOptionType) => skill.value} className="w-full" placeholder="Select your 4th top skill here" value={skill4} onChange={(value) => {
                                 const errObj = errors
+                                delete errObj['repeat']
                                 delete errObj['skill4']
                                 setErrors(errObj)
                                 dispatch(setSkill4(value!))
@@ -140,6 +151,9 @@ const Skills = () => {
                         )}
                     </div>
                 </div>
+                {errors['repeat'] && (
+                            <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['repeat']['message']}</p>
+                        )}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevButton />
                     <NextButton onSubmit={onSubmit} />

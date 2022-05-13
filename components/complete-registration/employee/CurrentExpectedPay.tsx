@@ -12,6 +12,8 @@ import PrevButton from '../PrevButton'
 const CurrentAndExpectedPay = () => {
     const currentpay = useSelector((state: RootState) => state.registration.currentpay)
     const expectedpay = useSelector((state: RootState) => state.registration.expectedpay)
+    const fresher = useSelector((state: RootState) => state.registration.fresher)
+    console.log(fresher)
     const dispatch = useDispatch();
 
     const yearOptions: ReactSelectOptionType[] = [
@@ -102,25 +104,37 @@ const CurrentAndExpectedPay = () => {
     const [errors, setErrors] = useState<any>({})
 
     const onSubmit = (nextFunc: () => void) => {
-        if (!currentpay) {
+        if (!currentpay && !fresher) {
             const errObj = { "total pay": { message: "Please select your current pay." } }
             setErrors(errObj)
         } 
+        if(currentpay && fresher){
+            setErrors({})
+            nextFunc()
+        }
         else if(!expectedpay){
             const errObj = { "expected pay": { message: "Please select your expected pay." } }
             setErrors(errObj) 
         }
-        else {
+        else if(expectedpay && currentpay && !fresher){
+            const current = parseFloat(`${currentpay.lakhs?.value}.${currentpay.thousands?.value}`)
+            const expect = parseFloat(`${expectedpay.lakhs?.value}.${expectedpay.thousands?.value}`)
+            if(current > expect){
+            const errObj = { "expected lower" : {message: "Please make your expected pay higher than your current pay."}}
+            setErrors(errObj) 
+            }
+            else {
             setErrors({})
             nextFunc()
+        }
         }
     }
 
     return (
         <div data-aos="slide-left" data-aos-duration="500" data-aos-easing="ease-in-out" data-aos-mirror="true" className='w-full h-full grid place-items-center'>
             <div className='flex flex-col max-w-md w-full'>
-                <PageHeading text={"Current & Expected Annual Pay"} />
-                <div className="flex flex-col w-full">
+                <PageHeading text={!fresher ? "Current & Expected Annual Pay" : "Expected Pay"} />
+                {!fresher ? <><div className="flex flex-col w-full">
                     <p className={`text-md w-full text-left font-semibold my-2`}>{"Current Pay"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
                         <Select<ReactSelectOptionType> options={yearOptions} getOptionLabel={(years: ReactSelectOptionType) => years.label}
@@ -141,7 +155,7 @@ const CurrentAndExpectedPay = () => {
                             }} styles={reactSelectColorStyles} />
                     </div>
                 </div>
-                <br />
+                <br /> </>: null}
                 <div className="flex flex-col w-full">
                     <p className={`text-md w-full text-left font-semibold my-2`}>{"Expected Pay"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
@@ -163,17 +177,17 @@ const CurrentAndExpectedPay = () => {
                             }} styles={reactSelectColorStyles} />
                     </div>
                 </div>
-                {errors['total pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['total experience']['message']}</p>
-                )}
+                {!fresher ? errors['total pay'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['total pay']['message']}</p>
+                ): null}
                 {errors['expedted pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['relevant experience']['message']}</p>
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['expected pay']['message']}</p>
                 )}
-                {errors['exp error'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['exp error']['message']}</p>
-                )}
+                {!fresher ? errors['expected lower'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['expected lower']['message']}</p>
+                ): null}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
-                    <PrevButton />
+                    <PrevButton fresher={fresher}/>
                     <NextButton onSubmit={onSubmit} />
                 </div>
             </div>

@@ -13,6 +13,7 @@ interface CompanyRegistrationState {
     letterheadfile: FileList | null
     domain: ReactSelectIndustryDependentOptionType | null
     designation: string | null
+    joiningdate: string | null
     skill1: ReactSelectIndustryDependentOptionType | null
     skill2: ReactSelectIndustryDependentOptionType | null
     skill3: ReactSelectIndustryDependentOptionType | null
@@ -46,6 +47,7 @@ const initialState: CompanyRegistrationState = {
     desc: null,
     location: null,
     radius: null,
+    joiningdate: null,
     status: "first job pending" //"verification pending" //"verification in-progress"
 }
 
@@ -124,6 +126,9 @@ export const companyRegistrationSlice = createSlice({
         setStatus: (state, action: PayloadAction<string>) => {
             state.status = action.payload
         },
+        setJoiningDate: (state, action: PayloadAction<string>) => {
+            state.joiningdate = action.payload
+        },
         setCompanyRegistrationData: (state, action: PayloadAction<CompanyRegistrationState>) => {
             console.log("ACTION SET REG DATA : " + action.payload)
             // state.progress = action.payload.progress
@@ -132,6 +137,6 @@ export const companyRegistrationSlice = createSlice({
     }
 })
 
-export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setDesignation, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setStatus, setLinkedIn, setLetterHead, setLetterHeadFile, setDesc, setFromPay, setToPay } = companyRegistrationSlice.actions
+export const { incrementProgress, setLocation, decrementProgress, incrementStep, decrementStep, setRadius, setIndustry, setDomain, setDesignation, setQualification, setSkill1, setSkill2, setSkill3, setSkill4, setStatus, setLinkedIn, setLetterHead, setLetterHeadFile, setJoiningDate, setDesc, setFromPay, setToPay } = companyRegistrationSlice.actions
 
 export default companyRegistrationSlice.reducer

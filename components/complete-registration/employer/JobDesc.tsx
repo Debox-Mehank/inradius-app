@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Select from "react-select"
 import { RootState } from "../../../app/store"
-import {setDesc, setDesignation} from "../../../features/companyRegistrationSlice"
+import {setDesc, setDesignation, setJoiningDate} from "../../../features/companyRegistrationSlice"
 import { reactSelectColorStyles } from "../../../utils/common"
 import { ReactSelectOptionType } from "../../../utils/custom_types"
 import NextCompanyButton from "../NextCompanyButton"
@@ -14,6 +14,7 @@ import PrevCompanyButton from "../PrevCompanyButton"
 const JobDesc = () => {
     const desc = useSelector((state: RootState) => state.companyRegistration.desc)
     let title = String(useSelector((state: RootState) => state.companyRegistration.designation))
+    let joining = String(useSelector((state: RootState) => state.companyRegistration.joiningdate))
     if(title === "null"){
         title = ""
     }
@@ -27,6 +28,12 @@ const JobDesc = () => {
         }
         else if(!desc){
             setErrors({"desc": { message: "Please enter the job description"}})
+        }
+        else if(!joining){
+            setErrors({"joining": { message: "Please select the joining date"}})
+        }
+        else if(joining){
+            console.log(new Date.now())
         }
         else{
             console.log("title",title.length)
@@ -47,6 +54,10 @@ const JobDesc = () => {
                                 <textarea className={`bg-lightGray px-2 lg:px-4 h-[16rem] rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Job Description"} value={desc ?? ""} onChange={(e) => {
                                     dispatch(setDesc(String(e.target.value)))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
+                                <input type={"text"}  onFocus={(e) => (e.target.type = "date")}
+                                    onBlur={(e) => (e.target.type = "date")} style={{paddingTop: "9px", paddingBottom: "9px"}} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Expected Joining Date"} value={joining === "null" ? "" : joining} onChange={(e) => {
+                                    dispatch(setJoiningDate(String(e.target.value)))
+                                }}/>
                         </div>
                 </div>
                 <div className="text-center">
@@ -54,6 +65,9 @@ const JobDesc = () => {
                     <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['title']['message']}</p>
                 )}
                 {errors['desc'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['desc']['message']}</p>
+                )}
+                {errors['joining'] && (
                     <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['desc']['message']}</p>
                 )}
                 </div>

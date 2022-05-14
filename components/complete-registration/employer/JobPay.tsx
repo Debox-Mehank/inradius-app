@@ -99,9 +99,17 @@ const JobPay = () => {
             const errObj = { "total pay": { message: "Please select your upper payscale." } }
             setErrors(errObj)
         } 
-        else {
+        else if(payfrom && payto) {
+            const from = parseFloat(`${payfrom.lakhs?.value}.${payfrom.thousands?.value}`)
+            const to = parseFloat(`${payto.lakhs?.value}.${payto.thousands?.value}`)
+            if(from < to){
             setErrors({})
             router.push("/dashboard?type=employee")
+            }
+            else{
+                const errObj = { "from to error": { message: "Please make your upper limit (to) higher than your lower limit (from)." } }
+                setErrors(errObj) 
+            }
         }
     }
 
@@ -158,6 +166,9 @@ const JobPay = () => {
                 )}
                 {errors['exp error'] && (
                     <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['exp error']['message']}</p>
+                )}
+                {errors['from to error'] && (
+                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['from to error']['message']}</p>
                 )}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevCompanyButton />

@@ -15,7 +15,7 @@ function FirstJobPosting() {
     setTimeout(() => setRec(false), 5000)
   return (
     <div className='flex flex-col justify-center items-center h-full font-semibold text-center'>
-    <Confetti width={1200} height={780} numberOfPieces={600} recycle={rec} gravity={0.15}/>
+    <Confetti width={1200} height={780} numberOfPieces={600} recycle={rec}/>
     Congratulations on being verified! <br />We are delighted that you choose inRadius to help you in your employee hunting process.
     <div className="cursor-pointer text-primary inline-block flex flex-row"> <div onClick={() => {
                     const nextFunc = () => {

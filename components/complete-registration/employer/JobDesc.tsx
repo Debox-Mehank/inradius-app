@@ -32,9 +32,9 @@ const JobDesc = () => {
         else if(!joining){
             setErrors({"joining": { message: "Please select the joining date"}})
         }
-        else if(joining){
-            console.log(new Date.now())
-        }
+        // else if(joining){
+        //     console.log(new Date.now())
+        // }
         else{
             console.log("title",title.length)
         setErrors("")

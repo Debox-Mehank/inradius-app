@@ -54,10 +54,12 @@ const WorkExp = () => {
                                 <textarea className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none h-[5rem] text-sm font-semibold w-3/4`} placeholder={"Role Description"} value={exp.description ?? ""} onChange={(e) => {
                                     dispatch(setDescription({ idx, description: e.target.value }))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
-                                <input type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Start Date (mm/yyyy)"} value={exp.start ?? ""} onChange={(e) => {
+                                <input type={"text"} onFocus={(e) => (e.target.type = "date")}
+                                    onBlur={(e) => (e.target.type = "date")} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Start Date (mm/yyyy)"} value={exp.start ?? ""} onChange={(e) => {
                                     dispatch(setStart({ idx, start: e.target.value }))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
-                                <input disabled={current === true ? true : false} type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4 ${current === true ? "cursor-not-allowed" : ""}`} placeholder={"End Date (mm/yyyy)"} value={exp.end ?? ""} onChange={(e) => {
+                                <input disabled={current === true ? true : false} onFocus={(e) => (e.target.type = "date")}
+                                    onBlur={(e) => (e.target.type = "date")} type={"text"} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4 ${current === true ? "cursor-not-allowed" : ""}`} placeholder={"End Date (mm/yyyy)"} value={exp.end ?? ""} onChange={(e) => {
                                     dispatch(setEnd({ idx, end: e.target.value }))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                                 <div className="flex align-middle items-center justify-start " onClick={() => setCurrent((prev : any) => !prev)}><input type={"checkbox"} id="working" value={current} onClick={() => setCurrent((prev : any) => !prev)}/><label className="text-sm pl-2">Currently Working Here</label></div>

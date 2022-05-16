@@ -1,3 +1,4 @@
+import { fromError } from "@apollo/client"
 import router from "next/router"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,102 +14,33 @@ import PrevButton from '../PrevButton'
 import PrevCompanyButton from "../PrevCompanyButton"
 
 const JobPay = () => {
+    const numWords = require('num-words')
     const payfrom = useSelector((state: RootState) => state.companyRegistration.frompay)
     const payto = useSelector((state: RootState) => state.companyRegistration.topay)
     const dispatch = useDispatch();
-    const yearOptions: ReactSelectOptionType[] = [
-        { label: "0 Lakh", value: "0" },
-        { label: "1 Lakh", value: "1" },
-        { label: "2 Lakh", value: "2" },
-        { label: "3 Lakh", value: "3" },
-        { label: "4 Lakh", value: "4" },
-        { label: "5 Lakh", value: "5" },
-        { label: "6 Lakh", value: "6" },
-        { label: "7 Lakh", value: "7" },
-        { label: "8 Lakh", value: "8" },
-        { label: "9 Lakh", value: "9" },
-        { label: "10 Lakh", value: "10" },
-        { label: "11 Lakh", value: "11" },
-        { label: "12 Lakh", value: "12" },
-    ]
-
-    const monthOptions: ReactSelectOptionType[] = [
-        { label: "0 Thousand", value: "0" },
-        { label: "1 Thousand", value: "1" },
-        { label: "2 Thousand", value: "2" },
-        { label: "3 Thousand", value: "3" },
-        { label: "4 Thousand", value: "4" },
-        { label: "5 Thousand", value: "5" },
-        { label: "6 Thousand", value: "6" },
-        { label: "7 Thousand", value: "7" },
-        { label: "8 Thousand", value: "8" },
-        { label: "9 Thousand", value: "9" },
-        { label: "10 Thousand", value: "10" },
-        { label: "11 Thousand", value: "11" },
-        { label: "12 Thousand", value: "12" },
-    ]
-
-    const expectedPayLakh: ReactSelectOptionType[] = [
-        { label: "5 Lakh", value: "5" },
-        { label: "6 Lakh", value: "6" },
-        { label: "7 Lakh", value: "7" },
-        { label: "8 Lakh", value: "8" },
-        { label: "9 Lakh", value: "9" },
-        { label: "10 Lakh", value: "10" },
-        { label: "11 Lakh", value: "11" },
-        { label: "12 Lakh", value: "12" },
-        { label: "12 Lakh", value: "12" },
-        { label: "13 Lakh", value: "13" },
-        { label: "14 Lakh", value: "14" },
-        { label: "15 Lakh", value: "15" },
-        { label: "16 Lakh", value: "16" },
-        { label: "17 Lakh", value: "17" },
-        { label: "18 Lakh", value: "18" },
-        { label: "19 Lakh", value: "19" },
-        { label: "20 Lakh", value: "20" },
-        { label: "21 Lakh", value: "21" },
-        { label: "22 Lakh", value: "22" },
-        { label: "23 Lakh", value: "23" },
-        { label: "24 Lakh", value: "24" },
-        { label: "25 Lakh", value: "25" },
-    ]
-
-    const expectedPayThousand: ReactSelectOptionType[] = [
-        { label: "0 Thousand", value: "0" },
-        { label: "1 Thousand", value: "1" },
-        { label: "2 Thousand", value: "2" },
-        { label: "3 Thousand", value: "3" },
-        { label: "4 Thousand", value: "4" },
-        { label: "5 Thousand", value: "5" },
-        { label: "6 Thousand", value: "6" },
-        { label: "7 Thousand", value: "7" },
-        { label: "8 Thousand", value: "8" },
-        { label: "9 Thousand", value: "9" },
-        { label: "10 Thousand", value: "10" },
-        { label: "11 Thousand", value: "11" },
-        { label: "12 Thousand", value: "12" },
-    ]
     const [errors, setErrors] = useState<any>({})
-
+    const [toPayString, setToPayString] = useState<string>(payto === null ? "0": numWords(parseInt(payto)))
+    const [fromPayString, setFromPayString] = useState<string>(payfrom === null ? "0" : numWords(parseInt(payfrom)))
+    const [tPay, setTPay] = useState<number>(payto === null ? 0 : parseInt(payto))
+    const [fPay, setFPay] = useState<number>(payfrom === null ? 0 :parseInt(payfrom))
     const onSubmit = (nextFunc: () => void) => {
-        if (!payfrom) {
-            const errObj = { "total pay": { message: "Please select your lower payscale." } }
+        if (fPay === 0 || fPay === undefined || fPay === null || fromPayString === "" || fromPayString === undefined || fromPayString === null) {
+            const errObj = { "from pay": { message: "Please select your lower payscale." } }
             setErrors(errObj)
         } 
-        else if (!payto) {
-            const errObj = { "total pay": { message: "Please select your upper payscale." } }
-            setErrors(errObj)
-        } 
-        else if(payfrom && payto) {
-            const from = parseFloat(`${payfrom.lakhs?.value}.${payfrom.thousands?.value}`)
-            const to = parseFloat(`${payto.lakhs?.value}.${payto.thousands?.value}`)
-            if(from < to){
-            setErrors({})
-            router.push("/dashboard?type=employee")
+        else if(tPay === 0 || tPay === undefined || tPay === null || toPayString === "" || toPayString === undefined || toPayString === null){
+            const errObj = { "to pay": { message: "Please select your upper payscale." } }
+            setErrors(errObj) 
+        }
+        else if(tPay !== 0 && fPay!== 0){
+            console.log(tPay, fPay)
+            if(tPay < fPay){
+            const errObj = { "from to error" : {message: "Please make your upper limit (to) higher than your lower limit (from)."}}
+            setErrors(errObj) 
             }
-            else{
-                const errObj = { "from to error": { message: "Please make your upper limit (to) higher than your lower limit (from)." } }
-                setErrors(errObj) 
+            else {
+            setErrors({})
+            nextFunc()
             }
         }
     }
@@ -120,55 +52,36 @@ const JobPay = () => {
                     <p className={`text-md w-full text-left font-semibold my-2`}>{"Payscale"}</p>
                     <p className={`text-md w-full text-left font-normal my-2`}>{"From"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
-                        <Select<ReactSelectOptionType> options={expectedPayLakh} getOptionLabel={(years: ReactSelectOptionType) => years.label}
-                            getOptionValue={(years: ReactSelectOptionType) => years.value} className="w-full" placeholder="Select No. of Lakhs" value={payfrom?.lakhs} onChange={(value) => {
-                                const relexp: CurrentAndExpectedPay = {
-                                    lakhs: value!,
-                                    thousands: payfrom?.thousands ?? null
-                                }
-                                dispatch(setFromPay(relexp))
-                            }} styles={reactSelectColorStyles} />
-                        <Select<ReactSelectOptionType> options={expectedPayThousand} getOptionLabel={(months: ReactSelectOptionType) => months.label}
-                            getOptionValue={(months: ReactSelectOptionType) => months.value} className="w-full" placeholder="Select Thousands" value={payfrom?.thousands} onChange={(value) => {
-                                const relexp: CurrentAndExpectedPay = {
-                                    lakhs: payfrom?.lakhs ?? null,
-                                    thousands: value!
-                                }
-                                dispatch(setFromPay(relexp))
-                            }} styles={reactSelectColorStyles} />
+                    <input type={"number"} className={`w-full bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold`} placeholder={"Please enter your current annual pay"} value={(fPay !== 0 && String(fPay).length < 10) ? fPay : ""} onChange={(e) => {
+                                    if(e.target.value.length < 10){
+                                        console.log(String(tPay).length)
+                                    setFPay(parseInt(e.target.value))
+                                    setFromPayString(numWords(parseInt(e.target.value)))
+                                    dispatch(setFromPay(e.target.value));
+                                    }
+                                }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                     </div>
                 </div>
-                    <br />
+                <div className="text-sm my-5">From Pay is {fromPayString}</div>
                     <p className={`text-md w-full text-left font-normal my-2`}>{"To"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
-                        <Select<ReactSelectOptionType> options={yearOptions} getOptionLabel={(years: ReactSelectOptionType) => years.label}
-                            getOptionValue={(years: ReactSelectOptionType) => years.value} className="w-full" placeholder="Select No. of Lakhs" value={payto?.lakhs} onChange={(value) => {
-                                const totexp: CurrentAndExpectedPay = {
-                                    lakhs: value!,
-                                    thousands: payto?.thousands ?? null
-                                }
-                                dispatch(setToPay(totexp))
-                            }} styles={reactSelectColorStyles} />
-                        <Select<ReactSelectOptionType> options={monthOptions} getOptionLabel={(months: ReactSelectOptionType) => months.label}
-                            getOptionValue={(months: ReactSelectOptionType) => months.value} className="w-full" placeholder="Select Thousands" value={payto?.thousands} onChange={(value) => {
-                                const totexp: CurrentAndExpectedPay = {
-                                    lakhs: payto?.lakhs ?? null,
-                                    thousands: value!
-                                }
-                                dispatch(setToPay(totexp))
-                            }} styles={reactSelectColorStyles} />
+                    <input type={"number"} className={`w-full bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold`} placeholder={"Please enter your expected annual pay"} value={(tPay !== 0 && String(tPay).length < 10) ? tPay : ""} onChange={(e) => {
+                                    if(e.target.value.length < 10){
+                                    setTPay(parseInt(e.target.value))
+                                    setToPayString(numWords(parseInt(e.target.value)))
+                                    dispatch(setToPay(e.target.value))
+                                    }
+                                }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                     </div>
-                {errors['total pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['total experience']['message']}</p>
+                <div className="text-sm my-5">To Pay is {toPayString}</div>
+                {errors['to pay'] && (
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['to pay']['message']}</p>
                 )}
-                {errors['expedted pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['relevant experience']['message']}</p>
-                )}
-                {errors['exp error'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['exp error']['message']}</p>
+                {errors['from pay'] && (
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['from pay']['message']}</p>
                 )}
                 {errors['from to error'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['from to error']['message']}</p>
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['from to error']['message']}</p>
                 )}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevCompanyButton />

@@ -19,8 +19,8 @@ interface CompanyRegistrationState {
     skill3: ReactSelectIndustryDependentOptionType | null
     skill4: ReactSelectIndustryDependentOptionType | null
     qualification: ReactSelectOptionType | null
-    frompay: CurrentAndExpectedPay | null
-    topay: CurrentAndExpectedPay | null
+    frompay: string | null
+    topay: string | null
     desc: string | null
     location: ReactSelectOptionType | null
     radius: number | null
@@ -108,10 +108,10 @@ export const companyRegistrationSlice = createSlice({
         setQualification: (state, action: PayloadAction<ReactSelectOptionType>) => {
             state.qualification = action.payload
         },
-        setFromPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+        setFromPay: (state, action: PayloadAction<string>) => {
             state.frompay = action.payload
         },
-        setToPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+        setToPay: (state, action: PayloadAction<string>) => {
             state.topay = action.payload
         },
         setDesc: (state, action: PayloadAction<string>) => {

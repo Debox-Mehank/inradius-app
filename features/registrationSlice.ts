@@ -20,8 +20,8 @@ interface RegistrationState {
     workexp: WorkExpType[]
     totalexp: ExpInYearsAndMonthsType | null
     relevantexp: ExpInYearsAndMonthsType | null
-    currentpay: CurrentAndExpectedPay | null
-    expectedpay: CurrentAndExpectedPay | null
+    currentpay: string | null
+    expectedpay: string | null
     fresher: boolean | null
     linkedin: string | null
     resume: File | null
@@ -131,10 +131,10 @@ export const registrationSlice = createSlice({
         setRelevantExp: (state, action: PayloadAction<ExpInYearsAndMonthsType>) => {
             state.relevantexp = action.payload
         },
-        setCurrentPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+        setCurrentPay: (state, action: PayloadAction<string>) => {
             state.currentpay = action.payload
         },
-        setExpectedPay: (state, action: PayloadAction<CurrentAndExpectedPay>) => {
+        setExpectedPay: (state, action: PayloadAction<string>) => {
             state.expectedpay = action.payload
         },
         setLinkedIn: (state, action: PayloadAction<string>) => {

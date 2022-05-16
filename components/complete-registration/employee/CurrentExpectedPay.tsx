@@ -4,131 +4,52 @@ import Select from "react-select"
 import { RootState } from "../../../app/store"
 import { setCurrentPay, setExpectedPay, setRelevantExp } from "../../../features/registrationSlice"
 import { reactSelectColorStyles } from "../../../utils/common"
-import { CurrentAndExpectedPay, ReactSelectOptionType } from "../../../utils/custom_types"
+import {ReactSelectOptionType } from "../../../utils/custom_types"
 import NextButton from '../NextButton'
 import PageHeading from "../PageHeading"
 import PrevButton from '../PrevButton'
 
 const CurrentAndExpectedPay = () => {
+    const numWords = require('num-words')
     const currentpay = useSelector((state: RootState) => state.registration.currentpay)
     const expectedpay = useSelector((state: RootState) => state.registration.expectedpay)
     const fresher = useSelector((state: RootState) => state.registration.fresher)
+    const [currentPayString, setCurrentPayString] = useState<string>(currentpay === null ? "0": numWords(parseInt(currentpay)))
+    const [expectedPayString, setExpectedPayString] = useState<string>(expectedpay === null ? "0" : numWords(parseInt(expectedpay)))
+    const [cPay, setCPay] = useState<number>(currentpay === null ? 0 : parseInt(currentpay))
+    const [ePay, setEPay] = useState<number>(expectedpay === null ? 0 :parseInt(expectedpay))
     console.log(fresher)
     const dispatch = useDispatch();
-
-    const yearOptions: ReactSelectOptionType[] = [
-        { label: "0 Lakh", value: "0" },
-        { label: "1 Lakh", value: "1" },
-        { label: "2 Lakh", value: "2" },
-        { label: "3 Lakh", value: "3" },
-        { label: "4 Lakh", value: "4" },
-        { label: "5 Lakh", value: "5" },
-        { label: "6 Lakh", value: "6" },
-        { label: "7 Lakh", value: "7" },
-        { label: "8 Lakh", value: "8" },
-        { label: "9 Lakh", value: "9" },
-        { label: "10 Lakh", value: "10" },
-        { label: "11 Lakh", value: "11" },
-        { label: "12 Lakh", value: "12" },
-        { label: "13 Lakh", value: "13" },
-        { label: "14 Lakh", value: "14" },
-        { label: "15 Lakh", value: "15" },
-        { label: "16 Lakh", value: "16" },
-        { label: "17 Lakh", value: "17" },
-        { label: "18 Lakh", value: "18" },
-        { label: "19 Lakh", value: "19" },
-        { label: "20 Lakh", value: "20" },
-        { label: "21 Lakh", value: "21" },
-        { label: "22 Lakh", value: "22" },
-        { label: "23 Lakh", value: "23" },
-        { label: "24 Lakh", value: "24" },
-        { label: "25 Lakh", value: "25" },
-    ]
-
-    const monthOptions: ReactSelectOptionType[] = [
-        { label: "0 Thousand", value: "0" },
-        { label: "1 Thousand", value: "1" },
-        { label: "2 Thousand", value: "2" },
-        { label: "3 Thousand", value: "3" },
-        { label: "4 Thousand", value: "4" },
-        { label: "5 Thousand", value: "5" },
-        { label: "6 Thousand", value: "6" },
-        { label: "7 Thousand", value: "7" },
-        { label: "8 Thousand", value: "8" },
-        { label: "9 Thousand", value: "9" },
-        { label: "10 Thousand", value: "10" },
-        { label: "11 Thousand", value: "11" },
-        { label: "12 Thousand", value: "12" },
-    ]
-
-    const expectedPayLakh: ReactSelectOptionType[] = [
-        { label: "5 Lakh", value: "5" },
-        { label: "6 Lakh", value: "6" },
-        { label: "7 Lakh", value: "7" },
-        { label: "8 Lakh", value: "8" },
-        { label: "9 Lakh", value: "9" },
-        { label: "10 Lakh", value: "10" },
-        { label: "11 Lakh", value: "11" },
-        { label: "12 Lakh", value: "12" },
-        { label: "12 Lakh", value: "12" },
-        { label: "13 Lakh", value: "13" },
-        { label: "14 Lakh", value: "14" },
-        { label: "15 Lakh", value: "15" },
-        { label: "16 Lakh", value: "16" },
-        { label: "17 Lakh", value: "17" },
-        { label: "18 Lakh", value: "18" },
-        { label: "19 Lakh", value: "19" },
-        { label: "20 Lakh", value: "20" },
-        { label: "21 Lakh", value: "21" },
-        { label: "22 Lakh", value: "22" },
-        { label: "23 Lakh", value: "23" },
-        { label: "24 Lakh", value: "24" },
-        { label: "25 Lakh", value: "25" },
-    ]
-
-    const expectedPayThousand: ReactSelectOptionType[] = [
-        { label: "0 Thousand", value: "0" },
-        { label: "1 Thousand", value: "1" },
-        { label: "2 Thousand", value: "2" },
-        { label: "3 Thousand", value: "3" },
-        { label: "4 Thousand", value: "4" },
-        { label: "5 Thousand", value: "5" },
-        { label: "6 Thousand", value: "6" },
-        { label: "7 Thousand", value: "7" },
-        { label: "8 Thousand", value: "8" },
-        { label: "9 Thousand", value: "9" },
-        { label: "10 Thousand", value: "10" },
-        { label: "11 Thousand", value: "11" },
-        { label: "12 Thousand", value: "12" },
-    ]
     const [errors, setErrors] = useState<any>({})
 
     const onSubmit = (nextFunc: () => void) => {
-        if (!currentpay && !fresher) {
-            const errObj = { "total pay": { message: "Please select your current pay." } }
+        if (cPay === 0 || cPay === undefined || cPay === null || currentPayString === "" || currentPayString === undefined || currentPayString === null) {
+            const errObj = { "total pay": { message: "Please enter your current pay." } }
             setErrors(errObj)
         } 
-        if(currentpay && fresher){
+        else if(ePay === 0 || ePay === undefined || ePay === null || expectedPayString === "" || expectedPayString === undefined || expectedPayString === null){
+            console.log("fresher",expectedPayString.length)
+            const errObj = { "expected pay": { message: "Please enter your expected pay." } }
+            setErrors(errObj) 
+        }
+        else if(cPay !== 0 && fresher){
             setErrors({})
             nextFunc()
         }
-        else if(!expectedpay){
-            const errObj = { "expected pay": { message: "Please select your expected pay." } }
-            setErrors(errObj) 
-        }
-        else if(expectedpay && currentpay && !fresher){
-            const current = parseFloat(`${currentpay.lakhs?.value}.${currentpay.thousands?.value}`)
-            const expect = parseFloat(`${expectedpay.lakhs?.value}.${expectedpay.thousands?.value}`)
-            if(current > expect){
+        else if(ePay !== 0 && ePay!== 0 && !fresher){
+            console.log("fresher 123",fresher)
+
+            if(cPay > ePay){
             const errObj = { "expected lower" : {message: "Please make your expected pay higher than your current pay."}}
             setErrors(errObj) 
             }
             else {
             setErrors({})
             nextFunc()
-        }
+            }
         }
     }
+    
 
     return (
         <div data-aos="slide-left" data-aos-duration="500" data-aos-easing="ease-in-out" data-aos-mirror="true" className='w-full h-full grid place-items-center'>
@@ -137,54 +58,39 @@ const CurrentAndExpectedPay = () => {
                 {!fresher ? <><div className="flex flex-col w-full">
                     <p className={`text-md w-full text-left font-semibold my-2`}>{"Current Pay"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
-                        <Select<ReactSelectOptionType> options={yearOptions} getOptionLabel={(years: ReactSelectOptionType) => years.label}
-                            getOptionValue={(years: ReactSelectOptionType) => years.value} className="w-full" placeholder="Select No. of Lakhs" value={currentpay?.lakhs} onChange={(value) => {
-                                const totexp: CurrentAndExpectedPay = {
-                                    lakhs: value!,
-                                    thousands: currentpay?.thousands ?? null
-                                }
-                                dispatch(setCurrentPay(totexp))
-                            }} styles={reactSelectColorStyles} />
-                        <Select<ReactSelectOptionType> options={monthOptions} getOptionLabel={(months: ReactSelectOptionType) => months.label}
-                            getOptionValue={(months: ReactSelectOptionType) => months.value} className="w-full" placeholder="Select Thousands" value={currentpay?.thousands} onChange={(value) => {
-                                const totexp: CurrentAndExpectedPay = {
-                                    lakhs: currentpay?.lakhs ?? null,
-                                    thousands: value!
-                                }
-                                dispatch(setCurrentPay(totexp))
-                            }} styles={reactSelectColorStyles} />
+                        <input type={"number"} className={`w-full bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold`} placeholder={"Please enter your current annual pay"} value={(cPay !== 0 && String(cPay).length < 10) ? cPay : ""} onChange={(e) => {
+                                    if(e.target.value.length < 10){
+                                        console.log(String(cPay).length)
+                                    setCPay(parseInt(e.target.value))
+                                    setCurrentPayString(numWords(parseInt(e.target.value)))
+                                    dispatch(setCurrentPay(e.target.value));
+                                    }
+                                }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                     </div>
                 </div>
-                <br /> </>: null}
+                </>: null}
+                {!fresher ? <div className="text-sm my-5">Current Pay is {currentPayString}</div> : null}
                 <div className="flex flex-col w-full">
                     <p className={`text-md w-full text-left font-semibold my-2`}>{"Expected Pay"}</p>
                     <div className="flex flex-row gap-4 justify-between items-center">
-                        <Select<ReactSelectOptionType> options={expectedPayLakh} getOptionLabel={(years: ReactSelectOptionType) => years.label}
-                            getOptionValue={(years: ReactSelectOptionType) => years.value} className="w-full" placeholder="Select No. of Lakhs" value={expectedpay?.lakhs} onChange={(value) => {
-                                const relexp: CurrentAndExpectedPay = {
-                                    lakhs: value!,
-                                    thousands: expectedpay?.thousands ?? null
-                                }
-                                dispatch(setExpectedPay(relexp))
-                            }} styles={reactSelectColorStyles} />
-                        <Select<ReactSelectOptionType> options={expectedPayThousand} getOptionLabel={(months: ReactSelectOptionType) => months.label}
-                            getOptionValue={(months: ReactSelectOptionType) => months.value} className="w-full" placeholder="Select Thousands" value={expectedpay?.thousands} onChange={(value) => {
-                                const relexp: CurrentAndExpectedPay = {
-                                    lakhs: expectedpay?.lakhs ?? null,
-                                    thousands: value!
-                                }
-                                dispatch(setExpectedPay(relexp))
-                            }} styles={reactSelectColorStyles} />
+                    <input type={"number"} className={`w-full bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold`} placeholder={"Please enter your expected annual pay"} value={(ePay !== 0 && String(ePay).length < 10) ? ePay : ""} onChange={(e) => {
+                                    if(e.target.value.length < 10){
+                                    setEPay(parseInt(e.target.value))
+                                    setExpectedPayString(numWords(parseInt(e.target.value)))
+                                    dispatch(setExpectedPay(e.target.value))
+                                    }
+                                }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
                     </div>
                 </div>
+                <div className="text-sm my-5">Expected Pay is {expectedPayString}</div>
                 {!fresher ? errors['total pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['total pay']['message']}</p>
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['total pay']['message']}</p>
                 ): null}
-                {errors['expedted pay'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['expected pay']['message']}</p>
+                {errors['expected pay'] && (
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['expected pay']['message']}</p>
                 )}
                 {!fresher ? errors['expected lower'] && (
-                    <p className="text-xs text-red-500 px-1 font-medium py-1">{errors['expected lower']['message']}</p>
+                    <p className="text-xs text-red-500 px-0 font-medium py-1">{errors['expected lower']['message']}</p>
                 ): null}
                 <div className='flex flex-row gap-2 justify-end select-none my-6'>
                     <PrevButton fresher={fresher}/>
@@ -194,5 +100,4 @@ const CurrentAndExpectedPay = () => {
         </div>
     )
 }
-
 export default CurrentAndExpectedPay

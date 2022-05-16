@@ -27,6 +27,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.3.3",
     "next": "12.1.5",
+    "num-words": "^1.2.2",
     "postcss": "^8.4.12",
     "react": "18.0.0",
     "react-circular-progressbar": "^2.0.4",

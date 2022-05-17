@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Select from "react-select"
 import { RootState } from "../../../app/store"
 import {setDesc, setDesignation, setJoiningDate} from "../../../features/companyRegistrationSlice"
+import { api } from "../../../utils/AxiosClient"
 import { reactSelectColorStyles } from "../../../utils/common"
 import { ReactSelectOptionType } from "../../../utils/custom_types"
 import NextCompanyButton from "../NextCompanyButton"
@@ -22,7 +23,7 @@ const JobDesc = () => {
 
     const [errors, setErrors] = useState<any>({})
     const [current, setCurrent] = useState<any>(false)
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async(nextFunc: () => void) => {
         if(title.length === 0){
             setErrors({"title": {message: "Please enter the job title"}})
         }
@@ -37,8 +38,11 @@ const JobDesc = () => {
         // }
         else{
             console.log("title",title.length)
-        setErrors("")
-        nextFunc()
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, jobTitle: title, jobDesc: desc })
+            console.log(response)
+            setErrors("")
+            nextFunc()
         }
     }
 
@@ -54,7 +58,7 @@ const JobDesc = () => {
                                 <textarea className={`bg-lightGray px-2 lg:px-4 h-[16rem] rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Job Description"} value={desc ?? ""} onChange={(e) => {
                                     dispatch(setDesc(String(e.target.value)))
                                 }} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
-                                <input type={"text"}  onFocus={(e) => (e.target.type = "date")}
+                                <input type={"text"} min={new Date().toISOString().slice(0, 10)} onFocus={(e) => (e.target.type = "date")}
                                     onBlur={(e) => (e.target.type = "date")} style={{paddingTop: "9px", paddingBottom: "9px"}} className={`bg-lightGray px-2 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-3/4`} placeholder={"Expected Joining Date"} value={joining === "null" ? "" : joining} onChange={(e) => {
                                     dispatch(setJoiningDate(String(e.target.value)))
                                 }}/>

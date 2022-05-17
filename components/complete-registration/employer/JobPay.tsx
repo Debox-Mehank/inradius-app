@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Select from "react-select"
 import { RootState } from "../../../app/store"
 import { setFromPay, setToPay } from "../../../features/companyRegistrationSlice"
+import { api } from "../../../utils/AxiosClient"
 import { reactSelectColorStyles } from "../../../utils/common"
 import { CurrentAndExpectedPay, ReactSelectOptionType } from "../../../utils/custom_types"
 import NextButton from '../NextButton'
@@ -23,7 +24,7 @@ const JobPay = () => {
     const [fromPayString, setFromPayString] = useState<string>(payfrom === null ? "0" : numWords(parseInt(payfrom)))
     const [tPay, setTPay] = useState<number>(payto === null ? 0 : parseInt(payto))
     const [fPay, setFPay] = useState<number>(payfrom === null ? 0 :parseInt(payfrom))
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async(nextFunc: () => void) => {
         if (fPay === 0 || fPay === undefined || fPay === null || fromPayString === "" || fromPayString === undefined || fromPayString === null) {
             const errObj = { "from pay": { message: "Please select your lower payscale." } }
             setErrors(errObj)
@@ -39,8 +40,10 @@ const JobPay = () => {
             setErrors(errObj) 
             }
             else {
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, toPay: tPay, fromPay: fPay })
             setErrors({})
-            nextFunc()
+            router.push("/dashboard?type=employer")
             }
         }
     }

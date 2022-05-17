@@ -8,6 +8,7 @@ import {ReactSelectOptionType } from "../../../utils/custom_types"
 import NextButton from '../NextButton'
 import PageHeading from "../PageHeading"
 import PrevButton from '../PrevButton'
+import { api } from "../../../utils/AxiosClient"
 
 const CurrentAndExpectedPay = () => {
     const numWords = require('num-words')
@@ -22,7 +23,7 @@ const CurrentAndExpectedPay = () => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState<any>({})
 
-    const onSubmit = (nextFunc: () => void) => {
+    const onSubmit = async(nextFunc: () => void) => {
         if (cPay === 0 || cPay === undefined || cPay === null || currentPayString === "" || currentPayString === undefined || currentPayString === null) {
             const errObj = { "total pay": { message: "Please enter your current pay." } }
             setErrors(errObj)
@@ -45,6 +46,8 @@ const CurrentAndExpectedPay = () => {
             }
             else {
             setErrors({})
+            const id = localStorage.getItem("id")
+            const response = await api.post("update", { id, currentPay: cPay, expectedPay: ePay })
             nextFunc()
             }
         }

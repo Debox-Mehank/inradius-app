@@ -4,6 +4,8 @@ const userSchema = new Schema({
   firstName: String,
   lastName: String,
   companyName: String,
+  jobDesc: String,
+  jobTitle: String,
   email: {
     type: String,
     required: true,
@@ -21,6 +23,11 @@ const userSchema = new Schema({
   skill2: String,
   skill3: String,
   skill4: String,
+  currentPay: String,
+  expectedPay: String,
+  toPay: String,
+  fromPay: String,
+  interest: [String],
   isProfileComplete: Boolean,
   isSurveyComplete: Boolean,
 });

@@ -11,7 +11,7 @@ interface ReusableButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 
 const DashboardButton = ({ title, clicked, width, onClick, typeBtn}: ReusableButtonProps) => {
     return (
-        <motion.button type="button" onClick={onClick} whileHover={{ scale: 1.101 }} whileTap={{ scale: 0.9 }} className={`px-6 py-3 ${width} text-sm my-4 rounded-3xl ${typeBtn! === "Interested" ? `text-black border-gray-300` : `text-white border-white`} ${clicked ? `bg-purple-800` : `bg-transparent border`}  rounded-md shadow font-semibold`}>
+        <motion.button type="button" onClick={onClick} whileHover={{ scale: 1.101 }} whileTap={{ scale: 0.9 }} className={`px-6 py-3 ${width} text-sm mt-7 rounded-3xl ${typeBtn! === "Interested" ? `text-black border-gray-300` : `text-white border-white`} ${clicked ? `bg-purple-800` : `bg-transparent border`}  rounded-md shadow font-semibold`}>
             {title}
         </motion.button>
     )

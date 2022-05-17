@@ -55,7 +55,7 @@ function Dashboard() {
         <div className='px-8'>
         {loading === true ? <TailSpin width={20} loading={loading} currentColor="#000000"/> :
         current === "explore" ?? (data !== null && data !== undefined) ? data!.map((ind : any, i : any) => <ProfileDisplay key={i} index={i} companyName={ind.companyName} jobDesc={ind.jobDesc} jobTitle={ind.jobTitle} fromPay={ind.fromPay} toPay={ind.toPay} onClick={clickHandler} noInt={false}/>) : null}
-        {current === "my interest" ? myInterest === [] ? <div>No Interest shown</div> : myInterest.map((ind : any) => <ProfileDisplay companyName={ind.companyName} jobDesc={ind.jobDesc} jobTitle={ind.jobTitle} fromPay={ind.fromPay} toPay={ind.toPay} noInt={true}/>):null}
+        {current === "my interest" ? myInterest === [] ? <div>No Interest shown</div> : myInterest.map((ind : any, i : any) => <ProfileDisplay key={i} companyName={ind.companyName} jobDesc={ind.jobDesc} jobTitle={ind.jobTitle} fromPay={ind.fromPay} toPay={ind.toPay} noInt={true}/>):null}
         {current === "interested in me" ?? "hey interest"}
         {current === "save for later" ?? "hey i am yash"}
     </div>

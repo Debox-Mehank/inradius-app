@@ -14,6 +14,8 @@ import WorkExp from '../components/complete-registration/employee/WorkExp'
 import JobDesc from '../components/complete-registration/employer/JobDesc'
 import Layout from '../components/complete-registration/Layout'
 import { setUserLocation, UserLocationType } from '../features/locationSlice'
+import { setUser, UserType } from '../features/userSlice'
+import { api } from '../utils/AxiosClient'
 // import { setRegistrationData } from '../features/registrationSlice'
 
 const CompleteRegistration = () => {
@@ -23,7 +25,6 @@ const CompleteRegistration = () => {
     // Registration Data From Redux
     const registration = useSelector((state: RootState) => state.registration)
     const user = useSelector((state: RootState) => state.user)
-    console.log(user.type)
     const dispatch = useDispatch()
 
     const onSuccess = (location: GeolocationPosition) => {
@@ -53,12 +54,21 @@ const CompleteRegistration = () => {
             }
 
             navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+            const fetchFunc = async () => {
+                const userDetails = await api.post("user", { id: localStorage.getItem("id") })
+                if (userDetails.data.user !== null) {
+                    const resUser = userDetails.data.user
+                    dispatch(setUser({ companyName: resUser.companyName, email: resUser.email, firstName: resUser.firstName, lastName: resUser.lastName, password: resUser.password, phoneNumber: null, type: resUser.type }))
+                }
+            }
+            fetchFunc()
         }
     }, [page, registration.steps])
 
     return (
         <Layout>
-            {String(user.type) === "Employee" && page ? <>
+            {user.type === UserType.employee && page ? <>
                 {page === "location" && (
                     <LocationDropdown />
                 )}
@@ -87,7 +97,7 @@ const CompleteRegistration = () => {
                     <LinkedInResume />
                 )}
             </> : null}
-            {String(user.type) === "Employer" && page ? <>
+            {user.type === UserType.employer && page ? <>
                 {page === "job-desc" && (
                     <JobDesc />
                 )}

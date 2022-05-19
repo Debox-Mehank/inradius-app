@@ -10,7 +10,7 @@ import { FormTemplateType, FieldTypes } from '../utils/custom_types';
 import login_static from "../assets/login_static.png";
 import { useForm } from 'react-hook-form';
 import { api } from '../utils/AxiosClient';
-import { UserState } from '../features/userSlice';
+import { UserState, UserType } from '../features/userSlice';
 import { useRouter } from 'next/router';
 
 const LoginFormTemplate: FormTemplateType = {
@@ -56,9 +56,9 @@ const Login: NextPage = () => {
             if (resp.data.data.isSurveyComplete && resp.data.data.isProfileComplete) {
                 router.replace("/dashboard?type" + resp.data.data.type)
             } else if (resp.data.data.isSurveyComplete) {
-                if (resp.data.data.type === "employee") {
+                if (resp.data.data.type === UserType.employee) {
                     router.replace("/complete-registration?page=location")
-                } else if (resp.data.data.type === "employee") {
+                } else if (resp.data.data.type === UserType.employer) {
                     router.replace("/complete-registration?page=location")
                 }
             } else {

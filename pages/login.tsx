@@ -9,6 +9,9 @@ import type { NextPage } from 'next'
 import { FormTemplateType, FieldTypes } from '../utils/custom_types';
 import login_static from "../assets/login_static.png";
 import { useForm } from 'react-hook-form';
+import { api } from '../utils/AxiosClient';
+import { UserState } from '../features/userSlice';
+import { useRouter } from 'next/router';
 
 const LoginFormTemplate: FormTemplateType = {
     title: "Login",
@@ -38,10 +41,33 @@ const LoginFormTemplate: FormTemplateType = {
 }
 
 const Login: NextPage = () => {
+    const router = useRouter()
     const { register, handleSubmit, formState, watch } = useForm()
+    const [loading, setLoading] = useState("false");
+    const [error, setError] = useState("");
 
-    const onSubmit = () => {
-        console.log("Login");
+    const onSubmit = async (data: UserState) => {
+        setLoading("true")
+        const resp = await api.post("login", { email: data.email, password: data.password })
+        if (resp.data.message === "Login Successfull!") {
+            localStorage.setItem("id", resp.data.data._id)
+            setLoading("false")
+            setError("")
+            if (resp.data.data.isSurveyComplete && resp.data.data.isProfileComplete) {
+                router.replace("/dashboard?type" + resp.data.data.type)
+            } else if (resp.data.data.isSurveyComplete) {
+                if (resp.data.data.type === "employee") {
+                    router.replace("/complete-registration?page=location")
+                } else if (resp.data.data.type === "employee") {
+                    router.replace("/complete-registration?page=location")
+                }
+            } else {
+                router.replace("/survey")
+            }
+        } else {
+            setLoading("false")
+            setError(resp.data.message)
+        }
     }
 
     const [counter, setCounter] = useState(0)
@@ -89,7 +115,10 @@ const Login: NextPage = () => {
                     <div className='w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide'>
                         {/* Register Form Fields */}
                         <div className='max-w-md w-4/5'>
-                            <ReusableForm loading={"false"} template={LoginFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
+                            <ReusableForm loading={loading} template={LoginFormTemplate} onSubmit={onSubmit} formState={formState} handleSubmit={handleSubmit} register={register} watch={watch} setCounter={setCounter} />
+                            {error !== "" && (
+                                <p className="text-center text-xs text-red-500 px-1 font-medium pt-4 pb-2">{error}</p>
+                            )}
                             <p className='text-center text-white font-light text-xs py-2'>{"Don't have an account ? "}<span className="cursor-pointer text-primary font-medium"> <Link href={'/register?type=employee'}>Click here</Link> </span></p>
                         </div>
                     </div>

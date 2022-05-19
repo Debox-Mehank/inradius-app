@@ -12,6 +12,7 @@ export interface UserState {
     phoneNumber: number | null
     email: string | null
     type: UserType.employee | UserType.employer | null
+    password: string | null
 }
 
 const initialState: UserState = {
@@ -20,7 +21,8 @@ const initialState: UserState = {
     companyName: null,
     phoneNumber: null,
     email: null,
-    type: null
+    type: null,
+    password: null
 }
 
 export const userSlice = createSlice({
@@ -52,6 +54,7 @@ export const userSlice = createSlice({
             state.phoneNumber = action.payload.phoneNumber
             state.email = action.payload.email
             state.type = action.payload.type
+            state.password = action.payload.password
         }
     }
 })

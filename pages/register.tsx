@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { setUser, UserState, UserType } from '../features/userSlice';
 import { useForm } from 'react-hook-form';
 import { api } from '../utils/AxiosClient';
+import bcrypt from "bcrypt";
+
 const Register: NextPage = () => {
     const router = useRouter()
     const { type } = router.query
@@ -152,26 +154,31 @@ const Register: NextPage = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState("false");
     const onSubmit = async (data: UserState) => {
-        try{
+        try {
             setLoading("true")
-            const resp = await api.post("getUser", {email: data.email})
-            if(resp.data === "Account Doesn't Exist"){
-            setLoading("true")
-            const response = await api.post("", {firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? "employee" : "employer", isSurveyComplete: false, isProfileComplete: false});
-            setLoading("false")
-            dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer }))
-            console.log(response)
-            localStorage.setItem("id", response.data)
-            router.push("/survey")
+            const resp = await api.post("getUser", { email: data.email })
+            if (resp.data === "Account Doesn't Exist") {
+                // hash password
+                // const salt = await bcrypt.genSalt(10)
+                // const hashp = await bcrypt.hash(data.password!, salt)
+                const hashp = data.password
+                setLoading("true")
+                const response = await api.post("", { firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : "", email: data.email, type: type === "employee" ? UserType.employee : UserType.employer, isSurveyComplete: false, isProfileComplete: false, password: hashp });
+                setLoading("false")
+                dispatch(setUser({ firstName: data.firstName, lastName: data.lastName, companyName: type === "employer" ? data.companyName : null, email: data.email, phoneNumber: data.phoneNumber, type: type === "employee" ? UserType.employee : UserType.employer, password: hashp }))
+                console.log(response)
+                localStorage.setItem("id", response.data)
+                router.push("/survey")
             }
-            else{
+            else {
                 setLoading("false")
                 setError("An Account With this email already exists")
             }
         }
-        catch(e){
-        console.log(e)}
+        catch (e) {
+            console.log(e)
         }
+    }
 
     const [counter, setCounter] = useState(0)
 
@@ -223,11 +230,11 @@ const Register: NextPage = () => {
                             )}
                             {
                                 error === "" ?
-                            <p className='text-center text-white font-light text-xs py-2'>Already have an account ?<span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p>:
-                            
-                            <p className="text-center text-xs text-red-500 px-1 font-medium py-2">{error}<p className='text-center text-red-500 font-medium text-xs py-2'><span className="cursor-pointer text-white font-medium"> <Link href={'/login'}>Click here</Link></span> to Login</p></p>
-                            
-                            }   
+                                    <p className='text-center text-white font-light text-xs py-2'>Already have an account ?<span className="cursor-pointer text-primary font-medium"> <Link href={'/login'}>Click here</Link> </span></p> :
+
+                                    <p className="text-center text-xs text-red-500 px-1 font-medium py-2">{error}<p className='text-center text-red-500 font-medium text-xs py-2'><span className="cursor-pointer text-white font-medium"> <Link href={'/login'}>Click here</Link></span> to Login</p></p>
+
+                            }
                         </div>
                     </div>
                 </div>

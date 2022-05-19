@@ -30,6 +30,7 @@ const userSchema = new Schema({
   interest: [String],
   isProfileComplete: Boolean,
   isSurveyComplete: Boolean,
+  password: String
 });
 models = {};
 

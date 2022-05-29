@@ -36,7 +36,7 @@ const MainEntry = ({ children }: { children: ReactElement<any, any>[] }) => {
       }
     };
     // myFunc();
-  }, []);
+  }, [meQuery, router]);
 
   if (loading) {
     return null;

@@ -238,7 +238,15 @@ const EmployeeProfile = () => {
       dispatch(toggleLoading());
     };
     myFunc();
-  }, []);
+  }, [
+    allDomainsQuery,
+    allIndustriesQuery,
+    allLocationsQuery,
+    allQualificationsQuery,
+    allSubdomainsQuery,
+    allSkillsQuery,
+    dispatch,
+  ]);
 
   // Fetch Stored Data on every refresh
   useEffect(() => {
@@ -365,7 +373,7 @@ const EmployeeProfile = () => {
       router.replace("/employee-profile?page=" + EMPLOYEE_STEPS_ENUM.location);
     };
     myFunc();
-  }, []);
+  }, [getEmployeeQuery, dispatch, router]);
 
   return (
     <Layout>

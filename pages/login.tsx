@@ -197,7 +197,7 @@ const Login: NextPage = () => {
                   />
                 </div>
                 <p className="text-center text-white font-light text-sm py-2">
-                  Don't have an account ?{" "}
+                  {"Don't have an account ?"}{" "}
                   <span className="cursor-pointer text-primary font-medium">
                     {" "}
                     <Link href={"/employee-register"}>Click here</Link>{" "}

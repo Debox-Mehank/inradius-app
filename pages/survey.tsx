@@ -81,7 +81,7 @@ const Survey: NextPage = () => {
       }
     };
     myFunc();
-  }, []);
+  }, [dispatch, surveyQuery]);
 
   const submitSurveys = async () => {
     const { type }: User = JSON.parse(localStorage.getItem("user")!);

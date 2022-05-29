@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       }
     };
     myFunc();
-  }, []);
+  }, [meQuery, router]);
 
   if (randomHome === 1) {
     return <Home1 />;

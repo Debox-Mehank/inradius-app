@@ -44,7 +44,7 @@ const EmailVerification = () => {
       }
     };
     myFunc();
-  }, [userId, token]);
+  }, [userId, token, dispatch, verifyEmailQuery]);
 
   return (
     <div className="h-full w-full grid place-items-center bg-darkGray relative">

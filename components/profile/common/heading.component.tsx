@@ -1,0 +1,42 @@
+interface PageHeadingProps {
+  text: string;
+  desc?: string;
+}
+
+export const PageHeading = ({ text, desc }: PageHeadingProps) => {
+  return (
+    <>
+      <p
+        className={`text-2xl w-full text-center font-bold ${
+          desc ? "mt-4" : "my-4"
+        }`}
+      >
+        {text}
+      </p>
+      {desc && (
+        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-4">
+          {desc}
+        </p>
+      )}
+    </>
+  );
+};
+
+export const PageSubHeading = ({ text, desc }: PageHeadingProps) => {
+  return (
+    <>
+      <p
+        className={`text-lg w-full text-left font-semibold ${
+          desc ? "mt-2" : "my-2"
+        }`}
+      >
+        {text}
+      </p>
+      {desc && (
+        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-4">
+          {desc}
+        </p>
+      )}
+    </>
+  );
+};

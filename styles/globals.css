@@ -129,3 +129,20 @@ body [data-aos-delay='3600'][data-aos].aos-animate,
 .reg-bg {
   background-image: url("/Map_light.png");
 }
+
+/* Remove Number Input Arrows */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.d-flex-imp {
+  display: flex !important;
+}

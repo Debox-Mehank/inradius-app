@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum UserType {
-    employee = "Employee",
-    employer = "Employer"
+    employee = "employee",
+    employer = "employer"
 }
 
 export interface UserState {
     firstName: string | null
     lastName: string | null
     companyName: string | null
-    phoneNumber: number | null
+    mobileNumber: number | null
     email: string | null
     type: UserType.employee | UserType.employer | null
 }
@@ -18,7 +18,7 @@ const initialState: UserState = {
     firstName: null,
     lastName: null,
     companyName: null,
-    phoneNumber: null,
+    mobileNumber: null,
     email: null,
     type: null
 }
@@ -49,7 +49,7 @@ export const userSlice = createSlice({
             state.firstName = action.payload.firstName
             state.lastName = action.payload.lastName
             state.companyName = action.payload.companyName
-            state.phoneNumber = action.payload.phoneNumber
+            state.mobileNumber = action.payload.mobileNumber
             state.email = action.payload.email
             state.type = action.payload.type
         }

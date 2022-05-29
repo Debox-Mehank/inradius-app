@@ -25,11 +25,11 @@ const Home3 = () => {
         <div className='h-screen relative overflow-y-auto snap-y snap-mandatory'>
 
             {/* Logo */}
-            {showwhiteIcon ? <div className='z-50 w-full p-8 md:px-20 fixed top-0 left-0 right-0'>
+            {showwhiteIcon ? <div className='z-40 w-full p-8 md:px-20 fixed top-0 left-0 right-0'>
                 <div className='flex justify-center items-center w-28 h-28 md:w-32 md:h-32'>
                     <LogoWhite />
                 </div>
-            </div> : <div className='z-50 w-full p-8 md:px-20 fixed top-0 left-0 right-0'>
+            </div> : <div className='z-40 w-full p-8 md:px-20 fixed top-0 left-0 right-0'>
                 <div className='flex justify-center items-center w-28 h-28 md:w-32 md:h-32'>
                     <Logo />
                 </div>
@@ -38,7 +38,7 @@ const Home3 = () => {
 
             {/* Down Arrow */}
             {showwhiteIcon && (
-                <div className='z-50 w-max fixed bottom-10 right-20 animate-bounce flex justify-center items-center flex-col'>
+                <div className='z-40 w-max fixed bottom-10 right-20 animate-bounce flex justify-center items-center flex-col'>
                     <FontAwesomeIcon icon={faAngleDown} size='4x' border={false} className='text-white' />
                 </div>
             )}

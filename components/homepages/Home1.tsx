@@ -8,14 +8,14 @@ const Home1 = () => {
     return (
         <div className='h-full relative overflow-y-auto snap-y snap-mandatory'>
             {/* Logo */}
-            <div className='z-50 w-full py-2 px-8 xl:p-8 md:px-20 fixed top-0 left-0 right-0'>
-                <div className='z-50 flex justify-center items-center w-28 h-28 md:w-32 md:h-32 bg-white'>
+            <div className='z-40 w-full py-2 px-8 xl:p-8 md:px-20 fixed top-0 left-0 right-0'>
+                <div className='z-40 flex justify-center items-center w-28 h-28 md:w-32 md:h-32 bg-white'>
                     <Logo />
                 </div>
             </div>
 
             {/* Down Arrow */}
-            <div className='z-50 w-full xl:w-max absolute bottom-10 left-0 xl:left-20 animate-bounce flex justify-center items-center flex-col'>
+            <div className='z-40 w-full xl:w-max absolute bottom-10 left-0 xl:left-20 animate-bounce flex justify-center items-center flex-col'>
                 Scroll Down
                 <FontAwesomeIcon icon={faAngleDown} size='4x' border={false} className='text-primary' />
             </div>

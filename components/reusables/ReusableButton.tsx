@@ -13,7 +13,7 @@ interface ReusableButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 
 const ReusableButton = ({ title, bg, text, link, onClick, type }: ReusableButtonProps) => {
     return (
-        <motion.button type={type} onClick={onClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} className={`px-3 py-2 text-sm ${bg} ${text} rounded-md shadow font-semibold`}>
+        <motion.button type={type} onClick={onClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} className={`px-3 py-2 text-base ${bg} ${text} rounded-md shadow font-semibold`}>
             {link ? (
                 <Link href={link}>
                     {title}

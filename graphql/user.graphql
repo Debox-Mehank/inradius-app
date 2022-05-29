@@ -1,0 +1,40 @@
+mutation Register($input: RegisterInput!) {
+  register(input: $input) {
+    _id
+  }
+}
+
+query VerifyEmail($input: EmailVerifyInput!) {
+  verifyEmail(input: $input)
+}
+
+query ResendVerifyEmail($input: EmailVerifyInput!) {
+  resendVerifyEmail(input: $input)
+}
+
+query Login($input: LoginInput!) {
+  login(input: $input)
+}
+
+query Me {
+  user {
+    _id
+    firstName
+    lastName
+    email
+    number
+    image
+    type
+    isAccountVerified
+    isSurveyCompleted
+    isProfileCompleted
+  }
+}
+
+query UpdateSurveyStatus {
+  updateSurveyStatus
+}
+
+query UpdateProfileStatus {
+  updateProfileStatus
+}

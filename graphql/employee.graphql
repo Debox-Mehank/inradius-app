@@ -1,0 +1,69 @@
+mutation UpdateEmployee($input: UpdateEmployeeInput!) {
+  updateEmployee(input: $input) {
+    user {
+      email
+    }
+  }
+}
+
+query GetEmployee {
+  getEmployee {
+    _id
+    radius
+    latitude
+    longitude
+    location {
+      _id
+      location
+    }
+    qualification {
+      _id
+      qualification
+    }
+    industry {
+      _id
+      industry
+    }
+    domain {
+      _id
+      domain
+    }
+    subDomain {
+      _id
+      subDomain
+    }
+    skills {
+      _id
+      skill
+    }
+    fresher
+    workExp {
+      company
+      designation
+      desc
+      start
+      end
+      current
+    }
+    totalExp {
+      years
+      months
+    }
+    relevantExp {
+      years
+      months
+    }
+    currentPay
+    expectedPay
+    linkedIn
+    resume
+    gender
+    currentAddress
+    dob
+    panCard
+    aadharCard
+    interests {
+      _id
+    }
+  }
+}

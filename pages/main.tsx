@@ -1,27 +1,20 @@
-import { useState, useEffect } from "react";
-import type { NextPage } from "next";
-import Home1 from "../components/homepages/Home1";
-import Home2 from "../components/homepages/Home2";
-import Home3 from "../components/homepages/Home3";
-import { useMeLazyQuery, UserRole } from "../generated/graphql";
+import { NextComponentType } from "next";
 import { useRouter } from "next/router";
+import { ReactElement, useEffect } from "react";
+import { useMeLazyQuery, UserRole } from "../generated/graphql";
 
-const Home: NextPage = () => {
-  const [randomHome, setRandomHome] = useState<number>();
-  const [meQuery] = useMeLazyQuery();
+const MainEntry = ({ children }: { children: ReactElement<any, any>[] }) => {
+  const [meQuery, { loading }] = useMeLazyQuery();
   const router = useRouter();
-
   useEffect(() => {
     const myFunc = async () => {
       const { data, error, loading } = await meQuery();
       if (loading === false) {
         if (error !== undefined) {
-          setRandomHome(Math.floor(Math.random() * 3) + 1);
           return null;
         }
 
         if (data === undefined) {
-          setRandomHome(Math.floor(Math.random() * 3) + 1);
           return null;
         }
 
@@ -42,18 +35,14 @@ const Home: NextPage = () => {
         }
       }
     };
-    myFunc();
+    // myFunc();
   }, []);
 
-  if (randomHome === 1) {
-    return <Home1 />;
-  } else if (randomHome === 2) {
-    return <Home2 />;
-  } else if (randomHome === 3) {
-    return <Home3 />;
-  } else {
+  if (loading) {
     return null;
   }
+
+  return <>{children}</>;
 };
 
-export default Home;
+export default MainEntry;

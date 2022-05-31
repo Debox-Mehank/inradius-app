@@ -43,7 +43,8 @@ const Home: NextPage = () => {
       }
     };
     myFunc();
-  }, [meQuery, router]);
+    // eslint-disable-next-line
+  }, [meQuery]);
 
   if (randomHome === 1) {
     return <Home1 />;

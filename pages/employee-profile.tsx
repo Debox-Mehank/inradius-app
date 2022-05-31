@@ -200,10 +200,6 @@ const EmployeeProfile = () => {
       const allSkills = allSkillsData.allSkills.map((s) => ({
         _id: s._id,
         skill: s.skill,
-        subDomain: {
-          _id: s.subDomain._id,
-          subDomain: s.subDomain.subDomain,
-        },
       }));
       dispatch(addAllSkills(allSkills));
 
@@ -303,8 +299,8 @@ const EmployeeProfile = () => {
           : null,
         resume: employeeData.getEmployee.resume,
         skills: employeeData.getEmployee.skills.map((s) => ({
-          _id: s._id,
-          skill: s.skill,
+          label: s.skill,
+          value: s._id,
         })),
         subDomain: employeeData.getEmployee.subDomain,
         totalExp: employeeData.getEmployee.totalExp
@@ -373,7 +369,8 @@ const EmployeeProfile = () => {
       router.replace("/employee-profile?page=" + EMPLOYEE_STEPS_ENUM.location);
     };
     myFunc();
-  }, [getEmployeeQuery, dispatch, router]);
+    // eslint-disable-next-line
+  }, [getEmployeeQuery, dispatch]);
 
   return (
     <Layout>

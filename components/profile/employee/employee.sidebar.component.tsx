@@ -77,7 +77,7 @@ const EmployeeSidebar = ({
         {employeeSlice.employee.skills && (
           <>
             {employeeSlice.employee.skills.map((skill, idx) => (
-              <SidebarItem key={idx} text={skill.skill} />
+              <SidebarItem key={idx} text={skill.label} />
             ))}
           </>
         )}

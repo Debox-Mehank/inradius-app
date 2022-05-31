@@ -2,6 +2,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Select, { MultiValue } from "react-select";
 import { RootState } from "../../../app/store";
 import { toggleLoading } from "../../../features/common.slice";
 import { updateEmployeeData } from "../../../features/employee.slice";
@@ -9,6 +10,7 @@ import { useUpdateEmployeeMutation } from "../../../generated/graphql";
 import { PageHeading, PageSubHeading } from "../common/heading.component";
 import EmployeeNextButton from "./employee.nextbutton.component";
 import EmployeePrevButton from "./employee.prevbutton.component";
+import { reactMultiSelectColorStyles } from "../../../utils/common";
 
 const EmployeeSubDomainSkill = () => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
@@ -26,6 +28,7 @@ const EmployeeSubDomainSkill = () => {
   const subDomain = useSelector(
     (state: RootState) => state.employee.employee.subDomain
   );
+
   const skills = useSelector(
     (state: RootState) => state.employee.employee.skills
   );
@@ -57,7 +60,7 @@ const EmployeeSubDomainSkill = () => {
       variables: {
         input: {
           subDomain: subDomain?._id,
-          skills: skills.map((el) => el._id),
+          skills: skills.map((el) => el.value),
         },
       },
     });
@@ -121,51 +124,53 @@ const EmployeeSubDomainSkill = () => {
           </div>
         </div>
         <br />
-        {subDomain !== null ? (
-          <div className="flex flex-col justify-start">
-            <PageSubHeading
-              text="Choose Skills"
-              desc="Choose your top 4 skills!"
-            />
-            <div className="flex flex-row gap-4 flex-wrap">
-              {allSkills
-                .filter((el) => el.subDomain._id === subDomain?._id)
-                .map((i, idx) => {
-                  var myskills = [...(skills ?? [])];
-                  var checkIndex = myskills.findIndex((el) => el._id === i._id);
-                  return (
-                    <p
-                      key={idx}
-                      className={`${
-                        checkIndex >= 0
-                          ? "bg-primary text-white"
-                          : "bg-lightGray text-black"
-                      } rounded-full py-2 px-3 font-normal text-xs transition-all flex justify-center items-center gap-2 cursor-pointer`}
-                      onClick={() => {
-                        if (checkIndex >= 0) {
-                          // remove skill
-                          myskills = myskills.filter((el) => el._id !== i._id);
-                        } else {
-                          // add skill
-                          myskills?.push({ _id: i._id, skill: i.skill });
-                        }
-                        dispatch(updateEmployeeData({ skills: myskills }));
-                      }}
-                    >
-                      {i.skill}
-                      {checkIndex >= 0 ? (
-                        <FontAwesomeIcon
-                          icon={faCheckCircle}
-                          size="1x"
-                          className={`text-white`}
-                        />
-                      ) : null}
-                    </p>
+        <div className="flex flex-col justify-start">
+          <PageSubHeading
+            text="Select Skills"
+            desc="Choose your top 4 skills!"
+          />
+          <div className="flex flex-row gap-4 flex-wrap">
+            <div className="flex flex-col justify-start w-full">
+              {(skills ?? []).length > 0 && (
+                <p className="text-xs w-full text-justify text-gray-500 font-medium mb-2">
+                  Select Skills
+                </p>
+              )}
+              <Select<{ _id: string; skill: string }, true>
+                options={allSkills.map((el) => ({
+                  _id: el._id,
+                  skill: el.skill,
+                }))}
+                getOptionLabel={(skill: { _id: string; skill: string }) =>
+                  skill.skill
+                }
+                getOptionValue={(skill: { _id: string; skill: string }) =>
+                  skill._id
+                }
+                className="w-full"
+                placeholder="Select Skills"
+                value={skills?.map((el) => ({
+                  _id: el.value,
+                  skill: el.label,
+                }))}
+                isMulti
+                onChange={(
+                  value: MultiValue<{ _id: string; skill: string }>
+                ) => {
+                  dispatch(
+                    updateEmployeeData({
+                      skills: value.map((el) => ({
+                        label: el.skill,
+                        value: el._id,
+                      })),
+                    })
                   );
-                })}
+                }}
+                styles={reactMultiSelectColorStyles}
+              />
             </div>
           </div>
-        ) : null}
+        </div>
         <br />
         <div className="flex flex-row gap-2 justify-end select-none my-6">
           <EmployeePrevButton handlerFunction={prevHandler} />

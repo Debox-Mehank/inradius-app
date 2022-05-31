@@ -33,18 +33,6 @@ export const EMPLOYEE_STEPS = [
   "personal-kyc",
 ];
 
-export const EMPLOYER_STEPS = [
-  "letterhead-kyc",
-  "location",
-  "radius",
-  "industry-domain",
-  "qualification",
-  "subdomain-skills",
-  "total-relevant-experience",
-  "current-expected-pay",
-  "linkedin-resume",
-];
-
 export interface EmployeeData {
   aadharCard?: string | null | undefined;
   currentAddress?: string | null | undefined;
@@ -71,7 +59,7 @@ export interface EmployeeData {
     | null
     | undefined;
   resume?: string | null | undefined;
-  skills?: { _id: string; skill: string }[];
+  skills?: { label: string; value: string }[];
   subDomain?: { _id: string; subDomain: string } | null | undefined;
   totalExp?:
     | {

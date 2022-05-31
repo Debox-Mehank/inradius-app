@@ -13,9 +13,9 @@ export interface CommonState {
   allSkills: {
     _id: string;
     skill: string;
-    subDomain: { _id: string; subDomain: string };
   }[];
   allQualifications: { _id: string; qualification: string }[];
+  allBenefits: { _id: string; benefit: string }[];
 }
 
 const initialState: CommonState = {
@@ -26,6 +26,7 @@ const initialState: CommonState = {
   allSubdomains: [],
   allSkills: [],
   allQualifications: [],
+  allBenefits: [],
 };
 
 export const commonSlice = createSlice({
@@ -71,7 +72,6 @@ export const commonSlice = createSlice({
         {
           _id: string;
           skill: string;
-          subDomain: { _id: string; subDomain: string };
         }[]
       >
     ) => {
@@ -88,6 +88,17 @@ export const commonSlice = createSlice({
     ) => {
       state.allQualifications = action.payload;
     },
+    addAllBenefits: (
+      state,
+      action: PayloadAction<
+        {
+          _id: string;
+          benefit: string;
+        }[]
+      >
+    ) => {
+      state.allBenefits = action.payload;
+    },
   },
 });
 
@@ -101,6 +112,7 @@ export const {
   addAllSubdomains,
   addAllSkills,
   addAllQualifications,
+  addAllBenefits,
 } = actions;
 
 export default reducer;

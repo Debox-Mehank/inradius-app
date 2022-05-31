@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -15,6 +16,8 @@ import EmployeeNextButton from "./employee.nextbutton.component";
 import EmployeePrevButton from "./employee.prevbutton.component";
 
 const EmployeePersonalKyc = () => {
+  const router = useRouter();
+
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
   const [updateProfileStatusQuery] = useUpdateProfileStatusLazyQuery();
 
@@ -179,6 +182,13 @@ const EmployeePersonalKyc = () => {
     });
 
     moveNext();
+
+    dispatch(toggleLoading());
+
+    setTimeout(() => {
+      router.replace("/dashboard");
+      dispatch(toggleLoading());
+    }, 2000);
   };
 
   return (

@@ -125,12 +125,20 @@ const EmployeeIndustryDomain = () => {
                     : "bg-lightGray text-black"
                 } rounded-full py-2 px-3 font-normal text-xs transition-all flex justify-center items-center gap-2 cursor-pointer`}
                 onClick={() => {
-                  if (domain !== null && domain?._id !== i._id) {
+                  if (domain !== null) {
+                    if (domain?._id !== i._id) {
+                      dispatch(
+                        updateEmployeeData({
+                          domain: i,
+                          subDomain: null,
+                          skills: [],
+                        })
+                      );
+                    }
+                  } else {
                     dispatch(
                       updateEmployeeData({
                         domain: i,
-                        subDomain: null,
-                        skills: [],
                       })
                     );
                   }

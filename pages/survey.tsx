@@ -20,6 +20,7 @@ import {
   User,
   UserRole,
   UserSurveyInput,
+  useUpdateEmployerMutation,
   useUpdateEmployeeMutation,
   useUpdateSurveyStatusLazyQuery,
 } from "../generated/graphql";
@@ -32,6 +33,7 @@ const Survey: NextPage = () => {
 
   const [surveyQuery] = useAllSurveyQuestionLazyQuery();
   const [updateSurveyStatusQuery] = useUpdateSurveyStatusLazyQuery();
+  const [updateEmployerMutation] = useUpdateEmployerMutation();
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
 
   useEffect(() => {
@@ -87,9 +89,14 @@ const Survey: NextPage = () => {
     const { type }: User = JSON.parse(localStorage.getItem("user")!);
 
     dispatch(toggleLoading());
-    const { data, errors } = await updateEmployeeMutation({
-      variables: { input: { userSurvey: surveySlice.surveys } },
-    });
+    const { data, errors } =
+      type === UserRole.Employee
+        ? await updateEmployeeMutation({
+            variables: { input: { userSurvey: surveySlice.surveys } },
+          })
+        : await updateEmployerMutation({
+            variables: { input: { userSurvey: surveySlice.surveys } },
+          });
 
     if (errors !== undefined) {
       toast.error(errors[0].message, {
@@ -140,7 +147,7 @@ const Survey: NextPage = () => {
     if (type === UserRole.Employee) {
       router.replace("/employee-profile?page=location");
     } else if (type === UserRole.Employer) {
-      router.replace("/employer-profile");
+      router.replace("/employer-profile?page=company-verification");
     }
   };
 

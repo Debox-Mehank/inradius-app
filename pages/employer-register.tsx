@@ -18,7 +18,7 @@ import { GraphQLError } from "graphql";
 export interface EmployerRegisterFormFields {
   firstName: string;
   lastName: string;
-  //   companyName: string;
+  companyName: string;
   email: string;
   number: string;
   password: string;
@@ -62,6 +62,8 @@ const EmployerRegister: NextPage = () => {
         });
         return false;
       }
+
+      localStorage.setItem("companyName", data.companyName);
 
       setSuccess(true);
     } catch (error) {
@@ -140,7 +142,7 @@ const EmployerRegister: NextPage = () => {
                     </h4>
                     <br />
                     <div className="flex flex-col w-full gap-4">
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 items-end">
                         <div className="flex flex-col justify-start w-full">
                           {watch("firstName") !== "" &&
                             watch("firstName") !== undefined && (
@@ -192,7 +194,7 @@ const EmployerRegister: NextPage = () => {
                           )}
                         </div>
                       </div>
-                      {/* <div className="flex flex-col justify-start w-full">
+                      <div className="flex flex-col justify-start w-full">
                         {watch("companyName") !== "" &&
                           watch("companyName") !== undefined && (
                             <p className="text-sm text-white px-1 font-medium py-1">
@@ -216,18 +218,18 @@ const EmployerRegister: NextPage = () => {
                             {errors["companyName"]["message"]}
                           </p>
                         )}
-                      </div> */}
+                      </div>
                       <div className="flex flex-col justify-start w-full">
                         {watch("email") !== "" &&
                           watch("email") !== undefined && (
                             <p className="text-sm text-white px-1 font-medium py-1">
-                              {"Email"}
+                              {"Company Email"}
                             </p>
                           )}
                         <input
                           type={"email"}
                           className={`bg-white px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
-                          placeholder={"Email*"}
+                          placeholder={"Company Email*"}
                           {...fieldRegister("email", {
                             required: {
                               value: true,

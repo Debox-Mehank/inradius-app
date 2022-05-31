@@ -16,6 +16,10 @@ query Login($input: LoginInput!) {
   login(input: $input)
 }
 
+query Logout {
+  logout
+}
+
 query Me {
   user {
     _id

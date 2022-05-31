@@ -36,7 +36,8 @@ const MainEntry = ({ children }: { children: ReactElement<any, any>[] }) => {
       }
     };
     // myFunc();
-  }, [meQuery, router]);
+    // eslint-disable-next-line
+  }, [meQuery]);
 
   if (loading) {
     return null;

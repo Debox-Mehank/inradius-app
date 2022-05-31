@@ -139,7 +139,7 @@ const EmployeeRegister: NextPage = () => {
                     </h4>
                     <br />
                     <div className="flex flex-col w-full gap-4">
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 items-end">
                         <div className="flex flex-col justify-start w-full">
                           {watch("firstName") !== "" &&
                             watch("firstName") !== undefined && (

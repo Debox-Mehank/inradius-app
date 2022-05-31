@@ -1,0 +1,33 @@
+mutation UpdateEmployer($input: UpdateEmployerInput!) {
+  updateEmployer(input: $input) {
+    user {
+      email
+    }
+  }
+}
+
+query GetEmployer {
+  getEmployer {
+    _id
+    companyName
+    companyImage
+    companyLetterHead
+    employerVerifyStatus
+    employerVerified
+    benefits {
+      _id
+      benefit
+    }
+    linkedIn
+    gstNo
+    panNo
+    registeredAddress
+    currentAddress
+    noOfLocations
+    landline
+    noOfEmployees
+    lastTurnover
+    noOfHiring
+    attritionRate
+  }
+}

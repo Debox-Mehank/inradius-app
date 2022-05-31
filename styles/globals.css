@@ -40,8 +40,7 @@ body {
 
 .input-range__label--min .input-range__label-container,
 .input-range__label--max .input-range__label-container {
-  font-family: "Montserrat",
-    sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 12px;
   color: rgb(107, 114, 128);
   font-weight: 600;
@@ -52,8 +51,7 @@ body {
 }
 
 .input-range__label--value .input-range__label-container {
-  font-family: "Montserrat",
-    sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #e55d29;
   padding: 2px 5px;
   border-radius: 2px;
@@ -61,7 +59,6 @@ body {
   color: white;
   font-weight: 600;
 }
-
 
 /* input[type="range"]::-webkit-slider-thumb {
   appearance: none;
@@ -73,18 +70,18 @@ body {
 } */
 
 /* AOS Delays */
-body [data-aos-delay='3200'][data-aos].aos-animate,
-[data-aos][data-aos][data-aos-delay='3200'].aos-animate {
+body [data-aos-delay="3200"][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay="3200"].aos-animate {
   transition-delay: 3.2s;
 }
 
-body [data-aos-delay='3400'][data-aos].aos-animate,
-[data-aos][data-aos][data-aos-delay='3400'].aos-animate {
+body [data-aos-delay="3400"][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay="3400"].aos-animate {
   transition-delay: 3.4s;
 }
 
-body [data-aos-delay='3600'][data-aos].aos-animate,
-[data-aos][data-aos][data-aos-delay='3600'].aos-animate {
+body [data-aos-delay="3600"][data-aos].aos-animate,
+[data-aos][data-aos][data-aos-delay="3600"].aos-animate {
   transition-delay: 3.6s;
 }
 
@@ -139,10 +136,32 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
 .d-flex-imp {
   display: flex !important;
+}
+
+/* Custom Dashboard Scrollbar */
+/* width */
+.dashboard-main::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Track */
+.dashboard-main::-webkit-scrollbar-track {
+  background: #e7e7e7;
+}
+
+/* Handle */
+.dashboard-main::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.dashboard-main::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

@@ -356,6 +356,7 @@ export type Query = {
   updateSurveyStatus: Scalars['Boolean'];
   user: User;
   verifyEmail: Scalars['Boolean'];
+  verifyEmployer: Scalars['Boolean'];
 };
 
 
@@ -381,6 +382,11 @@ export type QueryResendVerifyEmailArgs = {
 
 export type QueryVerifyEmailArgs = {
   input: EmailVerifyInput;
+};
+
+
+export type QueryVerifyEmployerArgs = {
+  input: UpdateEmployerVerifyInput;
 };
 
 export type RegisterInput = {
@@ -486,6 +492,11 @@ export type UpdateEmployerInput = {
   userSurvey?: InputMaybe<Array<UserSurveyInput>>;
 };
 
+export type UpdateEmployerVerifyInput = {
+  _id: Scalars['ID'];
+  employerVerified: Scalars['Boolean'];
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
@@ -571,7 +582,7 @@ export type UpdateEmployerMutation = { __typename?: 'Mutation', updateEmployer: 
 export type GetEmployerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null } };
+export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
 
 export type AllLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -848,6 +859,49 @@ export const GetEmployerDocument = gql`
     lastTurnover
     noOfHiring
     attritionRate
+    jobs {
+      _id
+      jobType
+      jobStatus
+      listingComplete
+      radius
+      latitude
+      longitude
+      location {
+        _id
+        location
+      }
+      qualification {
+        _id
+        qualification
+      }
+      industry {
+        _id
+        industry
+      }
+      domain {
+        _id
+        domain
+      }
+      subDomain {
+        _id
+        subDomain
+      }
+      skills {
+        _id
+        skill
+      }
+      totalExp {
+        years
+        months
+      }
+      relevantExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
   }
 }
     `;

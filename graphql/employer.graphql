@@ -29,5 +29,57 @@ query GetEmployer {
     lastTurnover
     noOfHiring
     attritionRate
+    jobs {
+      _id
+      jobType
+      jobStatus
+      listingComplete
+      radius
+      latitude
+      longitude
+      location {
+        _id
+        location
+      }
+      qualification {
+        _id
+        qualification
+      }
+      industry {
+        _id
+        industry
+      }
+      domain {
+        _id
+        domain
+      }
+      subDomain {
+        _id
+        subDomain
+      }
+      skills {
+        _id
+        skill
+      }
+      totalExp {
+        years
+        months
+      }
+      relevantExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+
+query GetEmployerAllJobs {
+  getEmployerAllJobs {
+    _id
+    jobType
+    jobStatus
+    listingComplete
   }
 }

@@ -17,6 +17,7 @@ import {
   UserRole,
 } from "../generated/graphql";
 import { useRouter } from "next/router";
+import client from "../utils/apollo_client";
 
 export interface UserLoginFormFields {
   email: string;
@@ -52,6 +53,8 @@ const Login: NextPage = () => {
       });
       return false;
     }
+
+    client.resetStore();
 
     // Fetch User
     dispatch(toggleLoading());

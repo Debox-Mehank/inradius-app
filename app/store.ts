@@ -3,6 +3,7 @@ import commonReducer from "../features/common.slice";
 import surveyReducer from "../features/survey.slice";
 import employeeReducer from "../features/employee.slice";
 import employerReducer from "../features/employer.slice";
+import dashboardReducer from "../features/dashboard.sice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     survey: surveyReducer,
     employee: employeeReducer,
     employer: employerReducer,
+    dashboard: dashboardReducer,
   },
 });
 

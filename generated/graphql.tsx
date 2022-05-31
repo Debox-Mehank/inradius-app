@@ -163,12 +163,11 @@ export type EmployerJob = {
   longitude?: Maybe<Scalars['Float']>;
   maxPay?: Maybe<Scalars['Float']>;
   minPay?: Maybe<Scalars['Float']>;
+  minRequiredExp?: Maybe<UserExpInYearMonths>;
   qualification?: Maybe<Qualification>;
   radius?: Maybe<Scalars['Float']>;
-  relevantExp?: Maybe<UserExpInYearMonths>;
   skills: Array<Skill>;
   subDomain?: Maybe<SubDomain>;
-  totalExp?: Maybe<UserExpInYearMonths>;
   updatedAt: Scalars['DateTime'];
   user: User;
 };
@@ -185,12 +184,11 @@ export type EmployerJobInput = {
   longitude?: InputMaybe<Scalars['Float']>;
   maxPay?: InputMaybe<Scalars['Float']>;
   minPay?: InputMaybe<Scalars['Float']>;
+  minRequiredExp?: InputMaybe<UserExpInYearMonthsInput>;
   qualification?: InputMaybe<Scalars['ID']>;
   radius?: InputMaybe<Scalars['Float']>;
-  relevantExp?: InputMaybe<UserExpInYearMonthsInput>;
   skills?: InputMaybe<Array<Scalars['ID']>>;
   subDomain?: InputMaybe<Scalars['ID']>;
-  totalExp?: InputMaybe<UserExpInYearMonthsInput>;
 };
 
 /** Enum For status of job like open or closed */
@@ -349,6 +347,8 @@ export type Query = {
   allSurveyQuestion: Array<Survey>;
   getEmployee: Employee;
   getEmployer: Employer;
+  getEmployerAllJobs: Array<EmployerJob>;
+  getJobDetails: Array<EmployerJob>;
   login: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   resendVerifyEmail: Scalars['Boolean'];
@@ -367,6 +367,11 @@ export type QueryAdminLoginArgs = {
 
 export type QueryAllSurveyQuestionArgs = {
   type?: InputMaybe<SurveyType>;
+};
+
+
+export type QueryGetJobDetailsArgs = {
+  jobId: Scalars['String'];
 };
 
 
@@ -582,7 +587,12 @@ export type UpdateEmployerMutation = { __typename?: 'Mutation', updateEmployer: 
 export type GetEmployerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
+export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
+
+export type GetEmployerAllJobsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEmployerAllJobsQuery = { __typename?: 'Query', getEmployerAllJobs: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null }> };
 
 export type AllLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -891,11 +901,7 @@ export const GetEmployerDocument = gql`
         _id
         skill
       }
-      totalExp {
-        years
-        months
-      }
-      relevantExp {
+      minRequiredExp {
         years
         months
       }
@@ -932,6 +938,43 @@ export function useGetEmployerLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetEmployerQueryHookResult = ReturnType<typeof useGetEmployerQuery>;
 export type GetEmployerLazyQueryHookResult = ReturnType<typeof useGetEmployerLazyQuery>;
 export type GetEmployerQueryResult = Apollo.QueryResult<GetEmployerQuery, GetEmployerQueryVariables>;
+export const GetEmployerAllJobsDocument = gql`
+    query GetEmployerAllJobs {
+  getEmployerAllJobs {
+    _id
+    jobType
+    jobStatus
+    listingComplete
+  }
+}
+    `;
+
+/**
+ * __useGetEmployerAllJobsQuery__
+ *
+ * To run a query within a React component, call `useGetEmployerAllJobsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEmployerAllJobsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEmployerAllJobsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetEmployerAllJobsQuery(baseOptions?: Apollo.QueryHookOptions<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>(GetEmployerAllJobsDocument, options);
+      }
+export function useGetEmployerAllJobsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>(GetEmployerAllJobsDocument, options);
+        }
+export type GetEmployerAllJobsQueryHookResult = ReturnType<typeof useGetEmployerAllJobsQuery>;
+export type GetEmployerAllJobsLazyQueryHookResult = ReturnType<typeof useGetEmployerAllJobsLazyQuery>;
+export type GetEmployerAllJobsQueryResult = Apollo.QueryResult<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>;
 export const AllLocationsDocument = gql`
     query AllLocations {
   allLocations {

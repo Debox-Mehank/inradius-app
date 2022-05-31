@@ -68,12 +68,13 @@ const Dashboard = () => {
         fetchEmployer();
       }
     }
-  }, []);
+  }, [dispatch, getEmployerQuery]);
 
   useEffect(() => {
     dispatch(setCurrentPage(DashboardPagesEnum.explore));
     router.replace("/dashboard?page=explore");
-  }, []);
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   if (!user) {
     return null;

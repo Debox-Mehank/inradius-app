@@ -61,11 +61,7 @@ query GetEmployer {
         _id
         skill
       }
-      totalExp {
-        years
-        months
-      }
-      relevantExp {
+      minRequiredExp {
         years
         months
       }

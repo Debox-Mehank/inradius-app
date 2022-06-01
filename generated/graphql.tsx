@@ -156,6 +156,7 @@ export type EmployerJob = {
   domain?: Maybe<Domain>;
   industry?: Maybe<Industry>;
   jobStatus?: Maybe<EmployerJobStatusEnum>;
+  jobTitle?: Maybe<Scalars['String']>;
   jobType?: Maybe<EmployerJobTypeEnum>;
   latitude?: Maybe<Scalars['Float']>;
   listingComplete?: Maybe<Scalars['Boolean']>;
@@ -177,6 +178,7 @@ export type EmployerJobInput = {
   domain?: InputMaybe<Scalars['ID']>;
   industry?: InputMaybe<Scalars['ID']>;
   jobStatus?: InputMaybe<EmployerJobStatusEnum>;
+  jobTitle?: InputMaybe<Scalars['String']>;
   jobType?: InputMaybe<EmployerJobTypeEnum>;
   latitude?: InputMaybe<Scalars['Float']>;
   listingComplete?: InputMaybe<Scalars['Boolean']>;
@@ -243,7 +245,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addBenefit: Benefit;
   addDomain: Domain;
-  addEmployerJob: Employer;
+  addEmployerJob: Scalars['String'];
   addIndustry: Industry;
   addLocation: Location;
   addQualification: Qualification;
@@ -348,7 +350,7 @@ export type Query = {
   getEmployee: Employee;
   getEmployer: Employer;
   getEmployerAllJobs: Array<EmployerJob>;
-  getJobDetails: Array<EmployerJob>;
+  getJobDetails: EmployerJob;
   login: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   resendVerifyEmail: Scalars['Boolean'];
@@ -587,12 +589,26 @@ export type UpdateEmployerMutation = { __typename?: 'Mutation', updateEmployer: 
 export type GetEmployerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
+export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
 
-export type GetEmployerAllJobsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UpdateEmployerJobMutationVariables = Exact<{
+  input: EmployerJobInput;
+}>;
 
 
-export type GetEmployerAllJobsQuery = { __typename?: 'Query', getEmployerAllJobs: Array<{ __typename?: 'EmployerJob', _id: string, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null }> };
+export type UpdateEmployerJobMutation = { __typename?: 'Mutation', updateEmployerJob: { __typename?: 'EmployerJob', _id: string } };
+
+export type GetJobDetailsQueryVariables = Exact<{
+  jobId: Scalars['String'];
+}>;
+
+
+export type GetJobDetailsQuery = { __typename?: 'Query', getJobDetails: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
+
+export type AddEmployerJobMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AddEmployerJobMutation = { __typename?: 'Mutation', addEmployerJob: string };
 
 export type AllLocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -871,6 +887,7 @@ export const GetEmployerDocument = gql`
     attritionRate
     jobs {
       _id
+      jobTitle
       jobType
       jobStatus
       listingComplete
@@ -938,43 +955,141 @@ export function useGetEmployerLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetEmployerQueryHookResult = ReturnType<typeof useGetEmployerQuery>;
 export type GetEmployerLazyQueryHookResult = ReturnType<typeof useGetEmployerLazyQuery>;
 export type GetEmployerQueryResult = Apollo.QueryResult<GetEmployerQuery, GetEmployerQueryVariables>;
-export const GetEmployerAllJobsDocument = gql`
-    query GetEmployerAllJobs {
-  getEmployerAllJobs {
+export const UpdateEmployerJobDocument = gql`
+    mutation UpdateEmployerJob($input: EmployerJobInput!) {
+  updateEmployerJob(input: $input) {
     _id
+  }
+}
+    `;
+export type UpdateEmployerJobMutationFn = Apollo.MutationFunction<UpdateEmployerJobMutation, UpdateEmployerJobMutationVariables>;
+
+/**
+ * __useUpdateEmployerJobMutation__
+ *
+ * To run a mutation, you first call `useUpdateEmployerJobMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEmployerJobMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEmployerJobMutation, { data, loading, error }] = useUpdateEmployerJobMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEmployerJobMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEmployerJobMutation, UpdateEmployerJobMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEmployerJobMutation, UpdateEmployerJobMutationVariables>(UpdateEmployerJobDocument, options);
+      }
+export type UpdateEmployerJobMutationHookResult = ReturnType<typeof useUpdateEmployerJobMutation>;
+export type UpdateEmployerJobMutationResult = Apollo.MutationResult<UpdateEmployerJobMutation>;
+export type UpdateEmployerJobMutationOptions = Apollo.BaseMutationOptions<UpdateEmployerJobMutation, UpdateEmployerJobMutationVariables>;
+export const GetJobDetailsDocument = gql`
+    query GetJobDetails($jobId: String!) {
+  getJobDetails(jobId: $jobId) {
+    _id
+    jobTitle
     jobType
     jobStatus
     listingComplete
+    radius
+    latitude
+    longitude
+    location {
+      _id
+      location
+    }
+    qualification {
+      _id
+      qualification
+    }
+    industry {
+      _id
+      industry
+    }
+    domain {
+      _id
+      domain
+    }
+    subDomain {
+      _id
+      subDomain
+    }
+    skills {
+      _id
+      skill
+    }
+    minRequiredExp {
+      years
+      months
+    }
+    minPay
+    maxPay
   }
 }
     `;
 
 /**
- * __useGetEmployerAllJobsQuery__
+ * __useGetJobDetailsQuery__
  *
- * To run a query within a React component, call `useGetEmployerAllJobsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEmployerAllJobsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetJobDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetJobDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEmployerAllJobsQuery({
+ * const { data, loading, error } = useGetJobDetailsQuery({
+ *   variables: {
+ *      jobId: // value for 'jobId'
+ *   },
+ * });
+ */
+export function useGetJobDetailsQuery(baseOptions: Apollo.QueryHookOptions<GetJobDetailsQuery, GetJobDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetJobDetailsQuery, GetJobDetailsQueryVariables>(GetJobDetailsDocument, options);
+      }
+export function useGetJobDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetJobDetailsQuery, GetJobDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetJobDetailsQuery, GetJobDetailsQueryVariables>(GetJobDetailsDocument, options);
+        }
+export type GetJobDetailsQueryHookResult = ReturnType<typeof useGetJobDetailsQuery>;
+export type GetJobDetailsLazyQueryHookResult = ReturnType<typeof useGetJobDetailsLazyQuery>;
+export type GetJobDetailsQueryResult = Apollo.QueryResult<GetJobDetailsQuery, GetJobDetailsQueryVariables>;
+export const AddEmployerJobDocument = gql`
+    mutation AddEmployerJob {
+  addEmployerJob
+}
+    `;
+export type AddEmployerJobMutationFn = Apollo.MutationFunction<AddEmployerJobMutation, AddEmployerJobMutationVariables>;
+
+/**
+ * __useAddEmployerJobMutation__
+ *
+ * To run a mutation, you first call `useAddEmployerJobMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEmployerJobMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEmployerJobMutation, { data, loading, error }] = useAddEmployerJobMutation({
  *   variables: {
  *   },
  * });
  */
-export function useGetEmployerAllJobsQuery(baseOptions?: Apollo.QueryHookOptions<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>) {
+export function useAddEmployerJobMutation(baseOptions?: Apollo.MutationHookOptions<AddEmployerJobMutation, AddEmployerJobMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>(GetEmployerAllJobsDocument, options);
+        return Apollo.useMutation<AddEmployerJobMutation, AddEmployerJobMutationVariables>(AddEmployerJobDocument, options);
       }
-export function useGetEmployerAllJobsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>(GetEmployerAllJobsDocument, options);
-        }
-export type GetEmployerAllJobsQueryHookResult = ReturnType<typeof useGetEmployerAllJobsQuery>;
-export type GetEmployerAllJobsLazyQueryHookResult = ReturnType<typeof useGetEmployerAllJobsLazyQuery>;
-export type GetEmployerAllJobsQueryResult = Apollo.QueryResult<GetEmployerAllJobsQuery, GetEmployerAllJobsQueryVariables>;
+export type AddEmployerJobMutationHookResult = ReturnType<typeof useAddEmployerJobMutation>;
+export type AddEmployerJobMutationResult = Apollo.MutationResult<AddEmployerJobMutation>;
+export type AddEmployerJobMutationOptions = Apollo.BaseMutationOptions<AddEmployerJobMutation, AddEmployerJobMutationVariables>;
 export const AllLocationsDocument = gql`
     query AllLocations {
   allLocations {

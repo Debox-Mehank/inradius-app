@@ -145,23 +145,26 @@ input[type="number"] {
 }
 
 /* Custom Dashboard Scrollbar */
+.dashboard-scroll {
+  height: 85vh;
+}
 /* width */
-.dashboard-main::-webkit-scrollbar {
+.dashboard-scroll::-webkit-scrollbar {
   width: 0;
 }
 
 /* Track */
-.dashboard-main::-webkit-scrollbar-track {
+.dashboard-scroll::-webkit-scrollbar-track {
   background: #e7e7e7;
 }
 
 /* Handle */
-.dashboard-main::-webkit-scrollbar-thumb {
+.dashboard-scroll::-webkit-scrollbar-thumb {
   background: #aaa;
   border-radius: 5px;
 }
 
 /* Handle on hover */
-.dashboard-main::-webkit-scrollbar-thumb:hover {
+.dashboard-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

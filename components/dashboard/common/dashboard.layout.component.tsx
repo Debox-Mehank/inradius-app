@@ -30,7 +30,7 @@ const DashboardLayout = ({ children, user }: DashboardLayoutProps) => {
         user={user}
       />
       <div
-        className={`w-full h-full relative overflow-auto dashboard-main ${
+        className={`w-full h-full relative ${
           currentPage === DashboardPagesEnum.explore
             ? "col-span-6"
             : "col-span-8"

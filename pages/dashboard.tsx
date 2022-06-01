@@ -9,7 +9,12 @@ import EmployerDashboardExplore from "../components/dashboard/employer/employer.
 import EmployerDashboardJobs from "../components/dashboard/employer/employer.dashboard-jobs.component";
 import EmployerDashboardMyInterests from "../components/dashboard/employer/employer.dashboard-my-interests.component";
 import { toggleLoading } from "../features/common.slice";
-import { DashboardPagesEnum, setCurrentPage } from "../features/dashboard.sice";
+import {
+  DashboardEmployerState,
+  DashboardPagesEnum,
+  setCurrentPage,
+  updateDashboardEmployerData,
+} from "../features/dashboard.sice";
 import { useGetEmployerLazyQuery, User, UserRole } from "../generated/graphql";
 
 const Dashboard = () => {
@@ -52,7 +57,56 @@ const Dashboard = () => {
       }
 
       dispatch(toggleLoading());
-      console.log(employerData.getEmployer);
+
+      const employer = employerData.getEmployer;
+
+      if (!employer.employerVerified) {
+        toast.error("Something went wrong, try again later.", {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return null;
+      }
+
+      const empData: DashboardEmployerState = {
+        companyName: employer.companyName,
+        companyImage: employer.companyImage,
+        jobs: (employer.jobs ?? []).map((job) => ({
+          _id: job._id,
+          jobTitle: job.jobTitle,
+          jobStatus: job.jobStatus,
+          jobType: job.jobType ? { label: "", value: job.jobType } : null,
+          listingComplete: job.listingComplete,
+          location: job.location,
+          radius: job.radius,
+          latitude: job.latitude,
+          longitude: job.longitude,
+          qualification: job.qualification,
+          industry: job.industry,
+          domain: job.domain,
+          subDomain: job.subDomain,
+          skills: job.skills.map((s) => ({
+            label: s.skill,
+            value: s._id,
+          })),
+          minRequiredExp: job.minRequiredExp
+            ? {
+                years: {
+                  label: job.minRequiredExp?.years ?? "",
+                  value: job.minRequiredExp?.years ?? "",
+                },
+                months: {
+                  label: job.minRequiredExp?.months ?? "",
+                  value: job.minRequiredExp?.months ?? "",
+                },
+              }
+            : null,
+          minPay: job.minPay,
+          maxPay: job.maxPay,
+        })),
+      };
+
+      dispatch(updateDashboardEmployerData(empData));
     };
 
     if (localStorage.getItem("user")) {

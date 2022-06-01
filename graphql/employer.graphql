@@ -31,6 +31,7 @@ query GetEmployer {
     attritionRate
     jobs {
       _id
+      jobTitle
       jobType
       jobStatus
       listingComplete
@@ -71,11 +72,55 @@ query GetEmployer {
   }
 }
 
-query GetEmployerAllJobs {
-  getEmployerAllJobs {
+mutation UpdateEmployerJob($input: EmployerJobInput!) {
+  updateEmployerJob(input: $input) {
     _id
+  }
+}
+
+query GetJobDetails($jobId: String!) {
+  getJobDetails(jobId: $jobId) {
+    _id
+    jobTitle
     jobType
     jobStatus
     listingComplete
+    radius
+    latitude
+    longitude
+    location {
+      _id
+      location
+    }
+    qualification {
+      _id
+      qualification
+    }
+    industry {
+      _id
+      industry
+    }
+    domain {
+      _id
+      domain
+    }
+    subDomain {
+      _id
+      subDomain
+    }
+    skills {
+      _id
+      skill
+    }
+    minRequiredExp {
+      years
+      months
+    }
+    minPay
+    maxPay
   }
+}
+
+mutation AddEmployerJob {
+  addEmployerJob
 }

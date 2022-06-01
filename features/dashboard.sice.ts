@@ -8,13 +8,7 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  Employer,
-  EmployerJobStatusEnum,
-  EmployerJobTypeEnum,
-  EmployerVerifyStatusEnum,
-} from "../generated/graphql";
-import { JobState } from "./job.slice";
+import { EmployerJobState } from "./job.slice";
 
 export enum DashboardPagesEnum {
   "explore" = "explore",
@@ -73,22 +67,7 @@ export const DashboardSidebarList: {
 export interface DashboardEmployerState {
   companyName?: string | null | undefined;
   companyImage?: string | null | undefined;
-  companyLetterHead?: string | null | undefined;
-  employerVerifyStatus?: EmployerVerifyStatusEnum | null | undefined;
-  employerVerified?: boolean | null | undefined;
-  linkedIn?: string | null | undefined;
-  gstNo?: string | null | undefined;
-  panNo?: string | null | undefined;
-  registeredAddress?: string | null | undefined;
-  currentAddress?: string | null | undefined;
-  noOfLocations?: number | null | undefined;
-  landline?: number | null | undefined;
-  noOfEmployees?: number | null | undefined;
-  lastTurnover?: number | null | undefined;
-  noOfHiring?: number | null | undefined;
-  attritionRate?: number | null | undefined;
-  benefits?: { label: string; value: string }[];
-  jobs: JobState[];
+  jobs: EmployerJobState[];
 }
 
 export interface DashboardState {

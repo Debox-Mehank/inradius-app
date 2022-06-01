@@ -1,0 +1,25 @@
+query EmployeeExplore {
+  employeeExplore {
+    companyName
+    companyImage
+    jobTitle
+    jobDesc
+    jobType
+    location
+    industry
+    domain
+    score
+  }
+}
+
+query EmployerExplore($jobId: String!) {
+  employerExplore(jobId: $jobId) {
+    firstName
+    lastName
+    image
+    location
+    industry
+    domain
+    score
+  }
+}

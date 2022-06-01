@@ -149,15 +149,11 @@ const Dashboard = () => {
     // eslint-disable-next-line
   }, [dispatch, page]);
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <DashboardLayout user={user}>
       {page && page === DashboardPagesEnum.explore && (
         <>
-          {user.type === UserRole.Employee ? (
+          {user?.type === UserRole.Employee ? (
             <EmployeeDashboardExplore />
           ) : (
             <EmployerDashboardExplore />
@@ -166,7 +162,7 @@ const Dashboard = () => {
       )}
       {page && page === DashboardPagesEnum["my-interests"] && (
         <>
-          {user.type === UserRole.Employee ? (
+          {user?.type === UserRole.Employee ? (
             <EmployeeDashboardExplore />
           ) : (
             <EmployerDashboardMyInterests />

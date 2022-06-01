@@ -30,6 +30,7 @@ const JobDetailsJobType = () => {
   ];
 
   const jobTitle = useSelector((state: RootState) => state.job.job.jobTitle);
+  const jobDesc = useSelector((state: RootState) => state.job.job.jobDesc);
   const jobType = useSelector((state: RootState) => state.job.job.jobType);
   const jobId = useSelector((state: RootState) => state.job.job._id);
 
@@ -46,7 +47,15 @@ const JobDetailsJobType = () => {
       return;
     }
 
-    if (jobType === null) {
+    if (!jobDesc) {
+      toast.info("Provide job description to continue", {
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (!jobType) {
       toast.info("Select job type to continue", {
         autoClose: 2000,
         hideProgressBar: true,
@@ -58,7 +67,12 @@ const JobDetailsJobType = () => {
     dispatch(toggleLoading());
     const { data, errors } = await updateEmployerJobMutation({
       variables: {
-        input: { _id: jobId, jobType: jobType?.value, jobTitle: jobTitle },
+        input: {
+          _id: jobId,
+          jobType: jobType?.value,
+          jobTitle: jobTitle,
+          jobDesc: jobDesc,
+        },
       },
     });
     dispatch(toggleLoading());
@@ -107,6 +121,27 @@ const JobDetailsJobType = () => {
               dispatch(
                 updateJobData({
                   jobTitle: e.target.value,
+                })
+              );
+            }}
+          />
+        </div>
+        <div className="flex flex-col justify-start w-full mb-4">
+          {jobDesc && (
+            <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+              {`Job Description`}
+            </p>
+          )}
+          <textarea
+            className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+            placeholder={"Job Description"}
+            autoComplete="off"
+            value={jobDesc ?? ""}
+            rows={4}
+            onChange={(e) => {
+              dispatch(
+                updateJobData({
+                  jobDesc: e.target.value,
                 })
               );
             }}

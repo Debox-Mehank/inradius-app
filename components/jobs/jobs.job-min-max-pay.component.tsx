@@ -81,7 +81,7 @@ const JobDetailsMinMaxPay = () => {
       return null;
     }
 
-    toast.success("Congragulations on adding your first job!", {
+    toast.success("Job details added successfully!", {
       autoClose: 2000,
       hideProgressBar: true,
     });

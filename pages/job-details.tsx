@@ -274,6 +274,7 @@ const JobDetails = () => {
         const jobData: EmployerJobState = {
           _id: job._id,
           jobTitle: job.jobTitle,
+          jobDesc: job.jobDesc,
           jobStatus: job.jobStatus,
           jobType: job.jobType
             ? { label: job.jobType, value: job.jobType }

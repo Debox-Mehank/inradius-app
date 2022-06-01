@@ -155,6 +155,7 @@ export type EmployerJob = {
   createdAt: Scalars['DateTime'];
   domain?: Maybe<Domain>;
   industry?: Maybe<Industry>;
+  jobDesc?: Maybe<Scalars['String']>;
   jobStatus?: Maybe<EmployerJobStatusEnum>;
   jobTitle?: Maybe<Scalars['String']>;
   jobType?: Maybe<EmployerJobTypeEnum>;
@@ -177,6 +178,7 @@ export type EmployerJobInput = {
   _id?: InputMaybe<Scalars['ID']>;
   domain?: InputMaybe<Scalars['ID']>;
   industry?: InputMaybe<Scalars['ID']>;
+  jobDesc?: InputMaybe<Scalars['String']>;
   jobStatus?: InputMaybe<EmployerJobStatusEnum>;
   jobTitle?: InputMaybe<Scalars['String']>;
   jobType?: InputMaybe<EmployerJobTypeEnum>;
@@ -589,7 +591,7 @@ export type UpdateEmployerMutation = { __typename?: 'Mutation', updateEmployer: 
 export type GetEmployerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
+export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
 
 export type UpdateEmployerJobMutationVariables = Exact<{
   input: EmployerJobInput;
@@ -603,7 +605,7 @@ export type GetJobDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetJobDetailsQuery = { __typename?: 'Query', getJobDetails: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
+export type GetJobDetailsQuery = { __typename?: 'Query', getJobDetails: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
 
 export type AddEmployerJobMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -888,6 +890,7 @@ export const GetEmployerDocument = gql`
     jobs {
       _id
       jobTitle
+      jobDesc
       jobType
       jobStatus
       listingComplete
@@ -993,6 +996,7 @@ export const GetJobDetailsDocument = gql`
   getJobDetails(jobId: $jobId) {
     _id
     jobTitle
+    jobDesc
     jobType
     jobStatus
     listingComplete

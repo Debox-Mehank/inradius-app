@@ -74,6 +74,7 @@ const Dashboard = () => {
         jobs: (employer.jobs ?? []).map((job) => ({
           _id: job._id,
           jobTitle: job.jobTitle,
+          jobDesc: job.jobDesc,
           jobStatus: job.jobStatus,
           jobType: job.jobType ? { label: "", value: job.jobType } : null,
           listingComplete: job.listingComplete,
@@ -125,10 +126,28 @@ const Dashboard = () => {
   }, [dispatch, getEmployerQuery]);
 
   useEffect(() => {
-    dispatch(setCurrentPage(DashboardPagesEnum.explore));
-    router.replace("/dashboard?page=explore");
+    if (page) {
+      dispatch(
+        setCurrentPage(
+          page === DashboardPagesEnum.explore
+            ? DashboardPagesEnum.explore
+            : page === DashboardPagesEnum["my-interests"]
+            ? DashboardPagesEnum["my-interests"]
+            : page === DashboardPagesEnum["shown-interests"]
+            ? DashboardPagesEnum["shown-interests"]
+            : page === DashboardPagesEnum.matched
+            ? DashboardPagesEnum.matched
+            : page === DashboardPagesEnum.profile
+            ? DashboardPagesEnum.profile
+            : page === DashboardPagesEnum.jobs
+            ? DashboardPagesEnum.jobs
+            : DashboardPagesEnum.explore
+        )
+      );
+    }
+    // router.replace("/dashboard?page=explore");
     // eslint-disable-next-line
-  }, [dispatch]);
+  }, [dispatch, page]);
 
   if (!user) {
     return null;

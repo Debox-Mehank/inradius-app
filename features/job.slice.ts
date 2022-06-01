@@ -29,6 +29,7 @@ export const JOB_STEPS = [
 export interface EmployerJobState {
   _id?: string;
   jobTitle?: string | null | undefined;
+  jobDesc?: string | null | undefined;
   jobType?: { label: string; value: EmployerJobTypeEnum } | null | undefined;
   jobStatus?: EmployerJobStatusEnum | null | undefined;
   listingComplete?: boolean | null | undefined;
@@ -60,6 +61,7 @@ export interface JobState {
 
 const initialState: JobState = {
   job: {
+    jobDesc: null,
     jobTitle: null,
     jobType: null,
     jobStatus: null,

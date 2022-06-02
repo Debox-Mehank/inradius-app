@@ -18,6 +18,7 @@ import {
 import EmployerCompanyVerification from "../components/profile/employer/employer.company-verification.component";
 import EmployerCompanyDetails from "../components/profile/employer/employer.company-details.component";
 import EmployerCompanyMiscellaneousInfo from "../components/profile/employer/employer.company-miscellaneous-info.component";
+import AuthChecker from "../components/reusables/AuthChecker";
 
 const EmployerProfile = () => {
   const router = useRouter();
@@ -38,11 +39,11 @@ const EmployerProfile = () => {
         await allBenefitsQuery();
 
       if (allBenefitsError !== undefined) {
-        toast.error(allBenefitsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
-        dispatch(toggleLoading());
+        // toast.error(allBenefitsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
+        // dispatch(toggleLoading());
         return null;
       }
 
@@ -73,10 +74,10 @@ const EmployerProfile = () => {
       const { data: employerData, error: employerError } =
         await getEmployerQuery();
       if (employerError !== undefined) {
-        toast.error(employerError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(employerError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         return null;
       }
 
@@ -151,17 +152,20 @@ const EmployerProfile = () => {
   }, [getEmployerQuery, dispatch]);
 
   return (
-    <Layout>
-      {page && page === EMPLOYER_STEPS_ENUM["employer-verification"] && (
-        <EmployerCompanyVerification />
-      )}
-      {page && page === EMPLOYER_STEPS_ENUM["employer-details"] && (
-        <EmployerCompanyDetails />
-      )}
-      {page && page === EMPLOYER_STEPS_ENUM["employer-miscellaneous-info"] && (
-        <EmployerCompanyMiscellaneousInfo />
-      )}
-    </Layout>
+    <AuthChecker page="profile">
+      <Layout>
+        {page && page === EMPLOYER_STEPS_ENUM["employer-verification"] && (
+          <EmployerCompanyVerification />
+        )}
+        {page && page === EMPLOYER_STEPS_ENUM["employer-details"] && (
+          <EmployerCompanyDetails />
+        )}
+        {page &&
+          page === EMPLOYER_STEPS_ENUM["employer-miscellaneous-info"] && (
+            <EmployerCompanyMiscellaneousInfo />
+          )}
+      </Layout>
+    </AuthChecker>
   );
 };
 

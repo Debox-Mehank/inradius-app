@@ -33,6 +33,16 @@ export const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
+    setInitialStateCommonSlice: (state) => {
+      state.loading = false;
+      state.allBenefits = [];
+      state.allDomains = [];
+      state.allIndustries = [];
+      state.allLocations = [];
+      state.allQualifications = [];
+      state.allSkills = [];
+      state.allSubdomains = [];
+    },
     toggleLoading: (state) => {
       state.loading = !state.loading;
     },
@@ -105,6 +115,7 @@ export const commonSlice = createSlice({
 const { actions, reducer } = commonSlice;
 
 export const {
+  setInitialStateCommonSlice,
   toggleLoading,
   addAllLocations,
   addAllIndustries,

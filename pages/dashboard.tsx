@@ -1,3 +1,4 @@
+import { GetServerSideProps, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,23 +6,39 @@ import { toast } from "react-toastify";
 import { RootState } from "../app/store";
 import DashboardLayout from "../components/dashboard/common/dashboard.layout.component";
 import EmployeeDashboardExplore from "../components/dashboard/employee/employee.dashboard-explore.component";
+import EmployeeDashboardMatched from "../components/dashboard/employee/employee.dashboard-matched.component";
+import EmployeeDashboardMyInterests from "../components/dashboard/employee/employee.dashboard-my-interests.component";
+import EmployeeDashboardProfile from "../components/dashboard/employee/employee.dashboard-profile.component";
+import EmployeeDashboardShownInterests from "../components/dashboard/employee/employee.dashboard-shown-interests.component";
 import EmployerDashboardExplore from "../components/dashboard/employer/employer.dashboard-explore.component";
 import EmployerDashboardJobs from "../components/dashboard/employer/employer.dashboard-jobs.component";
+import EmployerDashboardMatched from "../components/dashboard/employer/employer.dashboard-matched.component";
 import EmployerDashboardMyInterests from "../components/dashboard/employer/employer.dashboard-my-interests.component";
+import EmployerDashboardProfile from "../components/dashboard/employer/employer.dashboard-profile.component";
+import EmployerDashboardShownInterests from "../components/dashboard/employer/employer.dashboard-shown-interests.component";
+import AuthChecker from "../components/reusables/AuthChecker";
 import { toggleLoading } from "../features/common.slice";
 import {
+  DashboardEmployeeState,
   DashboardEmployerState,
   DashboardPagesEnum,
   setCurrentPage,
+  updateDashboardEmployeeData,
   updateDashboardEmployerData,
 } from "../features/dashboard.sice";
-import { useGetEmployerLazyQuery, User, UserRole } from "../generated/graphql";
+import {
+  useGetEmployeeLazyQuery,
+  useGetEmployerLazyQuery,
+  User,
+  UserRole,
+} from "../generated/graphql";
 
 const Dashboard = () => {
   const router = useRouter();
   const { page } = router.query;
 
   const [getEmployerQuery] = useGetEmployerLazyQuery();
+  const [getEmployeeQuery] = useGetEmployeeLazyQuery();
 
   const dispatch = useDispatch();
 
@@ -29,12 +46,72 @@ const Dashboard = () => {
     (state: RootState) => state.dashboard.currentPage
   );
 
-  const [user, setUser] = useState<User | null>();
+  const user = useSelector((state: RootState) => state.dashboard.dashboardUser);
 
   useEffect(() => {
     const fetchUser = async () => {};
 
-    const fetchEmployee = async () => {};
+    const fetchEmployee = async () => {
+      dispatch(toggleLoading());
+      const { data: employeeData, error: employeeError } =
+        await getEmployeeQuery();
+      if (employeeError !== undefined) {
+        toast.error(employeeError.message, {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return null;
+      }
+
+      if (employeeData === undefined) {
+        toast.error("Something went wrong!", {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return null;
+      }
+
+      dispatch(toggleLoading());
+
+      const employee = employeeData.getEmployee;
+
+      const empData: DashboardEmployeeState = {
+        _id: employee._id,
+        radius: employee.radius ?? 0,
+        location: employee.location?.location ?? "",
+        qualification: employee.qualification?.qualification ?? "",
+        industry: employee.industry?.industry ?? "",
+        domain: employee.industry?.industry ?? "",
+        subDomain: employee.subDomain?.subDomain ?? "",
+        skills: employee.skills.map((el) => el.skill),
+        fresher: employee.fresher ?? false,
+        workExp: employee.workExp.map((el) => ({
+          company: el.company,
+          current: el.current,
+          desc: el.desc,
+          designation: el.designation,
+          end: el.end,
+          start: el.start,
+        })),
+        totalExp: `${employee.totalExp?.years ?? ""} year ${
+          employee.totalExp?.months ?? ""
+        } months`,
+        relevantExp: `${employee.relevantExp?.years ?? ""} year ${
+          employee.relevantExp?.months ?? ""
+        } months`,
+        currentPay: employee.currentPay ?? 0,
+        expectedPay: employee.expectedPay ?? 0,
+        linkedIn: employee.linkedIn ?? "",
+        resume: employee.resume ?? "",
+        gender: employee.gender,
+        currentAddress: "",
+        dob: employee.dob,
+        panCard: employee.panCard ?? "",
+        aadharCard: employee.aadharCard ?? "",
+      };
+
+      dispatch(updateDashboardEmployeeData(empData));
+    };
 
     const fetchEmployer = async () => {
       dispatch(toggleLoading());
@@ -110,20 +187,18 @@ const Dashboard = () => {
       dispatch(updateDashboardEmployerData(empData));
     };
 
-    if (localStorage.getItem("user")) {
-      const myUser: User = JSON.parse(localStorage.getItem("user")!);
-      setUser(myUser);
-
-      if (myUser.type === UserRole.Employee) {
+    if (user) {
+      if (user.type === UserRole.Employee) {
         // Fetch Employee
+        fetchEmployee();
       }
 
-      if (myUser.type === UserRole.Employer) {
+      if (user.type === UserRole.Employer) {
         // Fetch Employer
         fetchEmployer();
       }
     }
-  }, [dispatch, getEmployerQuery]);
+  }, [dispatch, getEmployerQuery, getEmployeeQuery, user]);
 
   useEffect(() => {
     if (page) {
@@ -150,27 +225,56 @@ const Dashboard = () => {
   }, [dispatch, page]);
 
   return (
-    <DashboardLayout user={user}>
-      {page && page === DashboardPagesEnum.explore && (
-        <>
-          {user?.type === UserRole.Employee ? (
-            <EmployeeDashboardExplore />
-          ) : (
-            <EmployerDashboardExplore />
-          )}
-        </>
-      )}
-      {page && page === DashboardPagesEnum["my-interests"] && (
-        <>
-          {user?.type === UserRole.Employee ? (
-            <EmployeeDashboardExplore />
-          ) : (
-            <EmployerDashboardMyInterests />
-          )}
-        </>
-      )}
-      {page && page === DashboardPagesEnum.jobs && <EmployerDashboardJobs />}
-    </DashboardLayout>
+    <AuthChecker page="dashboard">
+      <DashboardLayout>
+        {page && page === DashboardPagesEnum.explore && (
+          <>
+            {user?.type === UserRole.Employee ? (
+              <EmployeeDashboardExplore />
+            ) : (
+              <EmployerDashboardExplore />
+            )}
+          </>
+        )}
+        {page && page === DashboardPagesEnum["my-interests"] && (
+          <>
+            {user?.type === UserRole.Employee ? (
+              <EmployeeDashboardMyInterests />
+            ) : (
+              <EmployerDashboardMyInterests />
+            )}
+          </>
+        )}
+        {page && page === DashboardPagesEnum["shown-interests"] && (
+          <>
+            {user?.type === UserRole.Employee ? (
+              <EmployeeDashboardShownInterests />
+            ) : (
+              <EmployerDashboardShownInterests />
+            )}
+          </>
+        )}
+        {page && page === DashboardPagesEnum["matched"] && (
+          <>
+            {user?.type === UserRole.Employee ? (
+              <EmployeeDashboardMatched />
+            ) : (
+              <EmployerDashboardMatched />
+            )}
+          </>
+        )}
+        {page && page === DashboardPagesEnum["profile"] && (
+          <>
+            {user?.type === UserRole.Employee ? (
+              <EmployeeDashboardProfile />
+            ) : (
+              <EmployerDashboardProfile />
+            )}
+          </>
+        )}
+        {page && page === DashboardPagesEnum.jobs && <EmployerDashboardJobs />}
+      </DashboardLayout>
+    </AuthChecker>
   );
 };
 

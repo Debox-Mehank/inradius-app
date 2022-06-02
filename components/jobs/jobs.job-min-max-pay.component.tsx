@@ -91,7 +91,7 @@ const JobDetailsMinMaxPay = () => {
     dispatch(toggleLoading());
 
     setTimeout(() => {
-      router.replace("/dashboard");
+      router.replace("/dashboard?page=jobs");
       dispatch(toggleLoading());
     }, 2000);
   };

@@ -95,7 +95,7 @@ const EmployeeCurrentExpectedPay = () => {
         <PageHeading text="Salary Details" />
         {!fresher && (
           <div className="flex justify-start flex-col">
-            <PageSubHeading text={"Current Pay"} />
+            <PageSubHeading text={"Current Annual Pay"} />
             <input
               type={"number"}
               className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
@@ -129,7 +129,7 @@ const EmployeeCurrentExpectedPay = () => {
           </div>
         )}
         <div className="flex justify-start flex-col">
-          <PageSubHeading text={"Expected Pay"} />
+          <PageSubHeading text={"Expected Annual Pay"} />
           <input
             type={"number"}
             className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}

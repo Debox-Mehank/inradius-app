@@ -11,13 +11,14 @@ import DashboardSidebar from "./dashboard.sidebar.component";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
-  user?: User | null;
 }
 
-const DashboardLayout = ({ children, user }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const currentPage = useSelector(
     (state: RootState) => state.dashboard.currentPage
   );
+
+  const user = useSelector((state: RootState) => state.dashboard.dashboardUser);
 
   return (
     <div className="w-full h-full grid grid-cols-10 overflow-hidden">
@@ -27,7 +28,6 @@ const DashboardLayout = ({ children, user }: DashboardLayoutProps) => {
             ? DashboardSidebarList.employer
             : DashboardSidebarList.employee
         }
-        user={user}
       />
       <div
         className={`w-full h-full relative ${

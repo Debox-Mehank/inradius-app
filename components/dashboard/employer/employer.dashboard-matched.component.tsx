@@ -1,12 +1,12 @@
 import DashboardPageHeading from "../common/dashboard.heading.component";
 
-const EmployerDashboardMyInterests = () => {
+const EmployerDashboardMatched = () => {
   return (
     <div className="flex flex-col px-8 relative">
-      <DashboardPageHeading title="My Interests" />
+      <DashboardPageHeading title="Matched" />
       <div className="overflow-y-auto dashboard-scroll"></div>
     </div>
   );
 };
 
-export default EmployerDashboardMyInterests;
+export default EmployerDashboardMatched;

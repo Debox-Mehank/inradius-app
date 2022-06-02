@@ -4,28 +4,38 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { RootState } from "../../../app/store";
-import { toggleLoading } from "../../../features/common.slice";
+import {
+  setInitialStateCommonSlice,
+  toggleLoading,
+} from "../../../features/common.slice";
 import {
   DashboardPagesEnum,
   setCurrentPage,
+  setInitialStateDashboardSlice,
 } from "../../../features/dashboard.sice";
+import { setInitialStateEmployeeSlice } from "../../../features/employee.slice";
+import { setInitialStateEmployerSlice } from "../../../features/employer.slice";
+import { setInitialStateJobSlice } from "../../../features/job.slice";
+import { setInitialStateSurveySlice } from "../../../features/survey.slice";
 import { useLogoutLazyQuery, User } from "../../../generated/graphql";
 import LogoWhite from "../../reusables/LogoWhite";
 
 interface DashboardSidebarProps {
   list: { title: string; page: DashboardPagesEnum; icon: IconDefinition }[];
-  user?: User | null;
 }
 
-const DashboardSidebar = ({ list, user }: DashboardSidebarProps) => {
+const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
   const router = useRouter();
 
   const [logoutQuery] = useLogoutLazyQuery();
 
   const dispatch = useDispatch();
+
   const currentPage = useSelector(
     (state: RootState) => state.dashboard.currentPage
   );
+
+  const user = useSelector((state: RootState) => state.dashboard.dashboardUser);
 
   const logoutHandler = async () => {
     try {
@@ -48,6 +58,12 @@ const DashboardSidebar = ({ list, user }: DashboardSidebarProps) => {
         });
         return false;
       }
+      dispatch(setInitialStateCommonSlice());
+      dispatch(setInitialStateDashboardSlice());
+      dispatch(setInitialStateEmployeeSlice());
+      dispatch(setInitialStateEmployerSlice());
+      dispatch(setInitialStateJobSlice());
+      dispatch(setInitialStateSurveySlice());
       localStorage.clear();
       router.replace("/login");
     } catch (error: any) {

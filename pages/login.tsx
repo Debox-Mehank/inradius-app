@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -61,12 +61,10 @@ const Login: NextPage = () => {
     const { data: meQueryData, error: mQueryError } = await meQuery();
     dispatch(toggleLoading());
 
-    console.log(meQueryData, mQueryError);
-
     localStorage.setItem("user", JSON.stringify(meQueryData?.user));
 
     if (meQueryData?.user.isProfileCompleted) {
-      router.replace("/dashboard");
+      router.replace("/dashboard?page=explore");
     } else if (meQueryData?.user.isSurveyCompleted) {
       if (meQueryData.user.type === UserRole.Employee) {
         router.replace("/employee-profile?page=location");

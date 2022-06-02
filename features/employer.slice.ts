@@ -69,6 +69,11 @@ export const employerSlice = createSlice({
   name: "employer",
   initialState,
   reducers: {
+    setInitialStateEmployerSlice: (state) => {
+      state.currentProgress = initialState.currentProgress;
+      state.currentStep = initialState.currentStep;
+      state.employer = initialState.employer;
+    },
     setEmployerData: (state, action: PayloadAction<EmployerData>) => {
       state.employer = action.payload;
     },
@@ -101,6 +106,7 @@ export const employerSlice = createSlice({
 const { actions, reducer } = employerSlice;
 
 export const {
+  setInitialStateEmployerSlice,
   setEmployerData,
   updateEmployerData,
   incrementProgress,

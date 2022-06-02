@@ -17,6 +17,11 @@ export const surveySlice = createSlice({
   name: "survey",
   initialState,
   reducers: {
+    setInitialStateSurveySlice: (state) => {
+      state.surveys = initialState.surveys;
+      state.surveyIndex = initialState.surveyIndex;
+      state.surveyLists = initialState.surveyLists;
+    },
     addSurvey: (state, action: PayloadAction<UserSurveyInput>) => {
       const checkIndex = state.surveys.findIndex(
         (el) => el.survey === action.payload.survey
@@ -46,6 +51,12 @@ export const surveySlice = createSlice({
 
 const { actions, reducer } = surveySlice;
 
-export const { addSurvey, setSurveyLists, nextSurvey, prevSurvey } = actions;
+export const {
+  setInitialStateSurveySlice,
+  addSurvey,
+  setSurveyLists,
+  nextSurvey,
+  prevSurvey,
+} = actions;
 
 export default reducer;

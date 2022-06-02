@@ -87,6 +87,11 @@ export const jobSlice = createSlice({
   name: "job",
   initialState,
   reducers: {
+    setInitialStateJobSlice: (state) => {
+      state.job = initialState.job;
+      state.currentProgress = initialState.currentProgress;
+      state.currentStep = initialState.currentStep;
+    },
     setJobData: (state, action: PayloadAction<EmployerJobState>) => {
       state.job = action.payload;
     },
@@ -119,6 +124,7 @@ export const jobSlice = createSlice({
 const { actions, reducer } = jobSlice;
 
 export const {
+  setInitialStateJobSlice,
   setJobData,
   updateJobData,
   incrementProgress,

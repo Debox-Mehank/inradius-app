@@ -35,6 +35,7 @@ import JobDetailsSubdomainSkill from "../components/jobs/jobs.job-subdomain-skil
 import JobDetailsMinReqExp from "../components/jobs/jobs.job-min-req-exp.component";
 import JobDetailsMinMaxPay from "../components/jobs/jobs.job-min-max-pay.component";
 import JobDetailsQualification from "../components/jobs/jobs.job-qualification.component";
+import AuthChecker from "../components/reusables/AuthChecker";
 
 const JobDetails = () => {
   const router = useRouter();
@@ -346,26 +347,28 @@ const JobDetails = () => {
   }, [getJobDetailsQuery, dispatch, jobId]);
 
   return (
-    <Layout>
-      {page && page === JOB_STEPS_ENUM["job-type"] && <JobDetailsJobType />}
-      {page && page === JOB_STEPS_ENUM["location"] && <JobDetailsLocation />}
-      {page && page === JOB_STEPS_ENUM["radius"] && <JobDetailsRadius />}
-      {page && page === JOB_STEPS_ENUM["industry-domain"] && (
-        <JobDetailsIndustryDomain />
-      )}
-      {page && page === JOB_STEPS_ENUM["subdomain-skills"] && (
-        <JobDetailsSubdomainSkill />
-      )}
-      {page && page === JOB_STEPS_ENUM["qualification"] && (
-        <JobDetailsQualification />
-      )}
-      {page && page === JOB_STEPS_ENUM["min-required-experience"] && (
-        <JobDetailsMinReqExp />
-      )}
-      {page && page === JOB_STEPS_ENUM["min-max-pay"] && (
-        <JobDetailsMinMaxPay />
-      )}
-    </Layout>
+    <AuthChecker>
+      <Layout>
+        {page && page === JOB_STEPS_ENUM["job-type"] && <JobDetailsJobType />}
+        {page && page === JOB_STEPS_ENUM["location"] && <JobDetailsLocation />}
+        {page && page === JOB_STEPS_ENUM["radius"] && <JobDetailsRadius />}
+        {page && page === JOB_STEPS_ENUM["industry-domain"] && (
+          <JobDetailsIndustryDomain />
+        )}
+        {page && page === JOB_STEPS_ENUM["subdomain-skills"] && (
+          <JobDetailsSubdomainSkill />
+        )}
+        {page && page === JOB_STEPS_ENUM["qualification"] && (
+          <JobDetailsQualification />
+        )}
+        {page && page === JOB_STEPS_ENUM["min-required-experience"] && (
+          <JobDetailsMinReqExp />
+        )}
+        {page && page === JOB_STEPS_ENUM["min-max-pay"] && (
+          <JobDetailsMinMaxPay />
+        )}
+      </Layout>
+    </AuthChecker>
   );
 };
 

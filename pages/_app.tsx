@@ -16,7 +16,7 @@ import "../styles/globals.css";
 import { store } from "../app/store";
 import client from "../utils/apollo_client";
 import Loader from "../components/reusables/Loader";
-import MainEntry from "./main";
+import MainComponent from "../components/main.component";
 config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -57,11 +57,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <MainEntry>
-            <Loader />
-            <ToastContainer />
-            <Component {...pageProps} />
-          </MainEntry>
+          <Loader />
+          <ToastContainer />
+          {/* <MainComponent pageProps={pageProps}> */}
+          <Component {...pageProps} />
+          {/* </MainComponent> */}
         </Provider>
       </ApolloProvider>
     </>

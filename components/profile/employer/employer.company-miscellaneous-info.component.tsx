@@ -105,7 +105,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
     dispatch(toggleLoading());
 
     setTimeout(() => {
-      router.replace("/dashboard");
+      router.replace("/dashboard?page=explore");
       dispatch(toggleLoading());
     }, 2000);
   };

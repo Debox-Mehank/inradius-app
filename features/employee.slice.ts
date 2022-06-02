@@ -127,6 +127,11 @@ export const employeeSlice = createSlice({
   name: "employee",
   initialState,
   reducers: {
+    setInitialStateEmployeeSlice: (state) => {
+      state.employee = initialState.employee;
+      state.currentStep = initialState.currentStep;
+      state.currentProgress = initialState.currentProgress;
+    },
     setEmployeeData: (state, action: PayloadAction<EmployeeData>) => {
       state.employee = action.payload;
     },
@@ -159,6 +164,7 @@ export const employeeSlice = createSlice({
 const { actions, reducer } = employeeSlice;
 
 export const {
+  setInitialStateEmployeeSlice,
   setEmployeeData,
   updateEmployeeData,
   incrementProgress,

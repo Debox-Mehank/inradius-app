@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { RootState } from "../app/store";
+import AuthChecker from "../components/reusables/AuthChecker";
 import Logo from "../components/reusables/Logo";
 import ReusableButton from "../components/reusables/ReusableButton";
 import { toggleLoading } from "../features/common.slice";
@@ -38,9 +39,12 @@ const Survey: NextPage = () => {
 
   useEffect(() => {
     const myFunc = async () => {
-      const { firstName, lastName, image, type }: User = JSON.parse(
-        localStorage.getItem("user")!
-      );
+      const localStorageUser = localStorage.getItem("user");
+      if (!localStorageUser) {
+        return;
+      }
+      const { firstName, lastName, image, type }: User =
+        JSON.parse(localStorageUser);
 
       if (type === UserRole.Employee) {
         dispatch(toggleLoading());
@@ -152,105 +156,139 @@ const Survey: NextPage = () => {
   };
 
   return (
-    <div className="h-full w-full grid place-items-center relative">
-      {/* Logo White */}
-      <div className="z-40 py-2 px-8 lg:py-8 fixed top-0 left-0 right-0">
-        <div className="z-40 flex justify-center items-center w-24 h-24 lg:w-28 lg:h-28">
-          <Logo />
+    <AuthChecker page="survey">
+      <div className="h-full w-full grid place-items-center relative">
+        {/* Logo White */}
+        <div className="z-40 py-2 px-8 lg:py-8 fixed top-0 left-0 right-0">
+          <div className="z-40 flex justify-center items-center w-24 h-24 lg:w-28 lg:h-28">
+            <Logo />
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-2xl flex justify-center items-center">
-        {surveySlice.surveyLists.map((survey, idx) => {
-          return (
-            <div
-              key={idx}
-              className={`w-full${
-                surveySlice.surveyIndex === idx ? " flex flex-col" : " hidden"
-              }`}
-            >
-              <h4 className="text-justify font-bold text-lg lg:text-2xl py-2">
-                {survey.question}
-              </h4>
-              <br />
-              <div className="flex flex-col justify-center items-center gap-5">
-                {survey.options.map((option, opIdx) => {
-                  return (
-                    <div
-                      key={opIdx}
-                      className={`${
-                        surveySlice.surveys.findIndex(
-                          (el) =>
-                            el.selectedOption === option &&
-                            el.survey === survey._id
-                        ) !== -1
-                          ? "bg-primary text-white"
-                          : "bg-gray-200 text-black"
-                      } rounded-md py-4 px-10 w-full`}
-                      onClick={() => {
-                        dispatch(
-                          addSurvey({
-                            selectedOption: option,
-                            survey: survey._id,
-                          })
-                        );
-                      }}
-                    >
-                      {opIdx + 1}. {option}
-                    </div>
-                  );
-                })}
-              </div>
-              <br />
-              <div className="flex justify-center items-center gap-5">
-                {surveySlice.surveyIndex > 0 ? (
-                  <>
-                    <ReusableButton
-                      bg="bg-primary"
-                      text="text-white"
-                      title="Previous"
-                      onClick={() => {
-                        dispatch(prevSurvey());
-                      }}
-                    />
-                    <ReusableButton
-                      bg="bg-primary"
-                      text="text-white"
-                      title={
-                        surveySlice.surveyIndex ===
-                        surveySlice.surveyLists.length - 1
-                          ? "Submit"
-                          : "Next"
-                      }
-                      onClick={() => {
-                        if (
+        <div className="max-w-2xl flex justify-center items-center">
+          {surveySlice.surveyLists.map((survey, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`w-full${
+                  surveySlice.surveyIndex === idx ? " flex flex-col" : " hidden"
+                }`}
+              >
+                <h4 className="text-justify font-bold text-lg lg:text-2xl py-2">
+                  {survey.question}
+                </h4>
+                <br />
+                <div className="flex flex-col justify-center items-center gap-5">
+                  {survey.options.map((option, opIdx) => {
+                    return (
+                      <div
+                        key={opIdx}
+                        className={`${
+                          surveySlice.surveys.findIndex(
+                            (el) =>
+                              el.selectedOption === option &&
+                              el.survey === survey._id
+                          ) !== -1
+                            ? "bg-primary text-white"
+                            : "bg-gray-200 text-black"
+                        } rounded-md py-4 px-10 w-full`}
+                        onClick={() => {
+                          dispatch(
+                            addSurvey({
+                              selectedOption: option,
+                              survey: survey._id,
+                            })
+                          );
+                        }}
+                      >
+                        {opIdx + 1}. {option}
+                      </div>
+                    );
+                  })}
+                </div>
+                <br />
+                <div className="flex justify-center items-center gap-5">
+                  {surveySlice.surveyIndex > 0 ? (
+                    <>
+                      <ReusableButton
+                        bg="bg-primary"
+                        text="text-white"
+                        title="Previous"
+                        onClick={() => {
+                          dispatch(prevSurvey());
+                        }}
+                      />
+                      <ReusableButton
+                        bg="bg-primary"
+                        text="text-white"
+                        title={
                           surveySlice.surveyIndex ===
                           surveySlice.surveyLists.length - 1
+                            ? "Submit"
+                            : "Next"
+                        }
+                        onClick={() => {
+                          if (
+                            surveySlice.surveyIndex ===
+                            surveySlice.surveyLists.length - 1
+                          ) {
+                            if (
+                              surveySlice.surveys.findIndex(
+                                (el) => el.survey === survey._id
+                              ) >= 0
+                            ) {
+                              submitSurveys();
+                            } else {
+                              toast.info("Select an option to continue.", {
+                                autoClose: 2000,
+                                hideProgressBar: true,
+                              });
+                            }
+                          } else {
+                            if (
+                              surveySlice.surveys.findIndex(
+                                (el) => el.survey === survey._id
+                              ) >= 0
+                            ) {
+                              dispatch(nextSurvey());
+                            } else {
+                              toast.info("Select an option to continue.", {
+                                autoClose: 2000,
+                                hideProgressBar: true,
+                              });
+                            }
+                          }
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <ReusableButton
+                      bg="bg-primary"
+                      text="text-white"
+                      title="Next"
+                      onClick={() => {
+                        if (
+                          surveySlice.surveys.findIndex(
+                            (el) => el.survey === survey._id
+                          ) >= 0
                         ) {
-                          // Submit
-                          submitSurveys();
-                        } else {
                           dispatch(nextSurvey());
+                        } else {
+                          toast.info("Select an option to continue.", {
+                            autoClose: 2000,
+                            hideProgressBar: true,
+                          });
                         }
                       }}
                     />
-                  </>
-                ) : (
-                  <ReusableButton
-                    bg="bg-primary"
-                    text="text-white"
-                    title="Next"
-                    onClick={() => {
-                      dispatch(nextSurvey());
-                    }}
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </AuthChecker>
   );
 };
 

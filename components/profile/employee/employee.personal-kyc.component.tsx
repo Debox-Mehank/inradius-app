@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import moment from "moment";
 import { RootState } from "../../../app/store";
 import { toggleLoading } from "../../../features/common.slice";
 import { updateEmployeeData } from "../../../features/employee.slice";
@@ -186,7 +187,7 @@ const EmployeePersonalKyc = () => {
     dispatch(toggleLoading());
 
     setTimeout(() => {
-      router.replace("/dashboard");
+      router.replace("/dashboard?page=explore");
       dispatch(toggleLoading());
     }, 2000);
   };
@@ -203,11 +204,9 @@ const EmployeePersonalKyc = () => {
         <PageHeading text={"Personal Details"} />
         <div className="flex justify-start flex-col gap-5">
           <div className="flex flex-col justify-start w-full">
-            {dob && (
-              <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
-                {`DOB`}
-              </p>
-            )}
+            <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+              {`Date of birth`}
+            </p>
             <input
               type={"date"}
               className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}

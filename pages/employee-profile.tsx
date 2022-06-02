@@ -39,6 +39,7 @@ import {
 } from "../generated/graphql";
 import EmployeeLinkedInResume from "../components/profile/employee/employee.linkedin-resume.component";
 import EmployeePersonalKyc from "../components/profile/employee/employee.personal-kyc.component";
+import AuthChecker from "../components/reusables/AuthChecker";
 
 const EmployeeProfile = () => {
   const router = useRouter();
@@ -64,10 +65,10 @@ const EmployeeProfile = () => {
         await allLocationsQuery();
 
       if (allLocationsError !== undefined) {
-        toast.error(allLocationsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allLocationsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -92,10 +93,10 @@ const EmployeeProfile = () => {
         await allIndustriesQuery();
 
       if (allIndustriesError !== undefined) {
-        toast.error(allIndustriesError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allIndustriesError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -120,10 +121,10 @@ const EmployeeProfile = () => {
         await allDomainsQuery();
 
       if (allDomainsError !== undefined) {
-        toast.error(allDomainsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allDomainsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -148,10 +149,10 @@ const EmployeeProfile = () => {
         await allSubdomainsQuery();
 
       if (allSubdomainsError !== undefined) {
-        toast.error(allSubdomainsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allSubdomainsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -180,10 +181,10 @@ const EmployeeProfile = () => {
         await allSkillsQuery();
 
       if (allSkillsError !== undefined) {
-        toast.error(allSkillsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allSkillsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -208,10 +209,10 @@ const EmployeeProfile = () => {
         await allQualificationsQuery();
 
       if (allQualificationsError !== undefined) {
-        toast.error(allQualificationsError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(allQualificationsError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         dispatch(toggleLoading());
         return null;
       }
@@ -251,10 +252,10 @@ const EmployeeProfile = () => {
       const { data: employeeData, error: employeeError } =
         await getEmployeeQuery();
       if (employeeError !== undefined) {
-        toast.error(employeeError.message, {
-          autoClose: 2000,
-          hideProgressBar: true,
-        });
+        // toast.error(employeeError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
         return null;
       }
 
@@ -373,34 +374,36 @@ const EmployeeProfile = () => {
   }, [getEmployeeQuery, dispatch]);
 
   return (
-    <Layout>
-      {page && page === EMPLOYEE_STEPS_ENUM.location && <EmployeeLocation />}
-      {page && page === EMPLOYEE_STEPS_ENUM.radius && <EmployeeRadius />}
-      {page && page === EMPLOYEE_STEPS_ENUM["industry-domain"] && (
-        <EmployeeIndustryDomain />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["subdomain-skills"] && (
-        <EmployeeSubDomainSkill />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["qualification"] && (
-        <EmployeeQualification />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["work-experience"] && (
-        <EmployeeWorkExp />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["total-relevant-experience"] && (
-        <EmployeeTotalRelevantExp />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["current-expected-pay"] && (
-        <EmployeeCurrentExpectedPay />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["linkedin-resume"] && (
-        <EmployeeLinkedInResume />
-      )}
-      {page && page === EMPLOYEE_STEPS_ENUM["personal-kyc"] && (
-        <EmployeePersonalKyc />
-      )}
-    </Layout>
+    <AuthChecker page="profile">
+      <Layout>
+        {page && page === EMPLOYEE_STEPS_ENUM.location && <EmployeeLocation />}
+        {page && page === EMPLOYEE_STEPS_ENUM.radius && <EmployeeRadius />}
+        {page && page === EMPLOYEE_STEPS_ENUM["industry-domain"] && (
+          <EmployeeIndustryDomain />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["subdomain-skills"] && (
+          <EmployeeSubDomainSkill />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["qualification"] && (
+          <EmployeeQualification />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["work-experience"] && (
+          <EmployeeWorkExp />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["total-relevant-experience"] && (
+          <EmployeeTotalRelevantExp />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["current-expected-pay"] && (
+          <EmployeeCurrentExpectedPay />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["linkedin-resume"] && (
+          <EmployeeLinkedInResume />
+        )}
+        {page && page === EMPLOYEE_STEPS_ENUM["personal-kyc"] && (
+          <EmployeePersonalKyc />
+        )}
+      </Layout>
+    </AuthChecker>
   );
 };
 

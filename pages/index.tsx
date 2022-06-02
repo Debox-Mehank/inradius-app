@@ -28,7 +28,7 @@ const Home: NextPage = () => {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         if (data.user.isProfileCompleted) {
-          router.replace("/dashboard");
+          router.replace("/dashboard?page=explore");
         } else if (data.user.isSurveyCompleted) {
           if (data.user.type === UserRole.Employee) {
             router.replace("/employee-profile?page=location");

@@ -47,11 +47,9 @@ const EmployerDashboardExplore = () => {
 
         const sorted = data.employerExplore
           .slice()
-          .sort(
-            (a: DashboardEmployee, b: DashboardEmployee) => b.score - a.score
-          );
+          .sort((a: any, b: any) => b.score - a.score);
 
-        setEmpLists(sorted);
+        setEmpLists(sorted as DashboardEmployee[]);
       }
     };
     myFunc();

@@ -43,11 +43,9 @@ const EmployeeDashboardExplore = () => {
 
       const sorted = data.employeeExplore
         .slice()
-        .sort(
-          (a: DashboardEmployer, b: DashboardEmployer) => b.score - a.score
-        );
+        .sort((a: any, b: any) => b.score - a.score);
 
-      setJobLists(sorted);
+      setJobLists(sorted as DashboardEmployer[]);
     };
     if (currentPage === DashboardPagesEnum.explore) {
       myFunc();

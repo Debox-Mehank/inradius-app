@@ -15,9 +15,18 @@ import { PageHeading } from "../common/heading.component";
 import EmployeeNextButton from "./employee.nextbutton.component";
 import EmployeePrevButton from "./employee.prevbutton.component";
 import { updateEmployeeData } from "../../../features/employee.slice";
+import { useState } from "react";
+import Modal from "../../reusables/Modal.component";
 
 const EmployeeRadius = () => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
+
+  const [showRadiusConfirmModal, setShowRadiusConfirmModal] =
+    useState<boolean>(false);
+
+  const [moveNextFunc, setMoveNextFunc] = useState<{ moveFunc?: () => void }>({
+    moveFunc: undefined,
+  });
 
   const dispatch = useDispatch();
 
@@ -69,6 +78,12 @@ const EmployeeRadius = () => {
     moveNext();
   };
 
+  const modalHandler = (moveNext: () => void) => {
+    setShowRadiusConfirmModal(true);
+    // nextHandler(moveNext);
+    setMoveNextFunc({ moveFunc: moveNext });
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: "google-maps-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!, // process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ?? "AIzaSyCj2UxICHi4wVE3U0mgMh9HteU1X-94hDQ"
@@ -82,6 +97,41 @@ const EmployeeRadius = () => {
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center"
     >
+      <Modal show={showRadiusConfirmModal}>
+        <>
+          <h4 className="p-4 font-medium text-justify">
+            Please make sure you have selected proper location!
+          </h4>
+          <p className="text-xs w-full text-justify text-gray-500 font-normal px-4">
+            You can also change your location by dragging the pointer to your
+            preferred point.
+          </p>
+          <div className="flex flex-row justify-end gap-2 w-full p-4">
+            <button
+              type="submit"
+              className={`w-max text-xs bg-white p-2 text-primary border border-primary grid place-items-center rounded-md cursor-pointer`}
+              onClick={() => {
+                setShowRadiusConfirmModal(false);
+              }}
+            >
+              Change
+            </button>
+            <button
+              type="submit"
+              className={`w-max text-xs bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`}
+              onClick={() => {
+                setShowRadiusConfirmModal(false);
+                // modalHandler();
+                if (moveNextFunc.moveFunc !== undefined) {
+                  nextHandler(moveNextFunc.moveFunc);
+                }
+              }}
+            >
+              Yes, Proceed
+            </button>
+          </div>
+        </>
+      </Modal>
       <div className="flex flex-col max-w-2xl w-full h-full justify-center">
         <PageHeading
           text="Radius"
@@ -92,7 +142,7 @@ const EmployeeRadius = () => {
             zoom={12}
             center={{ lat: latitude!, lng: longitude! }}
             mapContainerClassName="w-full h-3/5 rounded-md"
-            options={{ disableDefaultUI: true }}
+            options={{ disableDefaultUI: false }}
             onLoad={() => {
               if (radius === null) {
                 dispatch(updateEmployeeData({ radius: 5 }));
@@ -141,7 +191,7 @@ const EmployeeRadius = () => {
         </div>
         <div className="flex flex-row gap-2 justify-end select-none my-6">
           <EmployeePrevButton handlerFunction={prevHandler} />
-          <EmployeeNextButton handlerFunction={nextHandler} />
+          <EmployeeNextButton handlerFunction={modalHandler} />
         </div>
       </div>
     </div>

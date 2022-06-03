@@ -82,7 +82,7 @@ const Dashboard = () => {
         qualification: employee.qualification?.qualification ?? "",
         industry: employee.industry?.industry ?? "",
         domain: employee.industry?.industry ?? "",
-        subDomain: employee.subDomain?.subDomain ?? "",
+        subDomain: employee.subDomain.map((el) => el.subDomain),
         skills: employee.skills.map((el) => el.skill),
         fresher: employee.fresher ?? false,
         workExp: employee.workExp.map((el) => ({
@@ -162,7 +162,10 @@ const Dashboard = () => {
           qualification: job.qualification,
           industry: job.industry,
           domain: job.domain,
-          subDomain: job.subDomain,
+          subDomain: job.subDomain.map((sd) => ({
+            _id: sd._id,
+            subDomain: sd.subDomain,
+          })),
           skills: job.skills.map((s) => ({
             label: s.skill,
             value: s._id,

@@ -39,6 +39,10 @@ query UpdateSurveyStatus {
   updateSurveyStatus
 }
 
+query UpdateUserImage($image: String!) {
+  updateUserImage(image: $image)
+}
+
 query UpdateProfileStatus {
   updateProfileStatus
 }

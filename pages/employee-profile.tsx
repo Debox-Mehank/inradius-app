@@ -36,6 +36,7 @@ import {
   useAllSkillsLazyQuery,
   useAllSubDomainsLazyQuery,
   useGetEmployeeLazyQuery,
+  useMeLazyQuery,
 } from "../generated/graphql";
 import EmployeeLinkedInResume from "../components/profile/employee/employee.linkedin-resume.component";
 import EmployeePersonalKyc from "../components/profile/employee/employee.personal-kyc.component";
@@ -54,6 +55,7 @@ const EmployeeProfile = () => {
   const [allSubdomainsQuery] = useAllSubDomainsLazyQuery();
   const [allSkillsQuery] = useAllSkillsLazyQuery();
   const [allQualificationsQuery] = useAllQualificationsLazyQuery();
+  const [meQuery] = useMeLazyQuery();
 
   // Fetch Masters
   useEffect(() => {
@@ -256,6 +258,7 @@ const EmployeeProfile = () => {
         //   autoClose: 2000,
         //   hideProgressBar: true,
         // });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -264,6 +267,27 @@ const EmployeeProfile = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        dispatch(toggleLoading());
+        return null;
+      }
+
+      const { data: meData, error: meError } = await meQuery();
+
+      if (meError !== undefined) {
+        // toast.error(employeeError.message, {
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        // });
+        dispatch(toggleLoading());
+        return null;
+      }
+
+      if (meData === undefined) {
+        toast.error("Something went wrong!", {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -303,7 +327,10 @@ const EmployeeProfile = () => {
           label: s.skill,
           value: s._id,
         })),
-        subDomain: employeeData.getEmployee.subDomain,
+        subDomain: employeeData.getEmployee.subDomain.map((sd) => ({
+          _id: sd._id,
+          subDomain: sd.subDomain,
+        })),
         totalExp: employeeData.getEmployee.totalExp
           ? {
               years: {
@@ -336,8 +363,21 @@ const EmployeeProfile = () => {
                   start: null,
                 },
               ],
+        user: {
+          _id: meData.user._id,
+          email: meData.user.email,
+          firstName: meData.user.firstName,
+          image: meData.user.image,
+          isAccountVerified: meData.user.isAccountVerified,
+          isProfileCompleted: meData.user.isProfileCompleted,
+          isSurveyCompleted: meData.user.isSurveyCompleted,
+          lastName: meData.user._id,
+          number: meData.user.number,
+          type: meData.user.type,
+        },
       };
       dispatch(setEmployeeData(empData));
+
       dispatch(toggleLoading());
 
       // Fetching User's Location
@@ -364,7 +404,9 @@ const EmployeeProfile = () => {
         return;
       };
 
-      const watcher = geo.watchPosition(onChange, onError);
+      const watcher = geo.watchPosition(onChange, onError, {
+        enableHighAccuracy: true,
+      });
 
       // This is used to redirect user to start of the employee form
       router.replace("/employee-profile?page=" + EMPLOYEE_STEPS_ENUM.location);

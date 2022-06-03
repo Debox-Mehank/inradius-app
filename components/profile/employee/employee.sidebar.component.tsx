@@ -72,7 +72,11 @@ const EmployeeSidebar = ({
           <SidebarItem text={employeeSlice.employee.domain.domain} />
         )}
         {employeeSlice.employee.subDomain && (
-          <SidebarItem text={employeeSlice.employee.subDomain.subDomain} />
+          <>
+            {employeeSlice.employee.subDomain.map((sd, idx) => (
+              <SidebarItem key={idx} text={sd.subDomain} />
+            ))}
+          </>
         )}
         {employeeSlice.employee.skills && (
           <>

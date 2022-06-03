@@ -61,12 +61,14 @@ export type BenefitInput = {
 export type DashboardEmployee = {
   __typename?: 'DashboardEmployee';
   domain: Scalars['String'];
+  employeeId: Scalars['ID'];
   firstName: Scalars['String'];
   image?: Maybe<Scalars['String']>;
   industry: Scalars['String'];
   lastName: Scalars['String'];
   location: Scalars['String'];
   score: Scalars['Float'];
+  userId: Scalars['ID'];
 };
 
 export type DashboardEmployer = {
@@ -74,12 +76,15 @@ export type DashboardEmployer = {
   companyImage: Scalars['String'];
   companyName: Scalars['String'];
   domain: Scalars['String'];
+  employerId: Scalars['ID'];
   industry: Scalars['String'];
   jobDesc: Scalars['String'];
+  jobId: Scalars['ID'];
   jobTitle: Scalars['String'];
   jobType: Scalars['String'];
   location: Scalars['String'];
   score: Scalars['Float'];
+  userId: Scalars['ID'];
 };
 
 /** Enum For Designation of Employee */
@@ -130,7 +135,7 @@ export type Employee = {
   relevantExp?: Maybe<UserExpInYearMonths>;
   resume?: Maybe<Scalars['String']>;
   skills: Array<Skill>;
-  subDomain?: Maybe<SubDomain>;
+  subDomain: Array<SubDomain>;
   totalExp?: Maybe<UserExpInYearMonths>;
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -193,7 +198,7 @@ export type EmployerJob = {
   qualification?: Maybe<Qualification>;
   radius?: Maybe<Scalars['Float']>;
   skills: Array<Skill>;
-  subDomain?: Maybe<SubDomain>;
+  subDomain: Array<SubDomain>;
   updatedAt: Scalars['DateTime'];
   user: User;
 };
@@ -216,7 +221,7 @@ export type EmployerJobInput = {
   qualification?: InputMaybe<Scalars['ID']>;
   radius?: InputMaybe<Scalars['Float']>;
   skills?: InputMaybe<Array<Scalars['ID']>>;
-  subDomain?: InputMaybe<Scalars['ID']>;
+  subDomain?: InputMaybe<Array<Scalars['ID']>>;
 };
 
 /** Enum For status of job like open or closed */
@@ -371,6 +376,7 @@ export type QualificationInput = {
 export type Query = {
   __typename?: 'Query';
   adminLogin: Scalars['String'];
+  adminLogout: Scalars['Boolean'];
   allBenefits: Array<Benefit>;
   allDomains: Array<Domain>;
   allIndustries: Array<Industry>;
@@ -381,6 +387,8 @@ export type Query = {
   allSurveyQuestion: Array<Survey>;
   employeeExplore: Array<DashboardEmployer>;
   employerExplore: Array<DashboardEmployee>;
+  getAllEmployees: Array<Employee>;
+  getAllEmployers: Array<Employer>;
   getEmployee: Employee;
   getEmployer: Employer;
   getEmployerAllJobs: Array<EmployerJob>;
@@ -390,6 +398,7 @@ export type Query = {
   resendVerifyEmail: Scalars['Boolean'];
   updateProfileStatus: Scalars['Boolean'];
   updateSurveyStatus: Scalars['Boolean'];
+  updateUserImage: Scalars['Boolean'];
   user: User;
   verifyEmail: Scalars['Boolean'];
   verifyEmployer: Scalars['Boolean'];
@@ -423,6 +432,11 @@ export type QueryLoginArgs = {
 
 export type QueryResendVerifyEmailArgs = {
   input: EmailVerifyInput;
+};
+
+
+export type QueryUpdateUserImageArgs = {
+  image: Scalars['String'];
 };
 
 
@@ -512,7 +526,7 @@ export type UpdateEmployeeInput = {
   relevantExp?: InputMaybe<UserExpInYearMonthsInput>;
   resume?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Array<Scalars['ID']>>;
-  subDomain?: InputMaybe<Scalars['ID']>;
+  subDomain?: InputMaybe<Array<Scalars['ID']>>;
   totalExp?: InputMaybe<UserExpInYearMonthsInput>;
   userSurvey?: InputMaybe<Array<UserSurveyInput>>;
   workExp?: InputMaybe<Array<UserWorkExpInput>>;
@@ -628,7 +642,7 @@ export type UpdateEmployeeMutation = { __typename?: 'Mutation', updateEmployee: 
 export type GetEmployeeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, interests: Array<{ __typename?: 'User', _id: string }> } };
+export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, interests: Array<{ __typename?: 'User', _id: string }> } };
 
 export type UpdateEmployerMutationVariables = Exact<{
   input: UpdateEmployerInput;
@@ -640,7 +654,7 @@ export type UpdateEmployerMutation = { __typename?: 'Mutation', updateEmployer: 
 export type GetEmployerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
+export type GetEmployerQuery = { __typename?: 'Query', getEmployer: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null, companyLetterHead?: string | null, employerVerifyStatus?: EmployerVerifyStatusEnum | null, employerVerified?: boolean | null, linkedIn?: string | null, gstNo?: string | null, panNo?: string | null, registeredAddress?: string | null, currentAddress?: string | null, noOfLocations?: number | null, landline?: number | null, noOfEmployees?: number | null, lastTurnover?: number | null, noOfHiring?: number | null, attritionRate?: number | null, benefits?: Array<{ __typename?: 'Benefit', _id: string, benefit: string }> | null, jobs?: Array<{ __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null }> | null } };
 
 export type UpdateEmployerJobMutationVariables = Exact<{
   input: EmployerJobInput;
@@ -654,7 +668,7 @@ export type GetJobDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetJobDetailsQuery = { __typename?: 'Query', getJobDetails: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain?: { __typename?: 'SubDomain', _id: string, subDomain: string } | null, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
+export type GetJobDetailsQuery = { __typename?: 'Query', getJobDetails: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, jobStatus?: EmployerJobStatusEnum | null, listingComplete?: boolean | null, radius?: number | null, latitude?: number | null, longitude?: number | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
 
 export type AddEmployerJobMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -745,6 +759,13 @@ export type UpdateSurveyStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UpdateSurveyStatusQuery = { __typename?: 'Query', updateSurveyStatus: boolean };
+
+export type UpdateUserImageQueryVariables = Exact<{
+  image: Scalars['String'];
+}>;
+
+
+export type UpdateUserImageQuery = { __typename?: 'Query', updateUserImage: boolean };
 
 export type UpdateProfileStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1754,6 +1775,39 @@ export function useUpdateSurveyStatusLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type UpdateSurveyStatusQueryHookResult = ReturnType<typeof useUpdateSurveyStatusQuery>;
 export type UpdateSurveyStatusLazyQueryHookResult = ReturnType<typeof useUpdateSurveyStatusLazyQuery>;
 export type UpdateSurveyStatusQueryResult = Apollo.QueryResult<UpdateSurveyStatusQuery, UpdateSurveyStatusQueryVariables>;
+export const UpdateUserImageDocument = gql`
+    query UpdateUserImage($image: String!) {
+  updateUserImage(image: $image)
+}
+    `;
+
+/**
+ * __useUpdateUserImageQuery__
+ *
+ * To run a query within a React component, call `useUpdateUserImageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserImageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateUserImageQuery({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateUserImageQuery(baseOptions: Apollo.QueryHookOptions<UpdateUserImageQuery, UpdateUserImageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateUserImageQuery, UpdateUserImageQueryVariables>(UpdateUserImageDocument, options);
+      }
+export function useUpdateUserImageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateUserImageQuery, UpdateUserImageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateUserImageQuery, UpdateUserImageQueryVariables>(UpdateUserImageDocument, options);
+        }
+export type UpdateUserImageQueryHookResult = ReturnType<typeof useUpdateUserImageQuery>;
+export type UpdateUserImageLazyQueryHookResult = ReturnType<typeof useUpdateUserImageLazyQuery>;
+export type UpdateUserImageQueryResult = Apollo.QueryResult<UpdateUserImageQuery, UpdateUserImageQueryVariables>;
 export const UpdateProfileStatusDocument = gql`
     query UpdateProfileStatus {
   updateProfileStatus

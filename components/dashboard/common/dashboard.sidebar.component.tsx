@@ -17,7 +17,7 @@ import { setInitialStateEmployeeSlice } from "../../../features/employee.slice";
 import { setInitialStateEmployerSlice } from "../../../features/employer.slice";
 import { setInitialStateJobSlice } from "../../../features/job.slice";
 import { setInitialStateSurveySlice } from "../../../features/survey.slice";
-import { useLogoutLazyQuery, User } from "../../../generated/graphql";
+import { useLogoutLazyQuery, User, UserRole } from "../../../generated/graphql";
 import LogoWhite from "../../reusables/LogoWhite";
 
 interface DashboardSidebarProps {
@@ -36,6 +36,9 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
   );
 
   const user = useSelector((state: RootState) => state.dashboard.dashboardUser);
+  const dashboardEmployer = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployer
+  );
 
   const logoutHandler = async () => {
     try {
@@ -102,26 +105,70 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
           </div>
         ))}
       </div>
-      {user && (
-        <div className="bg-primary p-4 w-full flex justify-start items-center gap-4 rounded-t-md">
-          {user.image ? (
-            <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs" />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
-              {user.firstName.split("")[0] + user.lastName.split("")[0]}
-            </div>
-          )}
-          <p className="text-sm font-medium text-white">
-            {user.firstName} {user.lastName}
-          </p>
-          <FontAwesomeIcon
-            icon={faPowerOff}
-            size={"lg"}
-            className="flex-1 cursor-pointer"
-            onClick={logoutHandler}
-          />
-        </div>
-      )}
+      {user &&
+        (user.type === UserRole.Employee ? (
+          <div
+            className="bg-primary p-4 w-full flex justify-start items-center gap-4 rounded-t-md"
+            onClick={() => {
+              router.push("/dashboard?page=profile");
+              dispatch(setCurrentPage(DashboardPagesEnum.profile));
+            }}
+          >
+            {user.image ? (
+              <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
+                <img
+                  className="w-10 h-10 rounded-full object-contain object-center"
+                  src={user.image}
+                  alt={user.firstName.split("")[0] + user.lastName.split("")[0]}
+                />
+              </div>
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
+                {user.firstName.split("")[0] + user.lastName.split("")[0]}
+              </div>
+            )}
+            <p className="text-sm font-medium text-white">
+              {user.firstName} {user.lastName}
+            </p>
+            <FontAwesomeIcon
+              icon={faPowerOff}
+              size={"lg"}
+              className="flex-1 cursor-pointer"
+              onClick={logoutHandler}
+            />
+          </div>
+        ) : (
+          <div
+            className="bg-primary p-4 w-full flex justify-start items-center gap-4 rounded-t-md"
+            onClick={() => {
+              router.push("/dashboard?page=profile");
+              dispatch(setCurrentPage(DashboardPagesEnum.profile));
+            }}
+          >
+            {dashboardEmployer?.companyImage ? (
+              <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
+                <img
+                  className="w-10 h-10 rounded-full object-contain object-center"
+                  src={dashboardEmployer.companyImage}
+                  alt={dashboardEmployer.companyName ?? ""}
+                />
+              </div>
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
+                {(dashboardEmployer?.companyName ?? "").split("")[0]}
+              </div>
+            )}
+            <p className="text-sm font-medium text-white">
+              {dashboardEmployer?.companyName ?? ""}
+            </p>
+            <FontAwesomeIcon
+              icon={faPowerOff}
+              size={"lg"}
+              className="flex-1 cursor-pointer"
+              onClick={logoutHandler}
+            />
+          </div>
+        ))}
     </div>
   );
 };

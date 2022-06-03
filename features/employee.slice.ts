@@ -4,6 +4,7 @@ import {
   EmployeeGenderEnum,
   Skill,
   User,
+  UserRole,
   UserWorkExp,
 } from "../generated/graphql";
 
@@ -60,7 +61,7 @@ export interface EmployeeData {
     | undefined;
   resume?: string | null | undefined;
   skills?: { label: string; value: string }[];
-  subDomain?: { _id: string; subDomain: string } | null | undefined;
+  subDomain?: { _id: string; subDomain: string }[];
   totalExp?:
     | {
         years: { label: string; value: string };
@@ -76,6 +77,18 @@ export interface EmployeeData {
     end?: string | null;
     start?: string | null;
   }[];
+  user?: {
+    _id: string;
+    email: string;
+    firstName: string;
+    image?: string | null;
+    isAccountVerified: boolean;
+    isProfileCompleted: boolean;
+    isSurveyCompleted: boolean;
+    lastName: string;
+    number: string;
+    type: UserRole;
+  } | null;
 }
 
 interface EmployeeState {
@@ -106,7 +119,7 @@ const initialState: EmployeeState = {
     relevantExp: null,
     resume: null,
     skills: [],
-    subDomain: null,
+    subDomain: [],
     totalExp: null,
     workExp: [
       {
@@ -118,6 +131,7 @@ const initialState: EmployeeState = {
         start: null,
       },
     ],
+    user: null,
   },
   currentProgress: 10,
   currentStep: 1,

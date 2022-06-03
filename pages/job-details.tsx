@@ -288,7 +288,10 @@ const JobDetails = () => {
           qualification: job.qualification,
           industry: job.industry,
           domain: job.domain,
-          subDomain: job.subDomain,
+          subDomain: job.subDomain.map((sd) => ({
+            _id: sd._id,
+            subDomain: sd.subDomain,
+          })),
           skills: job.skills.map((s) => ({
             label: s.skill,
             value: s._id,

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { toggleLoading } from "../../features/common.slice";
 import { setDashboardUser } from "../../features/dashboard.sice";
 import { useMeLazyQuery, User } from "../../generated/graphql";
+import client from "../../utils/apollo_client";
 
 interface AuthCheckerProps {
   children: ReactElement;
@@ -17,6 +18,7 @@ const AuthChecker = ({ children, page }: AuthCheckerProps) => {
   useEffect(() => {
     const myFunc = async () => {
       try {
+        client.resetStore();
         dispatch(toggleLoading());
         const { data } = await meQuery();
         dispatch(toggleLoading());
@@ -60,6 +62,7 @@ const AuthChecker = ({ children, page }: AuthCheckerProps) => {
           if (page === "dashboard" && data.user.isProfileCompleted) {
             const user: User = {
               _id: data.user._id,
+              image: data.user.image,
               email: data.user.email,
               firstName: data.user.firstName,
               isAccountVerified: data.user.isAccountVerified,

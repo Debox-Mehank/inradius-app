@@ -41,7 +41,7 @@ export const DashboardSidebarList: {
       icon: faHeartCircleCheck,
     },
     { title: "Matched", page: DashboardPagesEnum.matched, icon: faEquals },
-    { title: "Profile", page: DashboardPagesEnum.profile, icon: faUser },
+    // { title: "Profile", page: DashboardPagesEnum.profile, icon: faUser },
   ],
   employer: [
     {
@@ -60,7 +60,7 @@ export const DashboardSidebarList: {
       icon: faHeartCircleCheck,
     },
     { title: "Matched", page: DashboardPagesEnum.matched, icon: faEquals },
-    { title: "Profile", page: DashboardPagesEnum.profile, icon: faUser },
+    // { title: "Profile", page: DashboardPagesEnum.profile, icon: faUser },
     { title: "Jobs", page: DashboardPagesEnum.jobs, icon: faBriefcase },
   ],
 };
@@ -78,7 +78,7 @@ export interface DashboardEmployeeState {
   qualification: string;
   industry: string;
   domain: string;
-  subDomain: string;
+  subDomain: string[];
   skills: string[];
   fresher: boolean;
   workExp: {

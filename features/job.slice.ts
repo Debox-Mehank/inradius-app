@@ -40,7 +40,7 @@ export interface EmployerJobState {
   qualification?: { _id: string; qualification: string } | null | undefined;
   industry?: { _id: string; industry: string } | null | undefined;
   domain?: { _id: string; domain: string } | null | undefined;
-  subDomain?: { _id: string; subDomain: string } | null | undefined;
+  subDomain?: { _id: string; subDomain: string }[];
   skills?: { label: string; value: string }[];
   minRequiredExp?:
     | {
@@ -73,7 +73,7 @@ const initialState: JobState = {
     qualification: null,
     industry: null,
     domain: null,
-    subDomain: null,
+    subDomain: [],
     skills: [],
     minRequiredExp: null,
     minPay: null,

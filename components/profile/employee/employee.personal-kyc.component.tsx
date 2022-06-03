@@ -11,6 +11,7 @@ import {
   User,
   useUpdateEmployeeMutation,
   useUpdateProfileStatusLazyQuery,
+  useUpdateUserImageLazyQuery,
 } from "../../../generated/graphql";
 import { PageHeading, PageSubHeading } from "../common/heading.component";
 import EmployeeNextButton from "./employee.nextbutton.component";
@@ -21,6 +22,7 @@ const EmployeePersonalKyc = () => {
 
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
   const [updateProfileStatusQuery] = useUpdateProfileStatusLazyQuery();
+  const [updateUserImageQuery] = useUpdateUserImageLazyQuery();
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,11 @@ const EmployeePersonalKyc = () => {
   const aadharCard = useSelector(
     (state: RootState) => state.employee.employee.aadharCard
   );
+  const userImage = useSelector(
+    (state: RootState) => state.employee.employee.user?.image
+  );
 
+  const [fileU, setFileU] = useState<File>();
   const [fileA, setFileA] = useState<File>();
   const [fileP, setFileP] = useState<File>();
 
@@ -49,6 +55,7 @@ const EmployeePersonalKyc = () => {
   const nextHandler = async (moveNext: () => void) => {
     const { _id }: User = JSON.parse(localStorage.getItem("user")!);
 
+    var uploadDataU;
     var uploadDataA;
     var uploadDataP;
 
@@ -99,6 +106,41 @@ const EmployeePersonalKyc = () => {
 
     // Uploading Part
     dispatch(toggleLoading());
+
+    if (fileU) {
+      // Upload Profile Card
+      const fileName = `profile_${_id}_${Math.round(Date.now() / 1000)}`;
+      const formDataU: FormData = new FormData();
+      formDataU.append("file", fileU);
+      formDataU.append("upload_preset", "user-image-uploads");
+      formDataU.append("public_id", fileName);
+
+      uploadDataU = await fetch(
+        "https://api.cloudinary.com/v1_1/inradiuscloud/image/upload",
+        { method: "POST", body: formDataU }
+      ).then((r) => r.json());
+
+      const { data: imageUpload, error: imageUploadError } =
+        await updateUserImageQuery({
+          variables: { image: uploadDataU.secure_url },
+        });
+
+      if (imageUploadError !== undefined) {
+        toast.error(imageUploadError.message, {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return null;
+      }
+
+      if (imageUpload?.updateUserImage === false) {
+        toast.error("Something went wrong", {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return null;
+      }
+    }
 
     if (fileA) {
       // Upload Aadhar Card
@@ -318,6 +360,48 @@ const EmployeePersonalKyc = () => {
                 </label>
               </div>
             </div>
+          </div>
+          <div className="flex flex-col justify-start w-full">
+            <PageSubHeading
+              text={"Profile Photo"}
+              desc={"Upload profile photo in image format (Maximum 2 MB)"}
+            />
+            <input
+              name="profileImage"
+              type={"file"}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              onChange={(e) => {
+                if (e.target.files) {
+                  const acceptedTypes = /(\.jpg|\.jpeg|\.png)$/i;
+                  const myFile = e.target.files[0];
+                  const myFileSize = parseFloat(
+                    (myFile.size / (1024 * 1024)).toFixed(3)
+                  );
+                  if (myFileSize > 2) {
+                    toast.info("File size should be less than 2 Mb.", {
+                      autoClose: 2000,
+                      hideProgressBar: true,
+                    });
+                    return;
+                  }
+                  if (!acceptedTypes.exec(myFile.name)) {
+                    toast.info("File should be image only.", {
+                      autoClose: 2000,
+                      hideProgressBar: true,
+                    });
+                    return;
+                  }
+                  setFileU(e.target.files[0]);
+                }
+              }}
+            />
+            {userImage && (
+              <p className="text-xs w-full text-justify text-gray-500 font-medium mt-1">
+                {
+                  "Profile Photo already uploaded, if you want to change it then upload again."
+                }
+              </p>
+            )}
           </div>
           <div className="flex flex-col justify-start w-full">
             <PageSubHeading

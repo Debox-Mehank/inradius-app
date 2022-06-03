@@ -56,14 +56,7 @@ const EmployeeWorkExp = () => {
         input: fresher
           ? {
               fresher: fresher,
-              workExp: workExp!.map((el) => ({
-                company: el.company!,
-                desc: el.desc!,
-                designation: DesignationEnum.Techlead,
-                start: new Date(el.start ?? ""),
-                end: el.current ?? false ? null : new Date(el.end ?? ""),
-                current: el.current ?? false,
-              })),
+              workExp: [],
               totalExp: null,
               relevantExp: null,
             }
@@ -258,11 +251,9 @@ const EmployeeWorkExp = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-start w-full">
-                      {exp.start && (
-                        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
-                          {`Start Date`}
-                        </p>
-                      )}
+                      <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                        {`Start Date`}
+                      </p>
                       <input
                         type={"date"}
                         className={`bg-lightGray px-1 py-3 lg:px-2 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
@@ -298,11 +289,9 @@ const EmployeeWorkExp = () => {
                     </div>
                     {!exp.current ? (
                       <div className="flex flex-col justify-start w-full">
-                        {exp.end && (
-                          <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
-                            {`End Date`}
-                          </p>
-                        )}
+                        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                          {`End Date`}
+                        </p>
                         <input
                           type={"date"}
                           className={`bg-lightGray px-1 py-3 lg:px-2 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}

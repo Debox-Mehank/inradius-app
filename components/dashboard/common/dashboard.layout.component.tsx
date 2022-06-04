@@ -36,6 +36,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             : "col-span-8"
         }`}
       >
+        {currentPage !== DashboardPagesEnum.profile && currentPage !== DashboardPagesEnum.jobs && (
+          <div>Show Jobs Slider</div>
+        )}
         {children}
       </div>
 

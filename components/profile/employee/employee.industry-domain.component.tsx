@@ -130,7 +130,7 @@ const EmployeeIndustryDomain = () => {
                       dispatch(
                         updateEmployeeData({
                           domain: i,
-                          subDomain: undefined,
+                          subDomain: [],
                           skills: [],
                         })
                       );

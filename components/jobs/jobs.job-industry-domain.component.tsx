@@ -138,7 +138,7 @@ const JobDetailsIndustryDomain = () => {
                       dispatch(
                         updateJobData({
                           domain: i,
-                          subDomain: undefined,
+                          subDomain: [],
                         })
                       );
                     }

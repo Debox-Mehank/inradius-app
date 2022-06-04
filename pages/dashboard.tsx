@@ -60,6 +60,7 @@ const Dashboard = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -68,6 +69,7 @@ const Dashboard = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -122,6 +124,7 @@ const Dashboard = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -130,6 +133,7 @@ const Dashboard = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        dispatch(toggleLoading());
         return null;
       }
 
@@ -162,10 +166,10 @@ const Dashboard = () => {
           qualification: job.qualification,
           industry: job.industry,
           domain: job.domain,
-          subDomain: job.subDomain.map((sd) => ({
+          subDomain: job.subDomain ? job.subDomain.map((sd) => ({
             _id: sd._id,
             subDomain: sd.subDomain,
-          })),
+          })) : [],
           skills: job.skills.map((s) => ({
             label: s.skill,
             value: s._id,

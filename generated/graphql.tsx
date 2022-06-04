@@ -60,31 +60,17 @@ export type BenefitInput = {
 
 export type DashboardEmployee = {
   __typename?: 'DashboardEmployee';
-  domain: Scalars['String'];
-  employeeId: Scalars['ID'];
-  firstName: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  industry: Scalars['String'];
-  lastName: Scalars['String'];
-  location: Scalars['String'];
+  employeeId: Employee;
   score: Scalars['Float'];
-  userId: Scalars['ID'];
+  userId: User;
 };
 
 export type DashboardEmployer = {
   __typename?: 'DashboardEmployer';
-  companyImage: Scalars['String'];
-  companyName: Scalars['String'];
-  domain: Scalars['String'];
-  employerId: Scalars['ID'];
-  industry: Scalars['String'];
-  jobDesc: Scalars['String'];
-  jobId: Scalars['ID'];
-  jobTitle: Scalars['String'];
-  jobType: Scalars['String'];
-  location: Scalars['String'];
+  employerId: Employer;
+  jobId: EmployerJob;
   score: Scalars['Float'];
-  userId: Scalars['ID'];
+  userId: User;
 };
 
 /** Enum For Designation of Employee */
@@ -623,14 +609,14 @@ export type UserWorkExpInput = {
 export type EmployeeExploreQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', companyName: string, companyImage: string, jobTitle: string, jobDesc: string, jobType: string, location: string, industry: string, domain: string, score: number }> };
+export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', score: number, employerId: { __typename?: 'Employer', companyName?: string | null, companyImage?: string | null }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, jobId: { __typename?: 'EmployerJob', jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> } }> };
 
 export type EmployerExploreQueryVariables = Exact<{
   jobId: Scalars['String'];
 }>;
 
 
-export type EmployerExploreQuery = { __typename?: 'Query', employerExplore: Array<{ __typename?: 'DashboardEmployee', firstName: string, lastName: string, image?: string | null, location: string, industry: string, domain: string, score: number }> };
+export type EmployerExploreQuery = { __typename?: 'Query', employerExplore: Array<{ __typename?: 'DashboardEmployee', score: number, employeeId: { __typename?: 'Employee', expectedPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null } }> };
 
 export type UpdateEmployeeMutationVariables = Exact<{
   input: UpdateEmployeeInput;
@@ -776,15 +762,39 @@ export type UpdateProfileStatusQuery = { __typename?: 'Query', updateProfileStat
 export const EmployeeExploreDocument = gql`
     query EmployeeExplore {
   employeeExplore {
-    companyName
-    companyImage
-    jobTitle
-    jobDesc
-    jobType
-    location
-    industry
-    domain
     score
+    employerId {
+      companyName
+      companyImage
+    }
+    userId {
+      firstName
+      lastName
+      image
+    }
+    jobId {
+      jobTitle
+      jobDesc
+      jobType
+      minRequiredExp {
+        years
+        months
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minPay
+      maxPay
+    }
   }
 }
     `;
@@ -818,12 +828,26 @@ export type EmployeeExploreQueryResult = Apollo.QueryResult<EmployeeExploreQuery
 export const EmployerExploreDocument = gql`
     query EmployerExplore($jobId: String!) {
   employerExplore(jobId: $jobId) {
-    firstName
-    lastName
-    image
-    location
-    industry
-    domain
+    employeeId {
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    userId {
+      firstName
+      lastName
+      image
+    }
     score
   }
 }

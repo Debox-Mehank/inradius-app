@@ -65,6 +65,34 @@ export const DashboardSidebarList: {
   ],
 };
 
+export interface DashboardEmployeeCardData {
+  firstName?: string;
+  lastName?: string;
+  userImage?: string | null;
+  location?: string;
+  domain?: string;
+  subDomain: string[];
+  skills: string[];
+  expectedPay?: number | null;
+  score: number;
+}
+
+export interface DashboardEmployerCardData {
+  companyName?: string | null;
+  companyImage?: string | null;
+  jobTitle?: string | null;
+  jobDesc?: string | null;
+  jobType?: string | null;
+  location?: string;
+  domain?: string;
+  subDomain: string[];
+  skills: string[];
+  minPay?: number | null;
+  maxPay?: number | null;
+  score: number;
+  minRequiredExp?: { years: string; months: string } | null;
+}
+
 export interface DashboardEmployerState {
   companyName?: string | null | undefined;
   companyImage?: string | null | undefined;
@@ -107,6 +135,7 @@ export interface DashboardState {
   dashboardEmployer: DashboardEmployerState | null;
   dashboardEmployee: DashboardEmployeeState | null;
   dashboardUser: User | null;
+  selectedJob: EmployerJobState | null;
 }
 
 const initialState: DashboardState = {
@@ -114,6 +143,7 @@ const initialState: DashboardState = {
   dashboardEmployer: null,
   dashboardEmployee: null,
   dashboardUser: null,
+  selectedJob: null,
 };
 
 export const dashboardSlice = createSlice({
@@ -124,6 +154,8 @@ export const dashboardSlice = createSlice({
       state.currentPage = DashboardPagesEnum.explore;
       state.dashboardEmployer = null;
       state.dashboardUser = null;
+      state.dashboardUser = null;
+      state.selectedJob = null;
     },
     setCurrentPage: (state, action: PayloadAction<DashboardPagesEnum>) => {
       state.currentPage = action.payload;
@@ -139,6 +171,10 @@ export const dashboardSlice = createSlice({
         ...state.dashboardEmployer,
         ...action.payload,
       };
+
+      if (action.payload.jobs.length > 0) {
+        state.selectedJob = action.payload.jobs[0];
+      }
     },
     updateDashboardEmployeeData: (
       state,
@@ -148,6 +184,9 @@ export const dashboardSlice = createSlice({
         ...state.dashboardEmployee,
         ...action.payload,
       };
+    },
+    setSelectedJob: (state, action: PayloadAction<EmployerJobState>) => {
+      state.selectedJob = action.payload;
     },
   },
 });
@@ -160,6 +199,7 @@ export const {
   setDashboardUser,
   updateDashboardEmployerData,
   updateDashboardEmployeeData,
+  setSelectedJob,
 } = actions;
 
 export default reducer;

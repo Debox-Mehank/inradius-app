@@ -126,7 +126,7 @@ const EmployerRegister: NextPage = () => {
           </div>
 
           {/* Main Form */}
-          <div className="w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide">
+          <div className="w-full h-full bg-darkGray flex flex-col justify-center items-center tracking-wide form-zIndex">
             <div className="max-w-md w-4/5">
               {!success ? (
                 <>
@@ -141,7 +141,7 @@ const EmployerRegister: NextPage = () => {
                       Employer Registration
                     </h4>
                     <br />
-                    <div className="flex flex-col w-full gap-4">
+                    <div className="flex flex-col w-full gap-4 form-div-scrollable">
                       <div className="flex gap-4 items-end">
                         <div className="flex flex-col justify-start w-full">
                           {watch("firstName") !== "" &&

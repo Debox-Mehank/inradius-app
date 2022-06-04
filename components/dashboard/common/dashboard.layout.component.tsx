@@ -5,8 +5,13 @@ import {
   DashboardPagesEnum,
   DashboardSidebarList,
 } from "../../../features/dashboard.sice";
-import { User, UserRole } from "../../../generated/graphql";
+import {
+  EmployerJobStatusEnum,
+  User,
+  UserRole,
+} from "../../../generated/graphql";
 import DashboardFilter from "./dashboard.filter.component";
+import JobsSlider from "./dashboard.jobs-slider.component";
 import DashboardSidebar from "./dashboard.sidebar.component";
 
 interface DashboardLayoutProps {
@@ -16,6 +21,10 @@ interface DashboardLayoutProps {
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const currentPage = useSelector(
     (state: RootState) => state.dashboard.currentPage
+  );
+
+  const jobs = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployer?.jobs
   );
 
   const user = useSelector((state: RootState) => state.dashboard.dashboardUser);
@@ -29,22 +38,21 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             : DashboardSidebarList.employee
         }
       />
-      <div
-        className={`w-full h-full relative ${
-          currentPage === DashboardPagesEnum.explore
-            ? "col-span-6"
-            : "col-span-8"
-        }`}
-      >
-        {currentPage !== DashboardPagesEnum.profile && currentPage !== DashboardPagesEnum.jobs && (
-          <div>Show Jobs Slider</div>
-        )}
+      <div className={`w-full h-full relative col-span-8 flex flex-col`}>
+        {user &&
+          user.type === UserRole.Employer &&
+          currentPage !== DashboardPagesEnum.profile &&
+          currentPage !== DashboardPagesEnum.jobs &&
+          (jobs ?? []).filter(
+            (el) =>
+              el.jobStatus === EmployerJobStatusEnum.Open && el.listingComplete
+          ).length > 0 && <JobsSlider />}
         {children}
       </div>
 
-      {currentPage === DashboardPagesEnum.explore && user && (
+      {/* {currentPage === DashboardPagesEnum.explore && user && (
         <DashboardFilter />
-      )}
+      )} */}
 
       {/* Bg */}
       <div className="w-full h-full bg-cover bg-center absolute top-0 left-0 right-0 bottom-0 reg-bg opacity-10 -z-10"></div>

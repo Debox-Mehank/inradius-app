@@ -1,25 +1,63 @@
 query EmployeeExplore {
   employeeExplore {
-    companyName
-    companyImage
-    jobTitle
-    jobDesc
-    jobType
-    location
-    industry
-    domain
     score
+    employerId {
+      companyName
+      companyImage
+    }
+    userId {
+      firstName
+      lastName
+      image
+    }
+    jobId {
+      jobTitle
+      jobDesc
+      jobType
+      minRequiredExp {
+        years
+        months
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minPay
+      maxPay
+    }
   }
 }
 
 query EmployerExplore($jobId: String!) {
   employerExplore(jobId: $jobId) {
-    firstName
-    lastName
-    image
-    location
-    industry
-    domain
+    employeeId {
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    userId {
+      firstName
+      lastName
+      image
+    }
     score
   }
 }

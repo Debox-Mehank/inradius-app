@@ -242,9 +242,9 @@ const EmployeePersonalKyc = () => {
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center"
     >
-      <div className="flex flex-col max-w-sm w-full">
+      <div className="flex flex-col max-w-xl w-full">
         <PageHeading text={"Personal Details"} />
-        <div className="flex justify-start flex-col gap-5">
+        <div className="flex justify-start flex-col gap-5 scrollable-div">
           <div className="flex flex-col justify-start w-full">
             <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
               {`Date of birth`}

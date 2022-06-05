@@ -13,6 +13,7 @@ interface ReusableButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   type?: "button" | "submit" | "reset" | undefined;
   size?: "small" | "medium" | "large" | undefined;
   icon?: IconDefinition;
+  iconButton?: boolean;
 }
 
 const ReusableButton = ({
@@ -24,6 +25,7 @@ const ReusableButton = ({
   type,
   size = "large",
   icon,
+  iconButton = false,
 }: ReusableButtonProps) => {
   return (
     <motion.button
@@ -41,13 +43,17 @@ const ReusableButton = ({
           : ""
       } ${bg} ${text} rounded-md shadow font-semibold`}
     >
-      {link ? (
-        <Link href={link}>{title}</Link>
-      ) : (
-        // <a href={link} target="_blank" rel="noopener noreferrer">
-        //     {title}
-        // </a>
-        title
+      {!iconButton && (
+        <>
+          {link ? (
+            <Link href={link}>{title}</Link>
+          ) : (
+            // <a href={link} target="_blank" rel="noopener noreferrer">
+            //     {title}
+            // </a>
+            title
+          )}
+        </>
       )}
       {icon && (
         <FontAwesomeIcon
@@ -61,7 +67,7 @@ const ReusableButton = ({
               ? "lg"
               : "sm"
           }
-          className="ml-2"
+          className={!iconButton ? "ml-2" : "ml-0"}
         />
       )}
     </motion.button>

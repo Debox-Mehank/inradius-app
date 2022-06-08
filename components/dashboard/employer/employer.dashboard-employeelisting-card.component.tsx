@@ -19,6 +19,7 @@ const EmployerDashboardEmployeeLisitingCard = ({
     domain,
     subDomain,
     employeeId,
+    shortDescription,
   },
   interestHandler,
   notInterestHandler,
@@ -43,14 +44,14 @@ const EmployerDashboardEmployeeLisitingCard = ({
         <p className="text-xs font-normal">{domain}</p>
         {/* <p className="text-xs font-normal mt-2">{skills.toString()}</p>
         <p className="text-xs font-normal mb-4 mt-2">{subDomain.toString()}</p> */}
-        {/* <p className="text-xs font-normal mt-2">
+        <p className="text-xs font-normal mt-2">
           <FontAwesomeIcon
             icon={faClipboard}
             size={"lg"}
             className="text-primary mr-2"
           />
-          {jobDesc}
-        </p> */}
+          {shortDescription}
+        </p>
         <div className="flex justify-start items-center gap-4">
           {/* {minRequiredExp && (
             <p className="text-xs font-normal mt-3">

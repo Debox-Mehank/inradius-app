@@ -75,6 +75,7 @@ export interface InterestsEmployeeCardData {
   skills: string[];
   expectedPay?: number | null;
   employeeId?: string | null;
+  shortDescription?: string | null;
 }
 
 export interface InterestsEmployerCardData {
@@ -105,6 +106,7 @@ export interface DashboardEmployeeCardData {
   expectedPay?: number | null;
   score: number;
   employeeId?: string | null;
+  shortDescription?: string | null;
 }
 
 export interface DashboardEmployerCardData {

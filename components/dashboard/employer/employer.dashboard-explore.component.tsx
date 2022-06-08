@@ -76,6 +76,7 @@ const EmployerDashboardExplore = () => {
             subDomain: el.employeeId.subDomain.map((sd) => sd.subDomain),
             score: el.score,
             employeeId: el.employeeId._id,
+            shortDescription: el.employeeId.shortDescription,
           }))
         );
       }

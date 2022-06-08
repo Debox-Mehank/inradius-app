@@ -54,6 +54,7 @@ const EmployerDashboardMatched = () => {
           skills: el.employeeId.skills.map((s) => s.skill),
           subDomain: el.employeeId.subDomain.map((sd) => sd.subDomain),
           employeeId: el.employeeId._id,
+          shortDescription: el.employeeId.shortDescription,
         }))
       );
     };

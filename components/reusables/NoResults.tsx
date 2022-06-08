@@ -76,10 +76,10 @@ const NoResults = ({
           transform="translate(-201.25 -32.75)"
           fill="#2f2e41"
         />
-        <circle cx="559" cy="744.5" r="43" fill="#e55d29" />
-        <circle cx="54" cy="729.5" r="43" fill="#e55d29" />
-        <circle cx="54" cy="672.5" r="31" fill="#e55d29" />
-        <circle cx="54" cy="624.5" r="22" fill="#e55d29" />
+        <circle cx="559" cy="744.5" r="43" fill="#ff4100" />
+        <circle cx="54" cy="729.5" r="43" fill="#ff4100" />
+        <circle cx="54" cy="672.5" r="31" fill="#ff4100" />
+        <circle cx="54" cy="624.5" r="22" fill="#ff4100" />
       </svg>
       {/* Message */}
       <p

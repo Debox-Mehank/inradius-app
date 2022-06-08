@@ -5,10 +5,13 @@ import {
   faIndianRupeeSign,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DashboardEmployeeCardData } from "../../../features/dashboard.sice";
+import {
+  DashboardEmployeeCardData,
+  InterestsEmployeeCardData,
+} from "../../../features/dashboard.sice";
 import ReusableButton from "../../reusables/ReusableButton";
 
-const EmployerDashboardEmployeeLisitingCard = ({
+const EmployerInterestCard = ({
   data: {
     firstName,
     lastName,
@@ -20,12 +23,12 @@ const EmployerDashboardEmployeeLisitingCard = ({
     subDomain,
     employeeId,
   },
-  interestHandler,
-  notInterestHandler,
-}: {
-  data: DashboardEmployeeCardData;
-  interestHandler: (employeeId: string) => void;
-  notInterestHandler: (employeeId: string) => void;
+}: //   interestHandler,
+//   notInterestHandler,
+{
+  data: InterestsEmployeeCardData;
+  //   interestHandler: (employeeId: string) => void;
+  //   notInterestHandler: (employeeId: string) => void;
 }) => {
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-6">
@@ -74,7 +77,7 @@ const EmployerDashboardEmployeeLisitingCard = ({
             {/* {(maxPay ?? 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
           </p>
         </div>
-        <div className="flex justify-start items-center gap-4 mt-6">
+        {/* <div className="flex justify-start items-center gap-4 mt-6">
           <ReusableButton
             bg="bg-primary w-full"
             text="text-white"
@@ -104,10 +107,10 @@ const EmployerDashboardEmployeeLisitingCard = ({
               console.log("Not Interested!");
             }}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default EmployerDashboardEmployeeLisitingCard;
+export default EmployerInterestCard;

@@ -65,6 +65,35 @@ export const DashboardSidebarList: {
   ],
 };
 
+export interface InterestsEmployeeCardData {
+  firstName?: string;
+  lastName?: string;
+  userImage?: string | null;
+  location?: string;
+  domain?: string;
+  subDomain: string[];
+  skills: string[];
+  expectedPay?: number | null;
+  employeeId?: string | null;
+}
+
+export interface InterestsEmployerCardData {
+  employerId?: string | null;
+  jobId?: string | null;
+  companyName?: string | null;
+  companyImage?: string | null;
+  jobTitle?: string | null;
+  jobDesc?: string | null;
+  jobType?: string | null;
+  location?: string;
+  domain?: string;
+  subDomain: string[];
+  skills: string[];
+  minPay?: number | null;
+  maxPay?: number | null;
+  minRequiredExp?: { years: string; months: string } | null;
+}
+
 export interface DashboardEmployeeCardData {
   firstName?: string;
   lastName?: string;
@@ -75,9 +104,12 @@ export interface DashboardEmployeeCardData {
   skills: string[];
   expectedPay?: number | null;
   score: number;
+  employeeId?: string | null;
 }
 
 export interface DashboardEmployerCardData {
+  employerId?: string | null;
+  jobId?: string | null;
   companyName?: string | null;
   companyImage?: string | null;
   jobTitle?: string | null;
@@ -101,6 +133,7 @@ export interface DashboardEmployerState {
 
 export interface DashboardEmployeeState {
   _id: string;
+  shortDescription: string;
   radius: number;
   location: string;
   qualification: string;

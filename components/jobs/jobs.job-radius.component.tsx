@@ -99,11 +99,25 @@ const JobDetailsRadius = () => {
             zoom={12}
             center={{ lat: latitude!, lng: longitude! }}
             mapContainerClassName="w-full h-3/5 rounded-md"
-            options={{ disableDefaultUI: true }}
+            options={{
+              disableDefaultUI: false,
+              streetViewControl: false,
+              panControl: false,
+            }}
             onLoad={() => {
               if (radius === null) {
                 dispatch(updateJobData({ radius: 5 }));
               }
+            }}
+            onClick={(e: google.maps.MapMouseEvent) => {
+              const newLat = e.latLng?.lat();
+              const newLng = e.latLng?.lng();
+              dispatch(
+                updateJobData({
+                  latitude: newLat,
+                  longitude: newLng,
+                })
+              );
             }}
           >
             <MarkerF
@@ -128,6 +142,16 @@ const JobDetailsRadius = () => {
                 fillColor: "#ffb3b3",
                 fillOpacity: 0.15,
                 strokeOpacity: 0.7,
+              }}
+              onClick={(e: google.maps.MapMouseEvent) => {
+                const newLat = e.latLng?.lat();
+                const newLng = e.latLng?.lng();
+                dispatch(
+                  updateJobData({
+                    latitude: newLat,
+                    longitude: newLng,
+                  })
+                );
               }}
             />
           </GoogleMap>

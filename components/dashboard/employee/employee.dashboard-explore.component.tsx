@@ -10,6 +10,7 @@ import {
 import {
   DashboardEmployer,
   useEmployeeExploreLazyQuery,
+  useMarkInterestMutation,
 } from "../../../generated/graphql";
 import NoResults from "../../reusables/NoResults";
 import DashboardPageHeading from "../common/dashboard.heading.component";
@@ -24,6 +25,7 @@ const EmployeeDashboardExplore = () => {
 
   const [jobLists, setJobLists] = useState<DashboardEmployerCardData[]>([]);
   const [employeeExploreQuery] = useEmployeeExploreLazyQuery();
+  const [markInterestMutation] = useMarkInterestMutation();
 
   useEffect(() => {
     const myFunc = async () => {
@@ -67,6 +69,8 @@ const EmployeeDashboardExplore = () => {
           maxPay: el.jobId.maxPay,
           minPay: el.jobId.minPay,
           minRequiredExp: el.jobId.minRequiredExp,
+          employerId: el.employerId._id,
+          jobId: el.jobId._id,
         }))
       );
     };
@@ -75,6 +79,59 @@ const EmployeeDashboardExplore = () => {
     }
   }, [dispatch, employeeExploreQuery, currentPage]);
 
+  const interestClickHandler = async (employerId: string, jobId: string) => {
+    dispatch(toggleLoading());
+    const { data, errors } = await markInterestMutation({
+      variables: { interest: true, employerId: employerId, jobId: jobId },
+    });
+    dispatch(toggleLoading());
+
+    if (errors) {
+      toast.error(errors[0].message, {
+        autoClose: 1500,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (data) {
+      if (data.markInterest) {
+        toast.success("Added to your interests!", {
+          autoClose: 1500,
+          hideProgressBar: true,
+        });
+        const oldJobLists = [...jobLists];
+        const newJobLists = oldJobLists.filter((el) => el.jobId !== jobId);
+        setJobLists(newJobLists);
+      }
+    }
+  };
+
+  const notInterestClickHandler = async (employerId: string, jobId: string) => {
+    dispatch(toggleLoading());
+    const { data, errors } = await markInterestMutation({
+      variables: { interest: false, employerId: employerId, jobId: jobId },
+    });
+    dispatch(toggleLoading());
+
+    if (errors) {
+      toast.error(errors[0].message, {
+        autoClose: 1500,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (data) {
+      if (data.markInterest) {
+        toast.success("Success!", { autoClose: 1500, hideProgressBar: true });
+      }
+      const oldJobLists = [...jobLists];
+      const newJobLists = oldJobLists.filter((el) => el.jobId !== jobId);
+      setJobLists(newJobLists);
+    }
+  };
+
   return (
     <div className="flex flex-col px-8 relative">
       <DashboardPageHeading title="Explore Jobs Near You" />
@@ -82,7 +139,14 @@ const EmployeeDashboardExplore = () => {
         {jobLists.length > 0 ? (
           <>
             {jobLists.map((job, idx) => {
-              return <EmployeeDashboardJobLisitingCard {...job} key={idx} />;
+              return (
+                <EmployeeDashboardJobLisitingCard
+                  data={{ ...job }}
+                  interestHandler={interestClickHandler}
+                  notInterestHandler={notInterestClickHandler}
+                  key={idx}
+                />
+              );
             })}
           </>
         ) : (

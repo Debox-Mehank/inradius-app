@@ -140,7 +140,7 @@ const EmployeeWorkExp = () => {
               }
             }}
             offColor={"#e7e7e7"}
-            onColor={"#e55d29"}
+            onColor={"#ff4100"}
             checkedIcon={<></>}
             uncheckedIcon={<></>}
             handleDiameter={15}
@@ -241,7 +241,7 @@ const EmployeeWorkExp = () => {
                           );
                         }}
                         offColor={"#e7e7e7"}
-                        onColor={"#e55d29"}
+                        onColor={"#ff4100"}
                         checkedIcon={<></>}
                         uncheckedIcon={<></>}
                         handleDiameter={15}

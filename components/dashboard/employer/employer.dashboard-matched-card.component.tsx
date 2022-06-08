@@ -5,10 +5,13 @@ import {
   faIndianRupeeSign,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DashboardEmployeeCardData } from "../../../features/dashboard.sice";
+import {
+  DashboardEmployeeCardData,
+  InterestsEmployeeCardData,
+} from "../../../features/dashboard.sice";
 import ReusableButton from "../../reusables/ReusableButton";
 
-const EmployerDashboardEmployeeLisitingCard = ({
+const EmployerMatchedCard = ({
   data: {
     firstName,
     lastName,
@@ -20,12 +23,12 @@ const EmployerDashboardEmployeeLisitingCard = ({
     subDomain,
     employeeId,
   },
-  interestHandler,
-  notInterestHandler,
-}: {
-  data: DashboardEmployeeCardData;
-  interestHandler: (employeeId: string) => void;
-  notInterestHandler: (employeeId: string) => void;
+}: //   interestHandler,
+//   notInterestHandler,
+{
+  data: InterestsEmployeeCardData;
+  //   interestHandler: (employeeId: string) => void;
+  //   notInterestHandler: (employeeId: string) => void;
 }) => {
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-6">
@@ -78,13 +81,13 @@ const EmployerDashboardEmployeeLisitingCard = ({
           <ReusableButton
             bg="bg-primary w-full"
             text="text-white"
-            title="Interested"
+            title="Schedule Interview"
             size="small"
             onClick={() => {
-              interestHandler(employeeId ?? "");
+              console.log("Schedule Interview Clicked!");
             }}
           />
-          <ReusableButton
+          {/* <ReusableButton
             bg="bg-white w-full border border-black"
             text="text-black"
             title="Not Interested"
@@ -103,11 +106,11 @@ const EmployerDashboardEmployeeLisitingCard = ({
             onClick={() => {
               console.log("Not Interested!");
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default EmployerDashboardEmployeeLisitingCard;
+export default EmployerMatchedCard;

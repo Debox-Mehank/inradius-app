@@ -2,6 +2,7 @@ query EmployeeExplore {
   employeeExplore {
     score
     employerId {
+      _id
       companyName
       companyImage
     }
@@ -11,6 +12,7 @@ query EmployeeExplore {
       image
     }
     jobId {
+      _id
       jobTitle
       jobDesc
       jobType
@@ -39,6 +41,8 @@ query EmployeeExplore {
 query EmployerExplore($jobId: String!) {
   employerExplore(jobId: $jobId) {
     employeeId {
+      _id
+      shortDescription
       location {
         location
       }
@@ -59,5 +63,187 @@ query EmployerExplore($jobId: String!) {
       image
     }
     score
+  }
+}
+
+mutation MarkInterest(
+  $interest: Boolean!
+  $employeeId: String
+  $employerId: String
+  $jobId: String
+) {
+  markInterest(
+    interest: $interest
+    employeeId: $employeeId
+    employerId: $employerId
+    jobId: $jobId
+  )
+}
+
+query GetMyInterests {
+  getMyInterests {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+
+query GetShownInterests {
+  getShownInterests {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+
+query GetMatched {
+  getMatched {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
   }
 }

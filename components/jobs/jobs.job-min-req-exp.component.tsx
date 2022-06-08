@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import Switch from "react-switch";
 import { RootState } from "../../app/store";
 import { toggleLoading } from "../../features/common.slice";
 import { updateJobData } from "../../features/job.slice";
@@ -24,6 +25,9 @@ const JobDetailsMinReqExp = () => {
   const minRequiredExp = useSelector(
     (state: RootState) => state.job.job.minRequiredExp
   );
+  // const openForFreshers = useSelector(
+  //   (state: RootState) => state.job.job.openForFreshers
+  // );
   const jobId = useSelector((state: RootState) => state.job.job._id);
 
   const prevHandler = async (movePrev: () => void) => {
@@ -89,6 +93,45 @@ const JobDetailsMinReqExp = () => {
         <p className="text-xs w-full text-center text-gray-500 font-medium mb-4">
           {"Add experience in years and months"}
         </p>
+        {/* <div className="flex flex-row justify-center items-center w-full gap-5">
+          <p className="text-sm w-full text-right text-darkGray font-semibold mb-1">
+            {`Open for freshers?`}
+          </p>
+          <Switch
+            checked={openForFreshers ?? false}
+            onChange={(e) => {
+              if (e) {
+                dispatch(
+                  updateJobData({
+                    openForFreshers: true,
+                    minRequiredExp: {
+                      years: { label: "0", value: "0" },
+                      months: { label: "0", value: "0" },
+                    },
+                  })
+                );
+              } else {
+                dispatch(
+                  updateJobData({
+                    openForFreshers: false,
+                  })
+                );
+              }
+            }}
+            offColor={"#e7e7e7"}
+            onColor={"#ff4100"}
+            checkedIcon={<></>}
+            uncheckedIcon={<></>}
+            handleDiameter={15}
+            height={24}
+            width={40}
+            className="w-full justify-start d-flex-imp items-center"
+          />
+        </div>
+        <br /> */}
+        {/* {!openForFreshers && (
+          
+        )} */}
         <div className="flex flex-row justify-end items-end gap-4">
           <div className="flex flex-col justify-start w-full">
             {minRequiredExp?.years && (

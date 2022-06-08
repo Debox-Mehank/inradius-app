@@ -7,10 +7,13 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DashboardEmployerCardData } from "../../../features/dashboard.sice";
+import {
+  DashboardEmployerCardData,
+  InterestsEmployerCardData,
+} from "../../../features/dashboard.sice";
 import ReusableButton from "../../reusables/ReusableButton";
 
-const EmployeeDashboardJobLisitingCard = ({
+const EmployeeMatchedCard = ({
   data: {
     companyName,
     companyImage,
@@ -27,12 +30,12 @@ const EmployeeDashboardJobLisitingCard = ({
     employerId,
     jobId,
   },
-  interestHandler,
-  notInterestHandler,
-}: {
-  data: DashboardEmployerCardData;
-  interestHandler: (employerId: string, jobId: string) => void;
-  notInterestHandler: (employerId: string, jobId: string) => void;
+}: //   interestHandler,
+//   notInterestHandler,
+{
+  data: InterestsEmployerCardData;
+  //   interestHandler: (employerId: string, jobId: string) => void;
+  //   notInterestHandler: (employerId: string, jobId: string) => void;
 }) => {
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-4">
@@ -99,13 +102,14 @@ const EmployeeDashboardJobLisitingCard = ({
           <ReusableButton
             bg="bg-primary w-full"
             text="text-white"
-            title="Interested"
+            title="Schedule Interview"
             size="small"
             onClick={() => {
-              interestHandler(employerId ?? "", jobId ?? "");
+              console.log("Schedule Interview");
+              //   interestHandler(employerId ?? "", jobId ?? "");
             }}
           />
-          <ReusableButton
+          {/* <ReusableButton
             bg="bg-white w-full border border-black"
             text="text-black"
             title="Not Interested"
@@ -124,11 +128,11 @@ const EmployeeDashboardJobLisitingCard = ({
             onClick={() => {
               console.log("Not Interested!");
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default EmployeeDashboardJobLisitingCard;
+export default EmployeeMatchedCard;

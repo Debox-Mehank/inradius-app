@@ -49,12 +49,14 @@ export enum AdminRole {
 export type Benefit = {
   __typename?: 'Benefit';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   benefit: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type BenefitInput = {
+  active: Scalars['Boolean'];
   benefit: Scalars['String'];
 };
 
@@ -83,12 +85,14 @@ export enum DesignationEnum {
 export type Domain = {
   __typename?: 'Domain';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   domain: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type DomainInput = {
+  active: Scalars['Boolean'];
   domain: Scalars['String'];
 };
 
@@ -110,7 +114,6 @@ export type Employee = {
   fresher?: Maybe<Scalars['Boolean']>;
   gender?: Maybe<EmployeeGenderEnum>;
   industry?: Maybe<Industry>;
-  interests: Array<User>;
   latitude?: Maybe<Scalars['Float']>;
   linkedIn?: Maybe<Scalars['String']>;
   location?: Maybe<Location>;
@@ -120,6 +123,7 @@ export type Employee = {
   radius?: Maybe<Scalars['Float']>;
   relevantExp?: Maybe<UserExpInYearMonths>;
   resume?: Maybe<Scalars['String']>;
+  shortDescription?: Maybe<Scalars['String']>;
   skills: Array<Skill>;
   subDomain: Array<SubDomain>;
   totalExp?: Maybe<UserExpInYearMonths>;
@@ -149,7 +153,6 @@ export type Employer = {
   employerVerified?: Maybe<Scalars['Boolean']>;
   employerVerifyStatus?: Maybe<EmployerVerifyStatusEnum>;
   gstNo?: Maybe<Scalars['String']>;
-  interests: Array<User>;
   jobs?: Maybe<Array<EmployerJob>>;
   landline?: Maybe<Scalars['Float']>;
   lastTurnover?: Maybe<Scalars['Float']>;
@@ -232,24 +235,40 @@ export enum EmployerVerifyStatusEnum {
 export type Industry = {
   __typename?: 'Industry';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   industry: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type IndustryInput = {
+  active: Scalars['Boolean'];
   industry: Scalars['String'];
+};
+
+export type Interests = {
+  __typename?: 'Interests';
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  employee?: Maybe<Scalars['Boolean']>;
+  employeeId: Employee;
+  employer?: Maybe<Scalars['Boolean']>;
+  employerId: Employer;
+  jobId: EmployerJob;
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Location = {
   __typename?: 'Location';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   location: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type LocationInput = {
+  active: Scalars['Boolean'];
   location: Scalars['String'];
 };
 
@@ -271,10 +290,17 @@ export type Mutation = {
   addSubDomain: SubDomain;
   addSurvey: Survey;
   adminRegister: Admin;
+  markInterest: Scalars['Boolean'];
   register: User;
+  updateBenefit: Benefit;
+  updateDomain: Domain;
   updateEmployee: Employee;
   updateEmployer: Employer;
   updateEmployerJob: EmployerJob;
+  updateIndustry: Industry;
+  updateLocation: Location;
+  updateQualification: Qualification;
+  updateSkill: Skill;
 };
 
 
@@ -328,8 +354,26 @@ export type MutationAdminRegisterArgs = {
 };
 
 
+export type MutationMarkInterestArgs = {
+  employeeId?: InputMaybe<Scalars['String']>;
+  employerId?: InputMaybe<Scalars['String']>;
+  interest: Scalars['Boolean'];
+  jobId?: InputMaybe<Scalars['String']>;
+};
+
+
 export type MutationRegisterArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationUpdateBenefitArgs = {
+  input: UpdateBenefitInput;
+};
+
+
+export type MutationUpdateDomainArgs = {
+  input: UpdateDomainInput;
 };
 
 
@@ -347,15 +391,37 @@ export type MutationUpdateEmployerJobArgs = {
   input: EmployerJobInput;
 };
 
+
+export type MutationUpdateIndustryArgs = {
+  input: UpdateIndustryInput;
+};
+
+
+export type MutationUpdateLocationArgs = {
+  input: UpdateLocationInput;
+};
+
+
+export type MutationUpdateQualificationArgs = {
+  input: UpdateQualificationInput;
+};
+
+
+export type MutationUpdateSkillArgs = {
+  input: UpdateSkillInput;
+};
+
 export type Qualification = {
   __typename?: 'Qualification';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   qualification: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type QualificationInput = {
+  active: Scalars['Boolean'];
   qualification: Scalars['String'];
 };
 
@@ -379,6 +445,10 @@ export type Query = {
   getEmployer: Employer;
   getEmployerAllJobs: Array<EmployerJob>;
   getJobDetails: EmployerJob;
+  getMatched: Array<Interests>;
+  getMyInterests: Array<Interests>;
+  getShownInterests: Array<Interests>;
+  interestJob: Scalars['Boolean'];
   login: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   resendVerifyEmail: Scalars['Boolean'];
@@ -407,6 +477,11 @@ export type QueryEmployerExploreArgs = {
 
 
 export type QueryGetJobDetailsArgs = {
+  jobId: Scalars['String'];
+};
+
+
+export type QueryInterestJobArgs = {
   jobId: Scalars['String'];
 };
 
@@ -447,18 +522,21 @@ export type RegisterInput = {
 export type Skill = {
   __typename?: 'Skill';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   skill: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type SkillInput = {
+  active: Scalars['Boolean'];
   skill: Scalars['String'];
 };
 
 export type SubDomain = {
   __typename?: 'SubDomain';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   domain: Domain;
   subDomain: Scalars['String'];
@@ -466,6 +544,7 @@ export type SubDomain = {
 };
 
 export type SubDomainInput = {
+  active: Scalars['Boolean'];
   domain: Scalars['String'];
   subDomain: Scalars['String'];
 };
@@ -492,6 +571,18 @@ export enum SurveyType {
   Employer = 'employer'
 }
 
+export type UpdateBenefitInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  benefit?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+export type UpdateDomainInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  domain?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
 export type UpdateEmployeeInput = {
   aadharCard?: InputMaybe<Scalars['String']>;
   currentAddress?: InputMaybe<Scalars['String']>;
@@ -511,6 +602,7 @@ export type UpdateEmployeeInput = {
   radius?: InputMaybe<Scalars['Float']>;
   relevantExp?: InputMaybe<UserExpInYearMonthsInput>;
   resume?: InputMaybe<Scalars['String']>;
+  shortDescription?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Array<Scalars['ID']>>;
   subDomain?: InputMaybe<Array<Scalars['ID']>>;
   totalExp?: InputMaybe<UserExpInYearMonthsInput>;
@@ -541,6 +633,30 @@ export type UpdateEmployerInput = {
 export type UpdateEmployerVerifyInput = {
   _id: Scalars['ID'];
   employerVerified: Scalars['Boolean'];
+};
+
+export type UpdateIndustryInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  industry?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateLocationInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  location?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateQualificationInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  qualification?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateSkillInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  skill?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -609,14 +725,39 @@ export type UserWorkExpInput = {
 export type EmployeeExploreQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', score: number, employerId: { __typename?: 'Employer', companyName?: string | null, companyImage?: string | null }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, jobId: { __typename?: 'EmployerJob', jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> } }> };
+export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', score: number, employerId: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> } }> };
 
 export type EmployerExploreQueryVariables = Exact<{
   jobId: Scalars['String'];
 }>;
 
 
-export type EmployerExploreQuery = { __typename?: 'Query', employerExplore: Array<{ __typename?: 'DashboardEmployee', score: number, employeeId: { __typename?: 'Employee', expectedPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null } }> };
+export type EmployerExploreQuery = { __typename?: 'Query', employerExplore: Array<{ __typename?: 'DashboardEmployee', score: number, employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null } }> };
+
+export type MarkInterestMutationVariables = Exact<{
+  interest: Scalars['Boolean'];
+  employeeId?: InputMaybe<Scalars['String']>;
+  employerId?: InputMaybe<Scalars['String']>;
+  jobId?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type MarkInterestMutation = { __typename?: 'Mutation', markInterest: boolean };
+
+export type GetMyInterestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyInterestsQuery = { __typename?: 'Query', getMyInterests: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
+
+export type GetShownInterestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetShownInterestsQuery = { __typename?: 'Query', getShownInterests: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
+
+export type GetMatchedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMatchedQuery = { __typename?: 'Query', getMatched: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
 
 export type UpdateEmployeeMutationVariables = Exact<{
   input: UpdateEmployeeInput;
@@ -628,7 +769,7 @@ export type UpdateEmployeeMutation = { __typename?: 'Mutation', updateEmployee: 
 export type GetEmployeeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, interests: Array<{ __typename?: 'User', _id: string }> } };
+export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, shortDescription?: string | null, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
 
 export type UpdateEmployerMutationVariables = Exact<{
   input: UpdateEmployerInput;
@@ -764,6 +905,7 @@ export const EmployeeExploreDocument = gql`
   employeeExplore {
     score
     employerId {
+      _id
       companyName
       companyImage
     }
@@ -773,6 +915,7 @@ export const EmployeeExploreDocument = gql`
       image
     }
     jobId {
+      _id
       jobTitle
       jobDesc
       jobType
@@ -829,6 +972,8 @@ export const EmployerExploreDocument = gql`
     query EmployerExplore($jobId: String!) {
   employerExplore(jobId: $jobId) {
     employeeId {
+      _id
+      shortDescription
       location {
         location
       }
@@ -880,6 +1025,297 @@ export function useEmployerExploreLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type EmployerExploreQueryHookResult = ReturnType<typeof useEmployerExploreQuery>;
 export type EmployerExploreLazyQueryHookResult = ReturnType<typeof useEmployerExploreLazyQuery>;
 export type EmployerExploreQueryResult = Apollo.QueryResult<EmployerExploreQuery, EmployerExploreQueryVariables>;
+export const MarkInterestDocument = gql`
+    mutation MarkInterest($interest: Boolean!, $employeeId: String, $employerId: String, $jobId: String) {
+  markInterest(
+    interest: $interest
+    employeeId: $employeeId
+    employerId: $employerId
+    jobId: $jobId
+  )
+}
+    `;
+export type MarkInterestMutationFn = Apollo.MutationFunction<MarkInterestMutation, MarkInterestMutationVariables>;
+
+/**
+ * __useMarkInterestMutation__
+ *
+ * To run a mutation, you first call `useMarkInterestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkInterestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markInterestMutation, { data, loading, error }] = useMarkInterestMutation({
+ *   variables: {
+ *      interest: // value for 'interest'
+ *      employeeId: // value for 'employeeId'
+ *      employerId: // value for 'employerId'
+ *      jobId: // value for 'jobId'
+ *   },
+ * });
+ */
+export function useMarkInterestMutation(baseOptions?: Apollo.MutationHookOptions<MarkInterestMutation, MarkInterestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkInterestMutation, MarkInterestMutationVariables>(MarkInterestDocument, options);
+      }
+export type MarkInterestMutationHookResult = ReturnType<typeof useMarkInterestMutation>;
+export type MarkInterestMutationResult = Apollo.MutationResult<MarkInterestMutation>;
+export type MarkInterestMutationOptions = Apollo.BaseMutationOptions<MarkInterestMutation, MarkInterestMutationVariables>;
+export const GetMyInterestsDocument = gql`
+    query GetMyInterests {
+  getMyInterests {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyInterestsQuery__
+ *
+ * To run a query within a React component, call `useGetMyInterestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyInterestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyInterestsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyInterestsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyInterestsQuery, GetMyInterestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyInterestsQuery, GetMyInterestsQueryVariables>(GetMyInterestsDocument, options);
+      }
+export function useGetMyInterestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyInterestsQuery, GetMyInterestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyInterestsQuery, GetMyInterestsQueryVariables>(GetMyInterestsDocument, options);
+        }
+export type GetMyInterestsQueryHookResult = ReturnType<typeof useGetMyInterestsQuery>;
+export type GetMyInterestsLazyQueryHookResult = ReturnType<typeof useGetMyInterestsLazyQuery>;
+export type GetMyInterestsQueryResult = Apollo.QueryResult<GetMyInterestsQuery, GetMyInterestsQueryVariables>;
+export const GetShownInterestsDocument = gql`
+    query GetShownInterests {
+  getShownInterests {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetShownInterestsQuery__
+ *
+ * To run a query within a React component, call `useGetShownInterestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetShownInterestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetShownInterestsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetShownInterestsQuery(baseOptions?: Apollo.QueryHookOptions<GetShownInterestsQuery, GetShownInterestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetShownInterestsQuery, GetShownInterestsQueryVariables>(GetShownInterestsDocument, options);
+      }
+export function useGetShownInterestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetShownInterestsQuery, GetShownInterestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetShownInterestsQuery, GetShownInterestsQueryVariables>(GetShownInterestsDocument, options);
+        }
+export type GetShownInterestsQueryHookResult = ReturnType<typeof useGetShownInterestsQuery>;
+export type GetShownInterestsLazyQueryHookResult = ReturnType<typeof useGetShownInterestsLazyQuery>;
+export type GetShownInterestsQueryResult = Apollo.QueryResult<GetShownInterestsQuery, GetShownInterestsQueryVariables>;
+export const GetMatchedDocument = gql`
+    query GetMatched {
+  getMatched {
+    employeeId {
+      _id
+      shortDescription
+      user {
+        firstName
+        lastName
+        image
+      }
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      expectedPay
+    }
+    employerId {
+      _id
+      companyImage
+      companyName
+    }
+    jobId {
+      _id
+      jobTitle
+      jobDesc
+      jobType
+      location {
+        location
+      }
+      domain {
+        domain
+      }
+      subDomain {
+        subDomain
+      }
+      skills {
+        skill
+      }
+      minRequiredExp {
+        years
+        months
+      }
+      minPay
+      maxPay
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMatchedQuery__
+ *
+ * To run a query within a React component, call `useGetMatchedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMatchedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMatchedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMatchedQuery(baseOptions?: Apollo.QueryHookOptions<GetMatchedQuery, GetMatchedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMatchedQuery, GetMatchedQueryVariables>(GetMatchedDocument, options);
+      }
+export function useGetMatchedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMatchedQuery, GetMatchedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMatchedQuery, GetMatchedQueryVariables>(GetMatchedDocument, options);
+        }
+export type GetMatchedQueryHookResult = ReturnType<typeof useGetMatchedQuery>;
+export type GetMatchedLazyQueryHookResult = ReturnType<typeof useGetMatchedLazyQuery>;
+export type GetMatchedQueryResult = Apollo.QueryResult<GetMatchedQuery, GetMatchedQueryVariables>;
 export const UpdateEmployeeDocument = gql`
     mutation UpdateEmployee($input: UpdateEmployeeInput!) {
   updateEmployee(input: $input) {
@@ -919,6 +1355,7 @@ export const GetEmployeeDocument = gql`
     query GetEmployee {
   getEmployee {
     _id
+    shortDescription
     radius
     latitude
     longitude
@@ -972,9 +1409,6 @@ export const GetEmployeeDocument = gql`
     dob
     panCard
     aadharCard
-    interests {
-      _id
-    }
   }
 }
     `;

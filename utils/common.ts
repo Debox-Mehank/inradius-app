@@ -23,7 +23,7 @@ export const reactSelectColorStyles: StylesConfig<
     color: "black",
     fontSize: "14px",
     ":hover": {
-      backgroundColor: "#e55d29",
+      backgroundColor: "#ff4100",
       color: "white",
     },
   }),
@@ -53,14 +53,14 @@ export const reactMultiSelectColorStyles: StylesConfig<
     color: "black",
     fontSize: "14px",
     ":hover": {
-      backgroundColor: "#e55d29",
+      backgroundColor: "#ff4100",
       color: "white",
     },
   }),
   multiValue: (styles, { data }) => {
     return {
       ...styles,
-      backgroundColor: "#e55d29",
+      backgroundColor: "#ff4100",
     };
   },
   multiValueLabel: (styles, { data }) => ({

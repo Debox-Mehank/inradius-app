@@ -7,10 +7,13 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { DashboardEmployerCardData } from "../../../features/dashboard.sice";
+import {
+  DashboardEmployerCardData,
+  InterestsEmployerCardData,
+} from "../../../features/dashboard.sice";
 import ReusableButton from "../../reusables/ReusableButton";
 
-const EmployeeDashboardJobLisitingCard = ({
+const EmployeeInterestCard = ({
   data: {
     companyName,
     companyImage,
@@ -27,12 +30,14 @@ const EmployeeDashboardJobLisitingCard = ({
     employerId,
     jobId,
   },
+  shownInterest = false,
   interestHandler,
   notInterestHandler,
 }: {
-  data: DashboardEmployerCardData;
-  interestHandler: (employerId: string, jobId: string) => void;
-  notInterestHandler: (employerId: string, jobId: string) => void;
+  data: InterestsEmployerCardData;
+  shownInterest?: boolean;
+  interestHandler?: (employerId: string, jobId: string) => void;
+  notInterestHandler?: (employerId: string, jobId: string) => void;
 }) => {
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-4">
@@ -95,40 +100,35 @@ const EmployeeDashboardJobLisitingCard = ({
             {`${jobType}`}
           </p>
         </div>
-        <div className="flex justify-start items-center gap-4 mt-6">
-          <ReusableButton
-            bg="bg-primary w-full"
-            text="text-white"
-            title="Interested"
-            size="small"
-            onClick={() => {
-              interestHandler(employerId ?? "", jobId ?? "");
-            }}
-          />
-          <ReusableButton
-            bg="bg-white w-full border border-black"
-            text="text-black"
-            title="Not Interested"
-            size="small"
-            onClick={() => {
-              notInterestHandler(employerId ?? "", jobId ?? "");
-            }}
-          />
-          <ReusableButton
-            bg="bg-black"
-            text="text-white"
-            title=""
-            size="small"
-            icon={faBookmark}
-            iconButton={true}
-            onClick={() => {
-              console.log("Not Interested!");
-            }}
-          />
-        </div>
+        {shownInterest && (
+          <div className="flex justify-start items-center gap-4 mt-6">
+            <ReusableButton
+              bg="bg-primary w-full"
+              text="text-white"
+              title="Interested"
+              size="small"
+              onClick={() => {
+                if (interestHandler) {
+                  interestHandler(employerId ?? "", jobId ?? "");
+                }
+              }}
+            />
+            <ReusableButton
+              bg="bg-white w-full border border-black"
+              text="text-black"
+              title="Not Interested"
+              size="small"
+              onClick={() => {
+                if (notInterestHandler) {
+                  notInterestHandler(employerId ?? "", jobId ?? "");
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default EmployeeDashboardJobLisitingCard;
+export default EmployeeInterestCard;

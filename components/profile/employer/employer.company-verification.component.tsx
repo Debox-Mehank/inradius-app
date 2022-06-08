@@ -344,8 +344,8 @@ const EmployerCompanyVerification = () => {
             {employerVerifyStatus ===
               EmployerVerifyStatusEnum.DocumentsUploaded && employerVerified ? (
               <div className="text-justify" style={{ textAlignLast: "center" }}>
-                Your details have been verified successfully!. Continue with
-                your process by clicking the button below
+                Your details have been verified successfully! Continue with your
+                process by clicking the button below
               </div>
             ) : (
               <div className="text-justify" style={{ textAlignLast: "center" }}>

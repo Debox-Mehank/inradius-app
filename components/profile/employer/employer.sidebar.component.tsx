@@ -35,11 +35,11 @@ const EmployerSidebar = ({
             styles={buildStyles({
               backgroundColor: `${
                 employerSlice.currentProgress.toFixed(1) === "100.0"
-                  ? "#e55d29"
+                  ? "#ff4100"
                   : "transparent"
               }`,
               textColor: "white",
-              pathColor: "#e55d29",
+              pathColor: "#ff4100",
               trailColor: "#e7e7e7",
               textSize: "14px",
               strokeLinecap: "rounded",

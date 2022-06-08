@@ -79,6 +79,7 @@ const Dashboard = () => {
 
       const empData: DashboardEmployeeState = {
         _id: employee._id,
+        shortDescription: employee.shortDescription ?? "",
         radius: employee.radius ?? 0,
         location: employee.location?.location ?? "",
         qualification: employee.qualification?.qualification ?? "",
@@ -166,10 +167,12 @@ const Dashboard = () => {
           qualification: job.qualification,
           industry: job.industry,
           domain: job.domain,
-          subDomain: job.subDomain ? job.subDomain.map((sd) => ({
-            _id: sd._id,
-            subDomain: sd.subDomain,
-          })) : [],
+          subDomain: job.subDomain
+            ? job.subDomain.map((sd) => ({
+                _id: sd._id,
+                subDomain: sd.subDomain,
+              }))
+            : [],
           skills: job.skills.map((s) => ({
             label: s.skill,
             value: s._id,

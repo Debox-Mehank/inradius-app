@@ -5,11 +5,9 @@ import { RootState } from "../../../app/store";
 import { toggleLoading } from "../../../features/common.slice";
 import { DashboardEmployeeCardData } from "../../../features/dashboard.sice";
 import {
-  DashboardEmployee,
-  DashboardEmployer,
   EmployerJobStatusEnum,
-  useEmployeeExploreLazyQuery,
   useEmployerExploreLazyQuery,
+  useMarkInterestMutation,
 } from "../../../generated/graphql";
 import NoResults from "../../reusables/NoResults";
 import DashboardPageHeading from "../common/dashboard.heading.component";
@@ -28,6 +26,7 @@ const EmployerDashboardExplore = () => {
 
   const [empList, setEmpLists] = useState<DashboardEmployeeCardData[]>([]);
   const [employerExploreQuery] = useEmployerExploreLazyQuery();
+  const [markInterestMutation] = useMarkInterestMutation();
 
   useEffect(() => {
     const myFunc = async () => {
@@ -42,6 +41,7 @@ const EmployerDashboardExplore = () => {
         dispatch(toggleLoading());
         const { data, error } = await employerExploreQuery({
           variables: { jobId: selectedJob._id! },
+          fetchPolicy: "network-only",
         });
         dispatch(toggleLoading());
         if (error !== undefined) {
@@ -75,12 +75,70 @@ const EmployerDashboardExplore = () => {
             skills: el.employeeId.skills.map((s) => s.skill),
             subDomain: el.employeeId.subDomain.map((sd) => sd.subDomain),
             score: el.score,
+            employeeId: el.employeeId._id,
           }))
         );
       }
     };
     myFunc();
   }, [dispatch, employerExploreQuery, dashboardEmployer, selectedJob]);
+
+  const interestClickHandler = async (employeeId: string) => {
+    dispatch(toggleLoading());
+    const { data, errors } = await markInterestMutation({
+      variables: {
+        interest: true,
+        employeeId: employeeId,
+        jobId: selectedJob?._id,
+      },
+    });
+    dispatch(toggleLoading());
+
+    if (errors) {
+      toast.error(errors[0].message, {
+        autoClose: 1500,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (data) {
+      if (data.markInterest) {
+        toast.success("Success!", { autoClose: 1500, hideProgressBar: true });
+        const oldEmpLists = [...empList];
+        const newEmpLists = oldEmpLists.filter(
+          (el) => el.employeeId !== employeeId
+        );
+        setEmpLists(newEmpLists);
+      }
+    }
+  };
+
+  const notInterestClickHandler = async (employeeId: string) => {
+    dispatch(toggleLoading());
+    const { data, errors } = await markInterestMutation({
+      variables: {
+        interest: false,
+        employeeId: employeeId,
+        jobId: selectedJob?._id,
+      },
+    });
+    dispatch(toggleLoading());
+
+    if (errors) {
+      toast.error(errors[0].message, {
+        autoClose: 1500,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (data) {
+      if (data.markInterest) {
+        toast.success("Success!", { autoClose: 1500, hideProgressBar: true });
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col px-8 relative">
@@ -90,7 +148,12 @@ const EmployerDashboardExplore = () => {
           <>
             {empList.map((emp, idx) => {
               return (
-                <EmployerDashboardEmployeeLisitingCard {...emp} key={idx} />
+                <EmployerDashboardEmployeeLisitingCard
+                  data={{ ...emp }}
+                  interestHandler={interestClickHandler}
+                  notInterestHandler={notInterestClickHandler}
+                  key={idx}
+                />
                 // <div key={idx}>
                 //   <div>
                 //     Employee Name : {emp.firstName} {emp.lastName}

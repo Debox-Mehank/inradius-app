@@ -9,6 +9,7 @@ mutation UpdateEmployee($input: UpdateEmployeeInput!) {
 query GetEmployee {
   getEmployee {
     _id
+    shortDescription
     radius
     latitude
     longitude
@@ -62,8 +63,5 @@ query GetEmployee {
     dob
     panCard
     aadharCard
-    interests {
-      _id
-    }
   }
 }

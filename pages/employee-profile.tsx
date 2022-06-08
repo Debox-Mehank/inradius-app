@@ -293,6 +293,7 @@ const EmployeeProfile = () => {
 
       //   Store the data in slice
       const empData: EmployeeData = {
+        shortDescription: employeeData.getEmployee.shortDescription,
         aadharCard: employeeData.getEmployee.aadharCard,
         currentAddress: employeeData.getEmployee.currentAddress,
         currentPay: employeeData.getEmployee.currentPay,
@@ -302,7 +303,6 @@ const EmployeeProfile = () => {
         fresher: employeeData.getEmployee.fresher,
         gender: employeeData.getEmployee.gender,
         industry: employeeData.getEmployee.industry,
-        interests: [],
         latitude: employeeData.getEmployee.latitude,
         linkedIn: employeeData.getEmployee.linkedIn,
         location: employeeData.getEmployee.location,

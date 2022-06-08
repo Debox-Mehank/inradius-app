@@ -36,6 +36,7 @@ export const EMPLOYEE_STEPS = [
 
 export interface EmployeeData {
   aadharCard?: string | null | undefined;
+  shortDescription?: string | null | undefined;
   currentAddress?: string | null | undefined;
   currentPay?: number | null | undefined;
   dob?: string | null | undefined;
@@ -44,7 +45,6 @@ export interface EmployeeData {
   fresher?: boolean | null | undefined;
   gender?: EmployeeGenderEnum | null | undefined;
   industry?: { _id: string; industry: string } | null | undefined;
-  interests?: User[];
   latitude?: number | null | undefined;
   linkedIn?: string | null | undefined;
   location?: { _id: string; location: string } | null | undefined;
@@ -100,6 +100,7 @@ interface EmployeeState {
 const initialState: EmployeeState = {
   employee: {
     aadharCard: null,
+    shortDescription: null,
     currentAddress: null,
     currentPay: null,
     dob: null,
@@ -108,7 +109,6 @@ const initialState: EmployeeState = {
     fresher: false,
     gender: null,
     industry: null,
-    interests: [],
     latitude: null,
     linkedIn: null,
     location: null,

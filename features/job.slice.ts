@@ -51,6 +51,7 @@ export interface EmployerJobState {
     | undefined;
   minPay?: number | null | undefined;
   maxPay?: number | null | undefined;
+  openForFreshers?: boolean;
 }
 
 export interface JobState {
@@ -78,6 +79,7 @@ const initialState: JobState = {
     minRequiredExp: null,
     minPay: null,
     maxPay: null,
+    openForFreshers: false,
   },
   currentProgress: 10,
   currentStep: 1,

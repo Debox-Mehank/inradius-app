@@ -21,6 +21,10 @@ const EmployeeLinkedInResume = () => {
     (state: RootState) => state.employee.employee.linkedIn
   );
 
+  const shortDescription = useSelector(
+    (state: RootState) => state.employee.employee.shortDescription
+  );
+
   const resume = useSelector(
     (state: RootState) => state.employee.employee.resume
   );
@@ -33,6 +37,14 @@ const EmployeeLinkedInResume = () => {
     var uploadData;
     if (!linkedIn) {
       toast.info("Please provide your LinkedIn Profile", {
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      return;
+    }
+
+    if (!shortDescription) {
+      toast.info("Please provide your Short Description", {
         autoClose: 2000,
         hideProgressBar: true,
       });
@@ -72,6 +84,7 @@ const EmployeeLinkedInResume = () => {
         input: {
           linkedIn: linkedIn,
           resume: file ? uploadData.secure_url : resume,
+          shortDescription: shortDescription,
         },
       },
     });
@@ -118,6 +131,23 @@ const EmployeeLinkedInResume = () => {
                 dispatch(
                   updateEmployeeData({
                     linkedIn: e.target.value,
+                  })
+                );
+              }}
+            />
+          </div>
+          <PageSubHeading text={"Short Description About You"} />
+          <div className="flex flex-col justify-start w-full">
+            <textarea
+              // type={"text"}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              placeholder={"Short description"}
+              autoComplete="off"
+              value={shortDescription ?? ""}
+              onChange={(e) => {
+                dispatch(
+                  updateEmployeeData({
+                    shortDescription: e.target.value,
                   })
                 );
               }}

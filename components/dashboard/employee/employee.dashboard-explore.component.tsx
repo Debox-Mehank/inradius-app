@@ -152,7 +152,7 @@ const EmployeeDashboardExplore = () => {
         ) : (
           <NoResults
             message={
-              "Oops!, No jobs found matching your criteria.\nKeep looking for jobs in future."
+              "Oops, currently there are no jobs matching your criteria,\ntry expanding or altering your preferences."
             }
           />
         )}

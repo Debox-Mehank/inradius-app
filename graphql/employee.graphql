@@ -45,6 +45,9 @@ query GetEmployee {
       start
       end
       current
+      onNotice
+      lastDateAtCurrentEmployer
+      expectedJoinigDate
     }
     totalExp {
       years

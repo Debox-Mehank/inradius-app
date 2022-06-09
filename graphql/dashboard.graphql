@@ -80,8 +80,8 @@ mutation MarkInterest(
   )
 }
 
-query GetMyInterests {
-  getMyInterests {
+query GetMyInterests($jobId: String) {
+  getMyInterests(jobId: $jobId) {
     employeeId {
       _id
       shortDescription
@@ -136,8 +136,8 @@ query GetMyInterests {
   }
 }
 
-query GetShownInterests {
-  getShownInterests {
+query GetShownInterests($jobId: String) {
+  getShownInterests(jobId: $jobId) {
     employeeId {
       _id
       shortDescription
@@ -192,8 +192,8 @@ query GetShownInterests {
   }
 }
 
-query GetMatched {
-  getMatched {
+query GetMatched($jobId: String) {
+  getMatched(jobId: $jobId) {
     employeeId {
       _id
       shortDescription

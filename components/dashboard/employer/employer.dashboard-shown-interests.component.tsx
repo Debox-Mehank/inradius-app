@@ -15,6 +15,9 @@ const EmployerDashboardShownInterests = () => {
   const currentPage = useSelector(
     (state: RootState) => state.dashboard.currentPage
   );
+  const selectedJob = useSelector(
+    (state: RootState) => state.dashboard.selectedJob
+  );
 
   const [interestsList, setInterestsList] = useState<any[]>([]);
 
@@ -61,7 +64,7 @@ const EmployerDashboardShownInterests = () => {
     if (currentPage === DashboardPagesEnum["shown-interests"]) {
       myFunc();
     }
-  }, [dispatch, getShownInterestsQuery, currentPage]);
+  }, [dispatch, getShownInterestsQuery, currentPage, selectedJob]);
 
   return (
     <div className="flex flex-col px-8 relative">

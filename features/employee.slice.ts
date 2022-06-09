@@ -73,9 +73,12 @@ export interface EmployeeData {
     company?: string | null;
     current?: boolean | null;
     desc?: string | null;
-    designation?: DesignationEnum | null;
+    designation?: { label: string; value: string } | null;
     end?: string | null;
     start?: string | null;
+    onNotice?: boolean | null;
+    lastDateAtCurrentEmployer?: string | null;
+    expectedJoinigDate?: string | null;
   }[];
   user?: {
     _id: string;

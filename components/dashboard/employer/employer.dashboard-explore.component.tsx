@@ -168,7 +168,7 @@ const EmployerDashboardExplore = () => {
         ) : (
           <NoResults
             message={
-              "Oops!, No talents found matching your criteria.\nKeep looking for talent in future."
+              "Oops, currently there are no profiles matching your criteria,\ntry expanding or altering your preferences."
             }
           />
         )}

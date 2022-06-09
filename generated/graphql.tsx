@@ -301,6 +301,7 @@ export type Mutation = {
   updateLocation: Location;
   updateQualification: Qualification;
   updateSkill: Skill;
+  updateSurveyQuestion: Survey;
 };
 
 
@@ -411,6 +412,11 @@ export type MutationUpdateSkillArgs = {
   input: UpdateSkillInput;
 };
 
+
+export type MutationUpdateSurveyQuestionArgs = {
+  input: UpdateSurveyInput;
+};
+
 export type Qualification = {
   __typename?: 'Qualification';
   _id: Scalars['ID'];
@@ -448,7 +454,6 @@ export type Query = {
   getMatched: Array<Interests>;
   getMyInterests: Array<Interests>;
   getShownInterests: Array<Interests>;
-  interestJob: Scalars['Boolean'];
   login: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   resendVerifyEmail: Scalars['Boolean'];
@@ -481,8 +486,18 @@ export type QueryGetJobDetailsArgs = {
 };
 
 
-export type QueryInterestJobArgs = {
-  jobId: Scalars['String'];
+export type QueryGetMatchedArgs = {
+  jobId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetMyInterestsArgs = {
+  jobId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetShownInterestsArgs = {
+  jobId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -552,6 +567,7 @@ export type SubDomainInput = {
 export type Survey = {
   __typename?: 'Survey';
   _id: Scalars['ID'];
+  active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   options: Array<Scalars['String']>;
   question: Scalars['String'];
@@ -560,6 +576,7 @@ export type Survey = {
 };
 
 export type SurveyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   options: Array<Scalars['String']>;
   question: Scalars['String'];
   type: SurveyType;
@@ -659,6 +676,13 @@ export type UpdateSkillInput = {
   skill?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateSurveyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  options?: InputMaybe<Array<Scalars['String']>>;
+  question?: InputMaybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
@@ -710,6 +734,9 @@ export type UserWorkExp = {
   desc: Scalars['String'];
   designation: DesignationEnum;
   end?: Maybe<Scalars['DateTime']>;
+  expectedJoinigDate?: Maybe<Scalars['DateTime']>;
+  lastDateAtCurrentEmployer?: Maybe<Scalars['DateTime']>;
+  onNotice: Scalars['Boolean'];
   start: Scalars['DateTime'];
 };
 
@@ -719,6 +746,9 @@ export type UserWorkExpInput = {
   desc: Scalars['String'];
   designation: DesignationEnum;
   end?: InputMaybe<Scalars['DateTime']>;
+  expectedJoinigDate?: InputMaybe<Scalars['DateTime']>;
+  lastDateAtCurrentEmployer?: InputMaybe<Scalars['DateTime']>;
+  onNotice: Scalars['Boolean'];
   start: Scalars['DateTime'];
 };
 
@@ -744,17 +774,23 @@ export type MarkInterestMutationVariables = Exact<{
 
 export type MarkInterestMutation = { __typename?: 'Mutation', markInterest: boolean };
 
-export type GetMyInterestsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMyInterestsQueryVariables = Exact<{
+  jobId?: InputMaybe<Scalars['String']>;
+}>;
 
 
 export type GetMyInterestsQuery = { __typename?: 'Query', getMyInterests: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
 
-export type GetShownInterestsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetShownInterestsQueryVariables = Exact<{
+  jobId?: InputMaybe<Scalars['String']>;
+}>;
 
 
 export type GetShownInterestsQuery = { __typename?: 'Query', getShownInterests: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
 
-export type GetMatchedQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMatchedQueryVariables = Exact<{
+  jobId?: InputMaybe<Scalars['String']>;
+}>;
 
 
 export type GetMatchedQuery = { __typename?: 'Query', getMatched: Array<{ __typename?: 'Interests', employeeId: { __typename?: 'Employee', _id: string, shortDescription?: string | null, expectedPay?: number | null, user: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> }, employerId: { __typename?: 'Employer', _id: string, companyImage?: string | null, companyName?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }>, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } }> };
@@ -769,7 +805,7 @@ export type UpdateEmployeeMutation = { __typename?: 'Mutation', updateEmployee: 
 export type GetEmployeeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, shortDescription?: string | null, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
+export type GetEmployeeQuery = { __typename?: 'Query', getEmployee: { __typename?: 'Employee', _id: string, shortDescription?: string | null, radius?: number | null, latitude?: number | null, longitude?: number | null, fresher?: boolean | null, currentPay?: number | null, expectedPay?: number | null, linkedIn?: string | null, resume?: string | null, gender?: EmployeeGenderEnum | null, currentAddress?: string | null, dob?: any | null, panCard?: string | null, aadharCard?: string | null, location?: { __typename?: 'Location', _id: string, location: string } | null, qualification?: { __typename?: 'Qualification', _id: string, qualification: string } | null, industry?: { __typename?: 'Industry', _id: string, industry: string } | null, domain?: { __typename?: 'Domain', _id: string, domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', _id: string, subDomain: string }>, skills: Array<{ __typename?: 'Skill', _id: string, skill: string }>, workExp: Array<{ __typename?: 'UserWorkExp', company: string, designation: DesignationEnum, desc: string, start: any, end?: any | null, current: boolean, onNotice: boolean, lastDateAtCurrentEmployer?: any | null, expectedJoinigDate?: any | null }>, totalExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, relevantExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null } };
 
 export type UpdateEmployerMutationVariables = Exact<{
   input: UpdateEmployerInput;
@@ -1065,8 +1101,8 @@ export type MarkInterestMutationHookResult = ReturnType<typeof useMarkInterestMu
 export type MarkInterestMutationResult = Apollo.MutationResult<MarkInterestMutation>;
 export type MarkInterestMutationOptions = Apollo.BaseMutationOptions<MarkInterestMutation, MarkInterestMutationVariables>;
 export const GetMyInterestsDocument = gql`
-    query GetMyInterests {
-  getMyInterests {
+    query GetMyInterests($jobId: String) {
+  getMyInterests(jobId: $jobId) {
     employeeId {
       _id
       shortDescription
@@ -1134,6 +1170,7 @@ export const GetMyInterestsDocument = gql`
  * @example
  * const { data, loading, error } = useGetMyInterestsQuery({
  *   variables: {
+ *      jobId: // value for 'jobId'
  *   },
  * });
  */
@@ -1149,8 +1186,8 @@ export type GetMyInterestsQueryHookResult = ReturnType<typeof useGetMyInterestsQ
 export type GetMyInterestsLazyQueryHookResult = ReturnType<typeof useGetMyInterestsLazyQuery>;
 export type GetMyInterestsQueryResult = Apollo.QueryResult<GetMyInterestsQuery, GetMyInterestsQueryVariables>;
 export const GetShownInterestsDocument = gql`
-    query GetShownInterests {
-  getShownInterests {
+    query GetShownInterests($jobId: String) {
+  getShownInterests(jobId: $jobId) {
     employeeId {
       _id
       shortDescription
@@ -1218,6 +1255,7 @@ export const GetShownInterestsDocument = gql`
  * @example
  * const { data, loading, error } = useGetShownInterestsQuery({
  *   variables: {
+ *      jobId: // value for 'jobId'
  *   },
  * });
  */
@@ -1233,8 +1271,8 @@ export type GetShownInterestsQueryHookResult = ReturnType<typeof useGetShownInte
 export type GetShownInterestsLazyQueryHookResult = ReturnType<typeof useGetShownInterestsLazyQuery>;
 export type GetShownInterestsQueryResult = Apollo.QueryResult<GetShownInterestsQuery, GetShownInterestsQueryVariables>;
 export const GetMatchedDocument = gql`
-    query GetMatched {
-  getMatched {
+    query GetMatched($jobId: String) {
+  getMatched(jobId: $jobId) {
     employeeId {
       _id
       shortDescription
@@ -1302,6 +1340,7 @@ export const GetMatchedDocument = gql`
  * @example
  * const { data, loading, error } = useGetMatchedQuery({
  *   variables: {
+ *      jobId: // value for 'jobId'
  *   },
  * });
  */
@@ -1391,6 +1430,9 @@ export const GetEmployeeDocument = gql`
       start
       end
       current
+      onNotice
+      lastDateAtCurrentEmployer
+      expectedJoinigDate
     }
     totalExp {
       years

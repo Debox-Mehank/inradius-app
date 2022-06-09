@@ -6,6 +6,7 @@ import { RootState } from "../../app/store";
 import { toggleLoading } from "../../features/common.slice";
 import { updateJobData } from "../../features/job.slice";
 import {
+  EmployerJobStatusEnum,
   EmployerJobTypeEnum,
   useUpdateEmployerJobMutation,
 } from "../../generated/graphql";
@@ -61,6 +62,7 @@ const JobDetailsMinMaxPay = () => {
           minPay: minPay,
           maxPay: maxPay,
           listingComplete: true,
+          jobStatus: EmployerJobStatusEnum.Open,
         },
       },
     });

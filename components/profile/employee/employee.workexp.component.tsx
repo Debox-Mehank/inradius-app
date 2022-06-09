@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Select from "react-select";
 import Switch from "react-switch";
 import { RootState } from "../../../app/store";
 import { toggleLoading } from "../../../features/common.slice";
@@ -11,6 +12,7 @@ import {
 import { PageHeading, PageSubHeading } from "../common/heading.component";
 import EmployeeNextButton from "./employee.nextbutton.component";
 import EmployeePrevButton from "./employee.prevbutton.component";
+import { reactSelectColorStyles } from "../../../utils/common";
 
 const EmployeeWorkExp = () => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
@@ -39,7 +41,14 @@ const EmployeeWorkExp = () => {
       } else {
         for (let index = 0; index < workExp.length; index++) {
           const w = workExp[index];
-          if (!w.company || !w.desc || !w.start || (!w.current && !w.end)) {
+          if (
+            !w.company ||
+            !w.desc ||
+            !w.start ||
+            (!w.current && !w.end) ||
+            (w.onNotice && !w.lastDateAtCurrentEmployer) ||
+            (!w.onNotice && !w.expectedJoinigDate)
+          ) {
             toast.info("Please fill all the details", {
               autoClose: 2000,
               hideProgressBar: true,
@@ -69,6 +78,15 @@ const EmployeeWorkExp = () => {
                 start: new Date(el.start ?? ""),
                 end: el.current ?? false ? null : new Date(el.end ?? ""),
                 current: el.current ?? false,
+                onNotice: el.onNotice ?? false,
+                lastDateAtCurrentEmployer:
+                  el.onNotice ?? false
+                    ? new Date(el.lastDateAtCurrentEmployer ?? "")
+                    : null,
+                expectedJoinigDate:
+                  el.onNotice ?? false
+                    ? null
+                    : new Date(el.expectedJoinigDate ?? ""),
               })),
             },
       },
@@ -125,7 +143,7 @@ const EmployeeWorkExp = () => {
                   })
                 );
               } else {
-                const myWorkExp = [...(workExp ?? [])];
+                const myWorkExp = [];
                 myWorkExp.push({
                   company: null,
                   current: null,
@@ -133,6 +151,9 @@ const EmployeeWorkExp = () => {
                   designation: null,
                   end: null,
                   start: null,
+                  onNotice: null,
+                  lastDateAtCurrentEmployer: null,
+                  expectedJoinigDate: null,
                 });
                 dispatch(
                   updateEmployeeData({ fresher: e, workExp: myWorkExp })
@@ -151,7 +172,7 @@ const EmployeeWorkExp = () => {
         </div>
         {fresher ? null : (
           <>
-            <div className="flex flex-col gap-5 justify-start items-center w-full max-h-96 overflow-auto">
+            <div className="flex flex-col gap-5 justify-start items-center w-full px-5 max-h-96 overflow-auto">
               <PageSubHeading text="All experience" />
               {workExp?.map((exp, idx) => {
                 return (
@@ -222,7 +243,37 @@ const EmployeeWorkExp = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-start w-full">
-                      <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                      {exp.designation && (
+                        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                          {`Designation`}
+                        </p>
+                      )}
+                      <Select<{ label: string; value: string } | null>
+                        options={Object.values(DesignationEnum).map((el) => ({
+                          label: el,
+                          value: el,
+                        }))}
+                        className="w-full"
+                        placeholder="Select Years"
+                        value={exp.designation}
+                        onChange={(value) => {
+                          const myWorkExp = workExp.map((el, i) => {
+                            if (i === idx) {
+                              return { ...el, designation: value };
+                            }
+                            return el;
+                          });
+                          dispatch(
+                            updateEmployeeData({
+                              workExp: myWorkExp,
+                            })
+                          );
+                        }}
+                        styles={reactSelectColorStyles}
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start w-full">
+                      <p className="text-xs w-max text-justify text-gray-500 font-medium mb-1">
                         {`Currently Working Here`}
                       </p>
                       <Switch
@@ -247,7 +298,7 @@ const EmployeeWorkExp = () => {
                         handleDiameter={15}
                         height={24}
                         width={40}
-                        className="w-full justify-start d-flex-imp items-center"
+                        className="w-max justify-start d-flex-imp items-center"
                       />
                     </div>
                     <div className="flex flex-col justify-start w-full">
@@ -263,6 +314,16 @@ const EmployeeWorkExp = () => {
                         onChange={(e) => {
                           const myWorkExp = workExp.map((el, i) => {
                             if (i === idx) {
+                              if (
+                                new Date(e.target.value.toString()).getTime() >
+                                new Date().getTime()
+                              ) {
+                                toast.info("Start date cannot be of future.", {
+                                  autoClose: 2000,
+                                  hideProgressBar: true,
+                                });
+                                return el;
+                              }
                               if (exp.end) {
                                 if (
                                   new Date(e.target.value).getTime() >
@@ -301,6 +362,17 @@ const EmployeeWorkExp = () => {
                           onChange={(e) => {
                             const myWorkExp = workExp!.map((el, i) => {
                               if (i === idx) {
+                                if (
+                                  new Date(
+                                    e.target.value.toString()
+                                  ).getTime() >= new Date().getTime()
+                                ) {
+                                  toast.info("End date cannot be of future.", {
+                                    autoClose: 2000,
+                                    hideProgressBar: true,
+                                  });
+                                  return el;
+                                }
                                 if (el.start) {
                                   if (
                                     new Date(
@@ -328,6 +400,121 @@ const EmployeeWorkExp = () => {
                         />
                       </div>
                     ) : null}
+                    <div className="flex flex-col justify-start w-full">
+                      <p className="text-xs w-max text-justify text-gray-500 font-medium mb-1">
+                        {`Currently On Notice Period`}
+                      </p>
+                      <Switch
+                        checked={exp.onNotice ?? false}
+                        onChange={(e) => {
+                          const myWorkExp = workExp.map((el, i) => {
+                            if (i === idx) {
+                              return {
+                                ...el,
+                                onNotice: e,
+                                lastDateAtCurrentEmployer: null,
+                                expectedJoinigDate: null,
+                              };
+                            }
+                            return el;
+                          });
+                          dispatch(
+                            updateEmployeeData({
+                              workExp: myWorkExp,
+                            })
+                          );
+                        }}
+                        offColor={"#e7e7e7"}
+                        onColor={"#ff4100"}
+                        checkedIcon={<></>}
+                        uncheckedIcon={<></>}
+                        handleDiameter={15}
+                        height={24}
+                        width={40}
+                        className="w-max justify-start d-flex-imp items-center"
+                      />
+                    </div>
+                    {exp.onNotice ? (
+                      <div className="flex flex-col justify-start w-full">
+                        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                          {`Last Working Date`}
+                        </p>
+                        <input
+                          type={"date"}
+                          className={`bg-lightGray px-1 py-3 lg:px-2 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
+                          placeholder={"Last Working Date"}
+                          autoComplete="off"
+                          value={exp.lastDateAtCurrentEmployer ?? ""}
+                          onChange={(e) => {
+                            const myWorkExp = workExp!.map((el, i) => {
+                              if (i === idx) {
+                                if (
+                                  new Date(
+                                    e.target.value.toString()
+                                  ).getTime() < new Date().getTime()
+                                ) {
+                                  toast.info(
+                                    "Last working date cannot be in past.",
+                                    { autoClose: 2000, hideProgressBar: true }
+                                  );
+                                  return el;
+                                }
+                                return {
+                                  ...el,
+                                  lastDateAtCurrentEmployer: e.target.value,
+                                };
+                              }
+                              return el;
+                            });
+                            dispatch(
+                              updateEmployeeData({
+                                workExp: myWorkExp,
+                              })
+                            );
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex flex-col justify-start w-full">
+                        <p className="text-xs w-full text-justify text-gray-500 font-medium mb-1">
+                          {`Expected Joining Date`}
+                        </p>
+                        <input
+                          type={"date"}
+                          className={`bg-lightGray px-1 py-3 lg:px-2 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
+                          placeholder={"Expected Joining Date"}
+                          autoComplete="off"
+                          value={exp.lastDateAtCurrentEmployer ?? ""}
+                          onChange={(e) => {
+                            const myWorkExp = workExp!.map((el, i) => {
+                              if (i === idx) {
+                                if (
+                                  new Date(
+                                    e.target.value.toString()
+                                  ).getTime() < new Date().getTime()
+                                ) {
+                                  toast.info(
+                                    "Expected joining date cannot be in past.",
+                                    { autoClose: 2000, hideProgressBar: true }
+                                  );
+                                  return el;
+                                }
+                                return {
+                                  ...el,
+                                  expectedJoinigDate: e.target.value,
+                                };
+                              }
+                              return el;
+                            });
+                            dispatch(
+                              updateEmployeeData({
+                                workExp: myWorkExp,
+                              })
+                            );
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -344,6 +531,9 @@ const EmployeeWorkExp = () => {
                       designation: null,
                       end: null,
                       start: null,
+                      onNotice: null,
+                      lastDateAtCurrentEmployer: null,
+                      expectedJoinigDate: null,
                     });
                     dispatch(updateEmployeeData({ workExp: myWorkExp }));
                   } else {

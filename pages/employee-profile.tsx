@@ -349,9 +349,16 @@ const EmployeeProfile = () => {
                 company: w.company,
                 current: w.current,
                 desc: w.desc,
-                designation: w.designation,
+                designation: { label: w.designation, value: w.designation },
                 end: w.end ? moment(w.end).format("YYYY-MM-DD") : null,
                 start: moment(w.start).format("YYYY-MM-DD"),
+                onNotice: w.onNotice,
+                lastDateAtCurrentEmployer: w.lastDateAtCurrentEmployer
+                  ? moment(w.lastDateAtCurrentEmployer).format("YYYY-MM-DD")
+                  : null,
+                expectedJoinigDate: w.expectedJoinigDate
+                  ? moment(w.expectedJoinigDate).format("YYYY-MM-DD")
+                  : null,
               }))
             : [
                 {
@@ -361,6 +368,9 @@ const EmployeeProfile = () => {
                   designation: null,
                   end: null,
                   start: null,
+                  onNotice: null,
+                  lastDateAtCurrentEmployer: null,
+                  expectedJoinigDate: null,
                 },
               ],
         user: {

@@ -15,6 +15,9 @@ const EmployerDashboardMatched = () => {
   const currentPage = useSelector(
     (state: RootState) => state.dashboard.currentPage
   );
+  const selectedJob = useSelector(
+    (state: RootState) => state.dashboard.selectedJob
+  );
 
   const [interestsList, setInterestsList] = useState<any[]>([]);
 
@@ -61,7 +64,7 @@ const EmployerDashboardMatched = () => {
     if (currentPage === DashboardPagesEnum.matched) {
       myFunc();
     }
-  }, [dispatch, getMatchedQuery, currentPage]);
+  }, [dispatch, getMatchedQuery, currentPage, selectedJob]);
 
   return (
     <div className="flex flex-col px-8 relative">

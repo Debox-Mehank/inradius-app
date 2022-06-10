@@ -7,6 +7,7 @@ const Logo = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 400.21 251.53"
       width={500}
+      style={{ overflow: "overlay" }}
     >
       <defs></defs>
       <g id="Layer_1-2">

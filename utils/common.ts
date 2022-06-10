@@ -9,7 +9,7 @@ export const reactSelectColorStyles: StylesConfig<
     ...styles,
     backgroundColor: "#e7e7e7",
     border: "none",
-    fontSize: "14px",
+    fontSize: "12px",
     fontWeight: 600,
     ":hover": {
       border: "none",
@@ -21,7 +21,7 @@ export const reactSelectColorStyles: StylesConfig<
     ...styles,
     backgroundColor: "white",
     color: "black",
-    fontSize: "14px",
+    fontSize: "12px",
     ":hover": {
       backgroundColor: "#ff4100",
       color: "white",
@@ -38,7 +38,7 @@ export const reactMultiSelectColorStyles: StylesConfig<
     ...styles,
     backgroundColor: "#e7e7e7",
     border: "none",
-    fontSize: "14px",
+    fontSize: "12px",
     fontWeight: 600,
     ":hover": {
       border: "none",
@@ -51,7 +51,7 @@ export const reactMultiSelectColorStyles: StylesConfig<
     ...styles,
     backgroundColor: "white",
     color: "black",
-    fontSize: "14px",
+    fontSize: "12px",
     ":hover": {
       backgroundColor: "#ff4100",
       color: "white",

@@ -744,7 +744,7 @@ export type UserWorkExpInput = {
   company: Scalars['String'];
   current: Scalars['Boolean'];
   desc: Scalars['String'];
-  designation: DesignationEnum;
+  designation?: InputMaybe<DesignationEnum>;
   end?: InputMaybe<Scalars['DateTime']>;
   expectedJoinigDate?: InputMaybe<Scalars['DateTime']>;
   lastDateAtCurrentEmployer?: InputMaybe<Scalars['DateTime']>;
@@ -873,7 +873,7 @@ export type AllSurveyQuestionQueryVariables = Exact<{
 }>;
 
 
-export type AllSurveyQuestionQuery = { __typename?: 'Query', allSurveyQuestion: Array<{ __typename?: 'Survey', _id: string, question: string, options: Array<string>, type: SurveyType, createdAt: any, updatedAt: any }> };
+export type AllSurveyQuestionQuery = { __typename?: 'Query', allSurveyQuestion: Array<{ __typename?: 'Survey', _id: string, question: string, options: Array<string>, type: SurveyType, createdAt: any, updatedAt: any, active: boolean }> };
 
 export type AllBenefitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1970,6 +1970,7 @@ export const AllSurveyQuestionDocument = gql`
     type
     createdAt
     updatedAt
+    active
   }
 }
     `;

@@ -52,6 +52,7 @@ query AllSurveyQuestion($type: SurveyType) {
     type
     createdAt
     updatedAt
+    active
   }
 }
 

@@ -115,7 +115,7 @@ const EmployeeTotalRelevantExp = () => {
           text={"Total Experience"}
           desc={"Add total experience in years and months"}
         />
-        <div className="flex flex-row justify-center items-center gap-4">
+        <div className="flex flex-row justify-center items-end gap-4">
           <div className="flex flex-col justify-start w-full">
             {totalExp?.years && (
               <p className="text-xs w-full text-justify text-gray-500 font-medium mb-2">
@@ -164,7 +164,7 @@ const EmployeeTotalRelevantExp = () => {
           text={"Relevant Experience"}
           desc={"Add relevant experience in years and months"}
         />
-        <div className="flex flex-row justify-center items-center gap-4">
+        <div className="flex flex-row justify-center items-end gap-4">
           <div className="flex flex-col justify-start w-full">
             {relevantExp?.years && (
               <p className="text-xs w-full text-justify text-gray-500 font-medium mb-2">

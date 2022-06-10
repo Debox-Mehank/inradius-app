@@ -73,7 +73,7 @@ export interface EmployeeData {
     company?: string | null;
     current?: boolean | null;
     desc?: string | null;
-    designation?: { label: string; value: string } | null;
+    designation?: { label: string; value: DesignationEnum } | null;
     end?: string | null;
     start?: string | null;
     onNotice?: boolean | null;

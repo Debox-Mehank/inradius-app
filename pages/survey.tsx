@@ -143,7 +143,7 @@ const Survey: NextPage = () => {
     }
 
     dispatch(toggleLoading());
-    toast.success("Congragulation on completing survey!", {
+    toast.success("Congratulations on completing survey!", {
       autoClose: 2000,
       hideProgressBar: true,
     });

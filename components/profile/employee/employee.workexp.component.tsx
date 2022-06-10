@@ -74,7 +74,7 @@ const EmployeeWorkExp = () => {
               workExp: workExp!.map((el) => ({
                 company: el.company!,
                 desc: el.desc!,
-                designation: DesignationEnum.Techlead,
+                designation: el.designation?.value ?? null,
                 start: new Date(el.start ?? ""),
                 end: el.current ?? false ? null : new Date(el.end ?? ""),
                 current: el.current ?? false,
@@ -172,7 +172,7 @@ const EmployeeWorkExp = () => {
         </div>
         {fresher ? null : (
           <>
-            <div className="flex flex-col gap-5 justify-start items-center w-full px-5 max-h-96 overflow-auto">
+            <div className="flex flex-col gap-5 justify-start items-center w-full px-5 max-h-96 overflow-y-scroll">
               <PageSubHeading text="All experience" />
               {workExp?.map((exp, idx) => {
                 return (
@@ -248,13 +248,27 @@ const EmployeeWorkExp = () => {
                           {`Designation`}
                         </p>
                       )}
-                      <Select<{ label: string; value: string } | null>
+                      <Select<{ label: string; value: DesignationEnum } | null>
                         options={Object.values(DesignationEnum).map((el) => ({
                           label: el,
                           value: el,
                         }))}
+                        getOptionLabel={(
+                          designation: {
+                            label: string;
+                            value: DesignationEnum;
+                          } | null
+                        ) =>
+                          designation
+                            ? designation.label.charAt(0).toUpperCase() +
+                              designation.label.slice(
+                                1,
+                                designation.label.length
+                              )
+                            : ""
+                        }
                         className="w-full"
-                        placeholder="Select Years"
+                        placeholder="Select Designation"
                         value={exp.designation}
                         onChange={(value) => {
                           const myWorkExp = workExp.map((el, i) => {

@@ -81,7 +81,7 @@ const EmployeeIndustryDomain = () => {
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center"
     >
-      <div className="flex flex-col max-w-xl w-full h-full justify-center">
+      <div className="flex flex-col max-w-xl w-full h-full justify-start scrollable-div">
         <PageHeading text={"Industry & Domain"} />
         <div className="flex flex-col justify-start">
           <PageSubHeading text="Choose Industry" />

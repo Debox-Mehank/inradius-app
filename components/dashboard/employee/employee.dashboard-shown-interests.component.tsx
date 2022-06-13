@@ -93,7 +93,7 @@ const EmployeeDashboardShownInterests = () => {
 
     if (data) {
       if (data.markInterest) {
-        toast.success("Congratulationss on perfect match!", {
+        toast.success("Congratulations on perfect match!", {
           autoClose: 1500,
           hideProgressBar: true,
         });

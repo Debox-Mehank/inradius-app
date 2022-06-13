@@ -219,7 +219,7 @@ const EmployeePersonalKyc = () => {
       return null;
     }
 
-    toast.success("Congratulationss on completing profile!", {
+    toast.success("Congratulations on completing profile!", {
       autoClose: 2000,
       hideProgressBar: true,
     });

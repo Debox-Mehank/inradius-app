@@ -272,6 +272,20 @@ export type LocationInput = {
   location: Scalars['String'];
 };
 
+export type LoginContent = {
+  __typename?: 'LoginContent';
+  _id: Scalars['ID'];
+  active: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  loginContent: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type LoginContentInput = {
+  active: Scalars['Boolean'];
+  loginContent: Scalars['String'];
+};
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -284,6 +298,7 @@ export type Mutation = {
   addEmployerJob: Scalars['String'];
   addIndustry: Industry;
   addLocation: Location;
+  addLoginContent: LoginContent;
   addQualification: Qualification;
   addSkill: Skill;
   addSkills: Scalars['Boolean'];
@@ -299,8 +314,10 @@ export type Mutation = {
   updateEmployerJob: EmployerJob;
   updateIndustry: Industry;
   updateLocation: Location;
+  updateLoginContent: LoginContent;
   updateQualification: Qualification;
   updateSkill: Skill;
+  updateSubDomain: SubDomain;
   updateSurveyQuestion: Survey;
 };
 
@@ -322,6 +339,11 @@ export type MutationAddIndustryArgs = {
 
 export type MutationAddLocationArgs = {
   input: LocationInput;
+};
+
+
+export type MutationAddLoginContentArgs = {
+  input: LoginContentInput;
 };
 
 
@@ -403,6 +425,11 @@ export type MutationUpdateLocationArgs = {
 };
 
 
+export type MutationUpdateLoginContentArgs = {
+  input: UpdateLoginContentInput;
+};
+
+
 export type MutationUpdateQualificationArgs = {
   input: UpdateQualificationInput;
 };
@@ -410,6 +437,11 @@ export type MutationUpdateQualificationArgs = {
 
 export type MutationUpdateSkillArgs = {
   input: UpdateSkillInput;
+};
+
+
+export type MutationUpdateSubDomainArgs = {
+  input: UpdateSubDomainInput;
 };
 
 
@@ -439,6 +471,7 @@ export type Query = {
   allDomains: Array<Domain>;
   allIndustries: Array<Industry>;
   allLocations: Array<Location>;
+  allLoginContent: Array<LoginContent>;
   allQualifications: Array<Qualification>;
   allSkills: Array<Skill>;
   allSubDomains: Array<SubDomain>;
@@ -664,6 +697,12 @@ export type UpdateLocationInput = {
   location?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateLoginContentInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  loginContent?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateQualificationInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
@@ -674,6 +713,12 @@ export type UpdateSkillInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   skill?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateSubDomainInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  subDomain?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateSurveyInput = {

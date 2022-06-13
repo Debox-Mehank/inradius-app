@@ -498,7 +498,7 @@ const EmployeeWorkExp = () => {
                           className={`bg-lightGray px-1 py-3 lg:px-2 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
                           placeholder={"Expected Joining Date"}
                           autoComplete="off"
-                          value={exp.lastDateAtCurrentEmployer ?? ""}
+                          value={exp.expectedJoinigDate ?? ""}
                           onChange={(e) => {
                             const myWorkExp = workExp!.map((el, i) => {
                               if (i === idx) {

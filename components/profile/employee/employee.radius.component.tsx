@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -6,6 +6,7 @@ import {
   useJsApiLoader,
   MarkerF,
   CircleF,
+  Autocomplete,
 } from "@react-google-maps/api";
 import InputRange from "react-input-range";
 import { RootState } from "../../../app/store";
@@ -15,8 +16,8 @@ import { PageHeading } from "../common/heading.component";
 import EmployeeNextButton from "./employee.nextbutton.component";
 import EmployeePrevButton from "./employee.prevbutton.component";
 import { updateEmployeeData } from "../../../features/employee.slice";
-import { useState } from "react";
 import Modal from "../../reusables/Modal.component";
+import { mapLibs } from "../../../utils/common";
 
 const EmployeeRadius = () => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
@@ -87,7 +88,11 @@ const EmployeeRadius = () => {
   const { isLoaded } = useJsApiLoader({
     id: "google-maps-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!, // process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ?? "AIzaSyCj2UxICHi4wVE3U0mgMh9HteU1X-94hDQ"
+    libraries: mapLibs,
   });
+
+  const [autocomplete, setAutocomplete] =
+    useState<google.maps.places.Autocomplete>();
 
   return (
     <div
@@ -140,12 +145,13 @@ const EmployeeRadius = () => {
         {isLoaded && (
           <GoogleMap
             zoom={12}
-            center={{ lat: latitude!, lng: longitude! }}
+            center={{ lat: latitude ?? 0, lng: longitude ?? 0 }}
             mapContainerClassName="w-full h-3/5 rounded-md"
             options={{
               disableDefaultUI: false,
               streetViewControl: false,
               panControl: false,
+              mapTypeControl: false,
             }}
             onLoad={() => {
               if (radius === null) {
@@ -163,8 +169,33 @@ const EmployeeRadius = () => {
               );
             }}
           >
+            <Autocomplete
+              onLoad={(a) => setAutocomplete(a)}
+              onPlaceChanged={() => {
+                if (autocomplete) {
+                  const result = autocomplete.getPlace();
+                  const newLat = result.geometry?.location?.lat();
+                  const newLng = result.geometry?.location?.lng();
+                  dispatch(
+                    updateEmployeeData({
+                      latitude: newLat,
+                      longitude: newLng,
+                    })
+                  );
+                }
+              }}
+            >
+              <div className="absolute top-2 left-4 right-16">
+                <input
+                  type={"text"}
+                  className={`bg-white px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-normal w-full`}
+                  placeholder={"Search Places..."}
+                  autoComplete="off"
+                />
+              </div>
+            </Autocomplete>
             <MarkerF
-              position={{ lat: latitude!, lng: longitude! }}
+              position={{ lat: latitude ?? 0, lng: longitude ?? 0 }}
               draggable={true}
               onDragEnd={(e: google.maps.MapMouseEvent) => {
                 const newLat = e.latLng?.lat();
@@ -178,7 +209,7 @@ const EmployeeRadius = () => {
               }}
             />
             <CircleF
-              center={{ lat: latitude!, lng: longitude! }}
+              center={{ lat: latitude ?? 0, lng: longitude ?? 0 }}
               radius={radius ? radius * 1000 : 0}
               options={{
                 strokeColor: "#ff6666",

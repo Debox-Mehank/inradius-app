@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import Layout from "../components/profile/common/layout.component";
 import EmployeeCurrentExpectedPay from "../components/profile/employee/employee.current-expected-pay";
-import EmployeeIndustryDomain from "../components/profile/employee/employee.industry-domain.component";
+import EmployeeIndustry from "../components/profile/employee/employee.industry.component";
+import EmployeeDomain from "../components/profile/employee/employee.domain.component";
 import EmployeeLocation from "../components/profile/employee/employee.location.component";
 import EmployeeQualification from "../components/profile/employee/employee.qualification.component";
 import EmployeeRadius from "../components/profile/employee/employee.radius.component";
@@ -430,9 +431,10 @@ const EmployeeProfile = () => {
       <Layout>
         {page && page === EMPLOYEE_STEPS_ENUM.location && <EmployeeLocation />}
         {page && page === EMPLOYEE_STEPS_ENUM.radius && <EmployeeRadius />}
-        {page && page === EMPLOYEE_STEPS_ENUM["industry-domain"] && (
-          <EmployeeIndustryDomain />
+        {page && page === EMPLOYEE_STEPS_ENUM["industry"] && (
+          <EmployeeIndustry />
         )}
+        {page && page === EMPLOYEE_STEPS_ENUM["domain"] && <EmployeeDomain />}
         {page && page === EMPLOYEE_STEPS_ENUM["subdomain-skills"] && (
           <EmployeeSubDomainSkill />
         )}

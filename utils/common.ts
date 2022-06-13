@@ -1,5 +1,13 @@
 import { GroupBase, StylesConfig } from "react-select";
 
+export const mapLibs: (
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "places"
+  | "visualization"
+)[] = ["places"];
+
 export const reactSelectColorStyles: StylesConfig<
   any,
   false,

@@ -37,8 +37,7 @@
     "react-select": "^5.3.0",
     "react-switch": "^6.0.0",
     "react-toastify": "^9.0.1",
-    "tailwindcss": "^3.0.24",
-    "use-places-autocomplete": "^3.0.0"
+    "tailwindcss": "^3.0.24"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.6.2",

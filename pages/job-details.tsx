@@ -30,7 +30,8 @@ import {
 import JobDetailsJobType from "../components/jobs/jobs.job-type.component";
 import JobDetailsLocation from "../components/jobs/jobs.job-location.component";
 import JobDetailsRadius from "../components/jobs/jobs.job-radius.component";
-import JobDetailsIndustryDomain from "../components/jobs/jobs.job-industry-domain.component";
+import JobDetailsIndustry from "../components/jobs/jobs.job-industry.component";
+import JobDetailsDomain from "../components/jobs/jobs.job-domain.component";
 import JobDetailsSubdomainSkill from "../components/jobs/jobs.job-subdomain-skill.component";
 import JobDetailsMinReqExp from "../components/jobs/jobs.job-min-req-exp.component";
 import JobDetailsMinMaxPay from "../components/jobs/jobs.job-min-max-pay.component";
@@ -355,9 +356,8 @@ const JobDetails = () => {
         {page && page === JOB_STEPS_ENUM["job-type"] && <JobDetailsJobType />}
         {page && page === JOB_STEPS_ENUM["location"] && <JobDetailsLocation />}
         {page && page === JOB_STEPS_ENUM["radius"] && <JobDetailsRadius />}
-        {page && page === JOB_STEPS_ENUM["industry-domain"] && (
-          <JobDetailsIndustryDomain />
-        )}
+        {page && page === JOB_STEPS_ENUM["industry"] && <JobDetailsIndustry />}
+        {page && page === JOB_STEPS_ENUM["domain"] && <JobDetailsDomain />}
         {page && page === JOB_STEPS_ENUM["subdomain-skills"] && (
           <JobDetailsSubdomainSkill />
         )}

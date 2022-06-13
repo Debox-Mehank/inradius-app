@@ -11,7 +11,8 @@ import {
 export enum EMPLOYEE_STEPS_ENUM {
   location = "location",
   radius = "radius",
-  "industry-domain" = "industry-domain",
+  "industry" = "industry",
+  "domain" = "domain",
   "subdomain-skills" = "subdomain-skills",
   qualification = "qualification",
   "work-experience" = "work-experience",
@@ -24,7 +25,8 @@ export enum EMPLOYEE_STEPS_ENUM {
 export const EMPLOYEE_STEPS = [
   "location",
   "radius",
-  "industry-domain",
+  "industry",
+  "domain",
   "subdomain-skills",
   "qualification",
   "work-experience",

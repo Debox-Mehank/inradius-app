@@ -27,6 +27,9 @@ const EmployerDashboardShownInterests = () => {
     const myFunc = async () => {
       dispatch(toggleLoading());
       const { data, error } = await getShownInterestsQuery({
+        variables: {
+          jobId: selectedJob?._id,
+        },
         fetchPolicy: "network-only",
       });
       dispatch(toggleLoading());
@@ -61,7 +64,7 @@ const EmployerDashboardShownInterests = () => {
         }))
       );
     };
-    if (currentPage === DashboardPagesEnum["shown-interests"]) {
+    if (currentPage === DashboardPagesEnum["shown-interests"] && selectedJob) {
       myFunc();
     }
   }, [dispatch, getShownInterestsQuery, currentPage, selectedJob]);

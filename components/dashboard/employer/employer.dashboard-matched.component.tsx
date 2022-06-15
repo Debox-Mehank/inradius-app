@@ -27,6 +27,9 @@ const EmployerDashboardMatched = () => {
     const myFunc = async () => {
       dispatch(toggleLoading());
       const { data, error } = await getMatchedQuery({
+        variables: {
+          jobId: selectedJob?._id,
+        },
         fetchPolicy: "network-only",
       });
       dispatch(toggleLoading());
@@ -61,7 +64,7 @@ const EmployerDashboardMatched = () => {
         }))
       );
     };
-    if (currentPage === DashboardPagesEnum.matched) {
+    if (currentPage === DashboardPagesEnum.matched && selectedJob) {
       myFunc();
     }
   }, [dispatch, getMatchedQuery, currentPage, selectedJob]);

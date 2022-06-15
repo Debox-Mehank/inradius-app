@@ -302,6 +302,7 @@ const EmployeeDashboardProfile = () => {
               width={50}
               height={50}
               objectFit={"cover"}
+              alt={"profile image"}
             />
           </div>
           <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />

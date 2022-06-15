@@ -1,5 +1,6 @@
 import { faPowerOff, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -116,10 +117,12 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
           >
             {user.image ? (
               <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
-                <img
+                <Image
                   className="w-10 h-10 rounded-full object-contain object-center"
                   src={user.image}
                   alt={user.firstName.split("")[0] + user.lastName.split("")[0]}
+                  width={30}
+                  height={30}
                 />
               </div>
             ) : (
@@ -147,10 +150,12 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
           >
             {dashboardEmployer?.companyImage ? (
               <div className="w-10 h-10 rounded-full bg-white text-black font-bold grid place-items-center text-xs">
-                <img
+                <Image
                   className="w-10 h-10 rounded-full object-contain object-center"
                   src={dashboardEmployer.companyImage}
                   alt={dashboardEmployer.companyName ?? ""}
+                  width={30}
+                  height={30}
                 />
               </div>
             ) : (

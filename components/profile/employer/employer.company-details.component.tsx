@@ -184,7 +184,7 @@ const EmployerCompanyDetails = () => {
             )}
             <input
               type={"text"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Company Linkedin Profile"}
               autoComplete="off"
               value={linkedIn ?? ""}
@@ -205,7 +205,7 @@ const EmployerCompanyDetails = () => {
             )}
             <input
               type={"text"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Current Address"}
               autoComplete="off"
               value={currentAddress ?? ""}
@@ -226,7 +226,7 @@ const EmployerCompanyDetails = () => {
             )}
             <input
               type={"text"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Registered Address"}
               autoComplete="off"
               value={registeredAddress ?? ""}
@@ -247,7 +247,7 @@ const EmployerCompanyDetails = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Total Company Strength"}
               autoComplete="off"
               value={noOfEmployees ?? ""}

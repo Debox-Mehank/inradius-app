@@ -144,7 +144,7 @@ const EmployerDashboardExplore = () => {
   return (
     <div className="flex flex-col px-8 relative">
       <DashboardPageHeading title="Find Talent Near You" />
-      <div className="overflow-y-auto dashboard-scroll">
+      <div className="overflow-y-auto">
         {empList.length > 0 ? (
           <>
             {empList.map((emp, idx) => {

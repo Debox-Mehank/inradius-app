@@ -7,6 +7,7 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import {
   DashboardEmployerCardData,
   InterestsEmployerCardData,
@@ -40,10 +41,12 @@ const EmployeeMatchedCard = ({
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-4">
       <div className="bg-white px-8 py-8 rounded-3xl border border-gray-300">
-        <img
+        <Image
           src={companyImage ?? ""}
           alt={companyName ?? ""}
           className="object-contain w-32 h-32"
+          width={115}
+          height={115}
         />
       </div>
       <div className="flex-1 w-full h-full flex flex-col justify-start">

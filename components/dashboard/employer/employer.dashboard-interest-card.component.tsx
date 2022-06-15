@@ -5,6 +5,7 @@ import {
   faIndianRupeeSign,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import {
   DashboardEmployeeCardData,
   InterestsEmployeeCardData,
@@ -34,10 +35,12 @@ const EmployerInterestCard = ({
   return (
     <div className="w-full max-w-3xl border border-gray-300 p-8 rounded-3xl bg-white flex gap-8 items-center my-6">
       <div className="bg-white rounded-3xl border border-gray-300">
-        <img
+        <Image
           src={userImage ?? ""}
           alt={firstName ?? ""}
           className="object-cover object-top w-44 h-44 rounded-lg"
+          width={160}
+          height={160}
         />
       </div>
       <div className="flex-1 flex w-full h-full flex-col justify-center">

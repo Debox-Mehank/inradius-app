@@ -134,7 +134,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Number of Locations"}
               autoComplete="off"
               value={noOfLocations ?? ""}
@@ -156,7 +156,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Hiring for current year"}
               autoComplete="off"
               value={noOfHiring ?? ""}
@@ -178,7 +178,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Landline Number"}
               autoComplete="off"
               value={landline ?? ""}
@@ -200,7 +200,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Company's Turnover"}
               autoComplete="off"
               value={lastTurnover ?? ""}
@@ -227,7 +227,7 @@ const EmployerCompanyMiscellaneousInfo = () => {
             )}
             <input
               type={"number"}
-              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+              className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
               placeholder={"Attrition Rate"}
               autoComplete="off"
               value={attritionRate ?? ""}

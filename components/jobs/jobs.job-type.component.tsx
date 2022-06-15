@@ -113,7 +113,7 @@ const JobDetailsJobType = () => {
           )}
           <input
             type={"text"}
-            className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+            className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
             placeholder={"Job Title"}
             autoComplete="off"
             value={jobTitle ?? ""}
@@ -133,7 +133,7 @@ const JobDetailsJobType = () => {
             </p>
           )}
           <textarea
-            className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-sm font-semibold w-full`}
+            className={`bg-lightGray px-2 py-3 lg:px-4 rounded-md focus-visible:outline-none text-xs font-semibold w-full`}
             placeholder={"Job Description"}
             autoComplete="off"
             value={jobDesc ?? ""}

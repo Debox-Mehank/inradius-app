@@ -1,3 +1,4 @@
+import moment from "moment";
 import { GetServerSideProps, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -79,38 +80,86 @@ const Dashboard = () => {
 
       const empData: DashboardEmployeeState = {
         _id: employee._id,
-        shortDescription: employee.shortDescription ?? "",
-        radius: employee.radius ?? 0,
-        location: employee.location?.location ?? "",
-        qualification: employee.qualification?.qualification ?? "",
-        industry: employee.industry?.industry ?? "",
-        domain: employee.industry?.industry ?? "",
-        subDomain: employee.subDomain.map((el) => el.subDomain),
-        skills: employee.skills.map((el) => el.skill),
-        fresher: employee.fresher ?? false,
-        workExp: employee.workExp.map((el) => ({
-          company: el.company,
-          current: el.current,
-          desc: el.desc,
-          designation: el.designation,
-          end: el.end,
-          start: el.start,
+        shortDescription: employeeData.getEmployee.shortDescription,
+        aadharCard: employeeData.getEmployee.aadharCard,
+        currentAddress: employeeData.getEmployee.currentAddress,
+        currentPay: employeeData.getEmployee.currentPay,
+        dob: employeeData.getEmployee.dob,
+        domain: employeeData.getEmployee.domain,
+        expectedPay: employeeData.getEmployee.expectedPay,
+        fresher: employeeData.getEmployee.fresher,
+        gender: employeeData.getEmployee.gender,
+        industry: employeeData.getEmployee.industry,
+        latitude: employeeData.getEmployee.latitude,
+        linkedIn: employeeData.getEmployee.linkedIn,
+        location: employeeData.getEmployee.location,
+        longitude: employeeData.getEmployee.longitude,
+        panCard: employeeData.getEmployee.panCard,
+        qualification: employeeData.getEmployee.qualification,
+        radius: employeeData.getEmployee.radius,
+        relevantExp: employeeData.getEmployee.relevantExp
+          ? {
+              years: {
+                label: employeeData.getEmployee.relevantExp?.years ?? "",
+                value: employeeData.getEmployee.relevantExp?.years ?? "",
+              },
+              months: {
+                label: employeeData.getEmployee.relevantExp?.months ?? "",
+                value: employeeData.getEmployee.relevantExp?.months ?? "",
+              },
+            }
+          : null,
+        resume: employeeData.getEmployee.resume,
+        skills: employeeData.getEmployee.skills.map((s) => ({
+          label: s.skill,
+          value: s._id,
         })),
-        totalExp: `${employee.totalExp?.years ?? ""} year ${
-          employee.totalExp?.months ?? ""
-        } months`,
-        relevantExp: `${employee.relevantExp?.years ?? ""} year ${
-          employee.relevantExp?.months ?? ""
-        } months`,
-        currentPay: employee.currentPay ?? 0,
-        expectedPay: employee.expectedPay ?? 0,
-        linkedIn: employee.linkedIn ?? "",
-        resume: employee.resume ?? "",
-        gender: employee.gender,
-        currentAddress: "",
-        dob: employee.dob,
-        panCard: employee.panCard ?? "",
-        aadharCard: employee.aadharCard ?? "",
+        subDomain: employeeData.getEmployee.subDomain.map((sd) => ({
+          _id: sd._id,
+          subDomain: sd.subDomain,
+        })),
+        totalExp: employeeData.getEmployee.totalExp
+          ? {
+              years: {
+                label: employeeData.getEmployee.totalExp?.years ?? "",
+                value: employeeData.getEmployee.totalExp?.years ?? "",
+              },
+              months: {
+                label: employeeData.getEmployee.totalExp?.months ?? "",
+                value: employeeData.getEmployee.totalExp?.months ?? "",
+              },
+            }
+          : null,
+        workExp:
+          employeeData.getEmployee.workExp.length > 0
+            ? employeeData.getEmployee.workExp.map((w) => ({
+                company: w.company,
+                current: w.current,
+                desc: w.desc,
+                designation: { label: w.designation, value: w.designation },
+                end: w.end ? moment(w.end).format("YYYY-MM-DD") : null,
+                start: moment(w.start).format("YYYY-MM-DD"),
+                onNotice: w.onNotice,
+                lastDateAtCurrentEmployer: w.lastDateAtCurrentEmployer
+                  ? moment(w.lastDateAtCurrentEmployer).format("YYYY-MM-DD")
+                  : null,
+                expectedJoinigDate: w.expectedJoinigDate
+                  ? moment(w.expectedJoinigDate).format("YYYY-MM-DD")
+                  : null,
+              }))
+            : [
+                {
+                  company: null,
+                  current: null,
+                  desc: null,
+                  designation: null,
+                  end: null,
+                  start: null,
+                  onNotice: null,
+                  lastDateAtCurrentEmployer: null,
+                  expectedJoinigDate: null,
+                },
+              ],
       };
 
       dispatch(updateDashboardEmployeeData(empData));

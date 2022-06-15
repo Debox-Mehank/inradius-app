@@ -9,7 +9,7 @@ interface ModalProps {
 const Modal = ({ children, show, title }: ModalProps) => {
   return (
     <div
-      className={`w-full h-screen z-50 bg-black bg-opacity-50 backdrop-blur-sm absolute grid place-items-center transition-all left-0 right-0 ${
+      className={`w-full h-screen z-50 bg-black bg-opacity-50 backdrop-blur-sm absolute grid place-items-center transition-all top-0 left-0 right-0 ${
         show ? "visible opacity-100" : "hidden opacity-0"
       }`}
     >

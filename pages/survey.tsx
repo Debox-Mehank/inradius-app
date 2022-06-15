@@ -191,7 +191,7 @@ const Survey: NextPage = () => {
                           ) !== -1
                             ? "bg-primary text-white"
                             : "bg-gray-200 text-black"
-                        } rounded-md py-4 px-10 w-full`}
+                        } rounded-md py-4 px-10 w-full cursor-pointer`}
                         onClick={() => {
                           dispatch(
                             addSurvey({

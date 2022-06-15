@@ -8,7 +8,11 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EmployeeGenderEnum, User } from "../generated/graphql";
+import {
+  DesignationEnum,
+  EmployeeGenderEnum,
+  User,
+} from "../generated/graphql";
 import { EmployerJobState } from "./job.slice";
 
 export enum DashboardPagesEnum {
@@ -134,35 +138,82 @@ export interface DashboardEmployerState {
 }
 
 export interface DashboardEmployeeState {
-  _id: string;
-  shortDescription: string;
-  radius: number;
-  location: string;
-  qualification: string;
-  industry: string;
-  domain: string;
-  subDomain: string[];
-  skills: string[];
-  fresher: boolean;
-  workExp: {
-    company: string;
-    designation: string;
-    desc: string;
-    start: string;
-    end?: string;
-    current: boolean;
+  // shortDescription?: string | undefined | null;
+  // radius?: number | undefined | null;
+  // location?: { _id: string; location: string } | null | undefined;
+  // qualification?: { _id: string; qualification: string } | null | undefined;
+  // industry?: { _id: string; industry: string } | null | undefined;
+  // domain?: { _id: string; domain: string } | null | undefined;
+  // subDomain: string[];
+  // skills: string[];
+  // fresher: boolean;
+  // workExp: {
+  //   company: string;
+  //   designation: string;
+  //   desc: string;
+  //   start: string;
+  //   end?: string;
+  //   current: boolean;
+  // }[];
+  // totalExp: string;
+  // relevantExp: string;
+  // currentPay: number;
+  // expectedPay: number;
+  // linkedIn: string;
+  // resume: string;
+  // gender?: EmployeeGenderEnum | null;
+  // currentAddress: string;
+  // dob: string;
+  // panCard: string;
+  // aadharCard: string;
+  // latitude?: number | undefined | null;
+  // longitude?: number | undefined | null;
+  _id?: string | undefined | null;
+  aadharCard?: string | null | undefined;
+  shortDescription?: string | null | undefined;
+  currentAddress?: string | null | undefined;
+  currentPay?: number | null | undefined;
+  dob?: string | null | undefined;
+  domain?: { _id: string; domain: string } | null | undefined;
+  expectedPay?: number | null | undefined;
+  fresher?: boolean | null | undefined;
+  gender?: EmployeeGenderEnum | null | undefined;
+  industry?: { _id: string; industry: string } | null | undefined;
+  latitude?: number | null | undefined;
+  linkedIn?: string | null | undefined;
+  location?: { _id: string; location: string } | null | undefined;
+  longitude?: number | null | undefined;
+  panCard?: string | null | undefined;
+  qualification?: { _id: string; qualification: string } | null | undefined;
+  radius?: number | null | undefined;
+  relevantExp?:
+    | {
+        years: { label: string; value: string };
+        months: { label: string; value: string };
+      }
+    | null
+    | undefined;
+  resume?: string | null | undefined;
+  skills?: { label: string; value: string }[];
+  subDomain?: { _id: string; subDomain: string }[];
+  totalExp?:
+    | {
+        years: { label: string; value: string };
+        months: { label: string; value: string };
+      }
+    | null
+    | undefined;
+  workExp?: {
+    company?: string | null;
+    current?: boolean | null;
+    desc?: string | null;
+    designation?: { label: string; value: DesignationEnum } | null;
+    end?: string | null;
+    start?: string | null;
+    onNotice?: boolean | null;
+    lastDateAtCurrentEmployer?: string | null;
+    expectedJoinigDate?: string | null;
   }[];
-  totalExp: string;
-  relevantExp: string;
-  currentPay: number;
-  expectedPay: number;
-  linkedIn: string;
-  resume: string;
-  gender?: EmployeeGenderEnum | null;
-  currentAddress: string;
-  dob: string;
-  panCard: string;
-  aadharCard: string;
 }
 
 export interface DashboardState {

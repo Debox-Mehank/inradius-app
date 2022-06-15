@@ -21,6 +21,7 @@ query EmployeeExplore {
         months
       }
       location {
+        _id
         location
       }
       domain {

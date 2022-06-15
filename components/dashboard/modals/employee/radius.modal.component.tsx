@@ -1,68 +1,55 @@
-import {
-  Autocomplete,
-  CircleF,
-  GoogleMap,
-  MarkerF,
-  useJsApiLoader,
-} from "@react-google-maps/api";
-import { useState } from "react";
-import InputRange from "react-input-range";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import { RootState } from "../../app/store";
-import { toggleLoading } from "../../features/common.slice";
-import { updateJobData } from "../../features/job.slice";
 import {
-  EmployerJobTypeEnum,
-  useUpdateEmployerJobMutation,
-} from "../../generated/graphql";
-import { mapLibs, reactSelectColorStyles } from "../../utils/common";
-import { PageHeading } from "../profile/common/heading.component";
-import Modal from "../reusables/Modal.component";
-import JobDetailsNextButton from "./common/jobs.nextbutton.component";
-import JobDetailsPrevButton from "./common/jobs.prevbutton.component";
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+  CircleF,
+  Autocomplete,
+} from "@react-google-maps/api";
+import InputRange from "react-input-range";
+import { toast } from "react-toastify";
+import { RootState } from "../../../../app/store";
+import { toggleLoading } from "../../../../features/common.slice";
+import { useUpdateEmployeeMutation } from "../../../../generated/graphql";
+import { PageHeading } from "../../../profile/common/heading.component";
+import { editModalsEnum } from "../../employee/employee.dashboard-profile.component";
+import { mapLibs } from "../../../../utils/common";
+import { updateDashboardEmployeeData } from "../../../../features/dashboard.sice";
 
-const JobDetailsRadius = () => {
-  const [updateEmployerJobMutation] = useUpdateEmployerJobMutation();
+interface EmployeeRadiusEditProps {
+  setEditModals: Dispatch<SetStateAction<editModalsEnum | undefined>>;
+}
 
-  const [showRadiusConfirmModal, setShowRadiusConfirmModal] =
-    useState<boolean>(false);
-  const [moveNextFunc, setMoveNextFunc] = useState<{ moveFunc?: () => void }>({
-    moveFunc: undefined,
-  });
+const EmployeeRadiusEdit = ({ setEditModals }: EmployeeRadiusEditProps) => {
+  const [updateEmployeeMutation] = useUpdateEmployeeMutation();
 
   const dispatch = useDispatch();
 
-  const radius = useSelector((state: RootState) => state.job.job.radius);
-  const latitude = useSelector((state: RootState) => state.job.job.latitude);
-  const longitude = useSelector((state: RootState) => state.job.job.longitude);
+  const radius = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployee?.radius
+  );
+  const latitude = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployee?.latitude
+  );
+  const longitude = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployee?.longitude
+  );
 
-  const jobId = useSelector((state: RootState) => state.job.job._id);
-
-  const prevHandler = async (movePrev: () => void) => {
-    movePrev();
-  };
-
-  const nextHandler = async (moveNext: () => void) => {
-    if (!radius) {
-      toast.info("Select job location to continue", {
+  const submitHandler = async () => {
+    if (radius === null) {
+      toast.info("Select radius to continue", {
         autoClose: 2000,
         hideProgressBar: true,
       });
       return;
     }
 
-    // Update Employer Job Data
+    // Update Employee Data
     dispatch(toggleLoading());
-    const { data, errors } = await updateEmployerJobMutation({
+    const { data, errors } = await updateEmployeeMutation({
       variables: {
-        input: {
-          _id: jobId,
-          radius: radius,
-          latitude: latitude,
-          longitude: longitude,
-        },
+        input: { radius: radius, latitude: latitude!, longitude: longitude! },
       },
     });
     dispatch(toggleLoading());
@@ -81,14 +68,6 @@ const JobDetailsRadius = () => {
       });
       return null;
     }
-
-    moveNext();
-  };
-
-  const modalHandler = (moveNext: () => void) => {
-    setShowRadiusConfirmModal(true);
-    // nextHandler(moveNext);
-    setMoveNextFunc({ moveFunc: moveNext });
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -102,50 +81,15 @@ const JobDetailsRadius = () => {
 
   return (
     <div
-      data-aos="slide-left"
+      data-aos="fade-in"
       data-aos-duration="500"
       data-aos-easing="ease-in-out"
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center"
     >
-      <Modal show={showRadiusConfirmModal}>
-        <>
-          <h4 className="p-4 font-medium text-justify">
-            Please make sure you have selected proper location!
-          </h4>
-          <p className="text-xs w-full text-justify text-gray-500 font-normal px-4">
-            You can also change your location by dragging the pointer to your
-            preferred point.
-          </p>
-          <div className="flex flex-row justify-end gap-2 w-full p-4">
-            <button
-              type="submit"
-              className={`w-max text-xs bg-white p-2 text-primary border border-primary grid place-items-center rounded-md cursor-pointer`}
-              onClick={() => {
-                setShowRadiusConfirmModal(false);
-              }}
-            >
-              Change
-            </button>
-            <button
-              type="submit"
-              className={`w-max text-xs bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`}
-              onClick={() => {
-                setShowRadiusConfirmModal(false);
-                // modalHandler();
-                if (moveNextFunc.moveFunc !== undefined) {
-                  nextHandler(moveNextFunc.moveFunc);
-                }
-              }}
-            >
-              Yes, Proceed
-            </button>
-          </div>
-        </>
-      </Modal>
       <div className="flex flex-col max-w-2xl w-full h-full justify-center">
         <PageHeading
-          text="Job Radius"
+          text="Radius"
           desc="Your current location is autofilled, you can change the location by dragging the pointer where you are looking for the job."
         />
         {isLoaded && (
@@ -161,14 +105,14 @@ const JobDetailsRadius = () => {
             }}
             onLoad={() => {
               if (radius === null) {
-                dispatch(updateJobData({ radius: 5 }));
+                dispatch(updateDashboardEmployeeData({ radius: 5 }));
               }
             }}
             onClick={(e: google.maps.MapMouseEvent) => {
               const newLat = e.latLng?.lat();
               const newLng = e.latLng?.lng();
               dispatch(
-                updateJobData({
+                updateDashboardEmployeeData({
                   latitude: newLat,
                   longitude: newLng,
                 })
@@ -183,7 +127,7 @@ const JobDetailsRadius = () => {
                   const newLat = result.geometry?.location?.lat();
                   const newLng = result.geometry?.location?.lng();
                   dispatch(
-                    updateJobData({
+                    updateDashboardEmployeeData({
                       latitude: newLat,
                       longitude: newLng,
                     })
@@ -207,7 +151,7 @@ const JobDetailsRadius = () => {
                 const newLat = e.latLng?.lat();
                 const newLng = e.latLng?.lng();
                 dispatch(
-                  updateJobData({
+                  updateDashboardEmployeeData({
                     latitude: newLat,
                     longitude: newLng,
                   })
@@ -227,7 +171,7 @@ const JobDetailsRadius = () => {
                 const newLat = e.latLng?.lat();
                 const newLng = e.latLng?.lng();
                 dispatch(
-                  updateJobData({
+                  updateDashboardEmployeeData({
                     latitude: newLat,
                     longitude: newLng,
                   })
@@ -243,20 +187,37 @@ const JobDetailsRadius = () => {
             step={1}
             onChange={(val) => {
               if (typeof val === "number") {
-                dispatch(updateJobData({ radius: val }));
+                dispatch(updateDashboardEmployeeData({ radius: val }));
               }
             }}
             value={radius ? radius : 5}
             formatLabel={(value, _) => `${value} km`}
           />
         </div>
-        <div className="flex flex-row gap-2 justify-end select-none my-6">
-          <JobDetailsPrevButton handlerFunction={prevHandler} />
-          <JobDetailsNextButton handlerFunction={modalHandler} />
+        <div className="flex flex-row justify-center gap-2 w-full p-4">
+          <button
+            type="submit"
+            className={`w-max text-xs bg-white p-2 text-primary border border-primary grid place-items-center rounded-md cursor-pointer`}
+            onClick={() => {
+              //   setShowRadiusConfirmModal(false);
+              setEditModals(undefined);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className={`w-max text-xs bg-primary p-2 text-white grid place-items-center rounded-md cursor-pointer`}
+            onClick={() => {
+              submitHandler();
+            }}
+          >
+            Update
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default JobDetailsRadius;
+export default EmployeeRadiusEdit;

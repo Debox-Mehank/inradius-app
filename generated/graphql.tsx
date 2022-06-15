@@ -277,12 +277,14 @@ export type LoginContent = {
   _id: Scalars['ID'];
   active: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  imageUrl: Scalars['String'];
   loginContent: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type LoginContentInput = {
   active: Scalars['Boolean'];
+  imageUrl: Scalars['String'];
   loginContent: Scalars['String'];
 };
 
@@ -700,6 +702,7 @@ export type UpdateLocationInput = {
 export type UpdateLoginContentInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
+  imageUrl?: InputMaybe<Scalars['String']>;
   loginContent?: InputMaybe<Scalars['String']>;
 };
 
@@ -800,7 +803,7 @@ export type UserWorkExpInput = {
 export type EmployeeExploreQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', score: number, employerId: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, location?: { __typename?: 'Location', location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> } }> };
+export type EmployeeExploreQuery = { __typename?: 'Query', employeeExplore: Array<{ __typename?: 'DashboardEmployer', score: number, employerId: { __typename?: 'Employer', _id: string, companyName?: string | null, companyImage?: string | null }, userId: { __typename?: 'User', firstName: string, lastName: string, image?: string | null }, jobId: { __typename?: 'EmployerJob', _id: string, jobTitle?: string | null, jobDesc?: string | null, jobType?: EmployerJobTypeEnum | null, minPay?: number | null, maxPay?: number | null, minRequiredExp?: { __typename?: 'UserExpInYearMonths', years: string, months: string } | null, location?: { __typename?: 'Location', _id: string, location: string } | null, domain?: { __typename?: 'Domain', domain: string } | null, subDomain: Array<{ __typename?: 'SubDomain', subDomain: string }>, skills: Array<{ __typename?: 'Skill', skill: string }> } }> };
 
 export type EmployerExploreQueryVariables = Exact<{
   jobId: Scalars['String'];
@@ -1005,6 +1008,7 @@ export const EmployeeExploreDocument = gql`
         months
       }
       location {
+        _id
         location
       }
       domain {

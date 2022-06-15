@@ -79,7 +79,7 @@ const EmployeePersonalKyc = () => {
 
     // Check Gender
     if (!gender) {
-      toast.info("Please provide your current address.", {
+      toast.info("Please provide your gender.", {
         autoClose: 2000,
         hideProgressBar: true,
       });

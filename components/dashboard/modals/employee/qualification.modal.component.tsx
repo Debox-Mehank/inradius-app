@@ -1,35 +1,37 @@
-import { Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import { RootState } from "../../../../app/store";
 import { toggleLoading } from "../../../../features/common.slice";
 import { updateDashboardEmployeeData } from "../../../../features/dashboard.sice";
 import { useUpdateEmployeeMutation } from "../../../../generated/graphql";
-import { reactSelectColorStyles } from "../../../../utils/common";
 import { PageHeading } from "../../../profile/common/heading.component";
+import { reactSelectColorStyles } from "../../../../utils/common";
 import { editModalsEnum } from "../../employee/employee.dashboard-profile.component";
 
-interface EmployeeLocationEditProps {
+interface EmployeeQualificationEditProps {
   setEditModals: Dispatch<SetStateAction<editModalsEnum | undefined>>;
 }
 
-const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
+const EmployeeQualificationEdit = ({
+  setEditModals,
+}: EmployeeQualificationEditProps) => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
 
   const dispatch = useDispatch();
 
-  const allLocations = useSelector(
-    (state: RootState) => state.common.allLocations
+  const allQualifications = useSelector(
+    (state: RootState) => state.common.allQualifications
   );
 
-  const location = useSelector(
-    (state: RootState) => state.dashboard.dashboardEmployee?.location
+  const qualification = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployee?.qualification
   );
 
   const submitHandler = async () => {
-    if (location === null) {
-      toast.info("Select location to continue", {
+    if (qualification === null) {
+      toast.info("Select qualification to continue", {
         autoClose: 2000,
         hideProgressBar: true,
       });
@@ -39,7 +41,7 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
     // Update Employee Data
     dispatch(toggleLoading());
     const { data, errors } = await updateEmployeeMutation({
-      variables: { input: { location: location?._id } },
+      variables: { input: { qualification: qualification?._id } },
     });
     dispatch(toggleLoading());
     if (errors !== undefined) {
@@ -58,7 +60,7 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
       return null;
     }
 
-    toast.success("Location Updated Successfully!", {
+    toast.success("Qualification Updated Successfully!", {
       hideProgressBar: true,
       autoClose: 1500,
     });
@@ -73,29 +75,25 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center px-8"
     >
-      <div className="flex flex-col max-w-2xl w-full h-full justify-center">
-        <PageHeading text="Update Location" />
-        <Select<{ _id: string; location: string }>
-          options={allLocations}
-          getOptionLabel={(location: { _id: string; location: string }) =>
-            location.location
+      <div className="flex flex-col max-w-sm w-full">
+        <PageHeading text="Qualification" />
+        <Select<{ _id: string; qualification: string }>
+          options={allQualifications}
+          getOptionLabel={(qual: { _id: string; qualification: string }) =>
+            qual.qualification
           }
-          getOptionValue={(location: { _id: string; location: string }) =>
-            location._id
+          getOptionValue={(qual: { _id: string; qualification: string }) =>
+            qual._id
           }
           className="w-full"
-          placeholder="Select Location..."
-          value={location}
+          placeholder="Select Qualification..."
+          value={qualification}
           onChange={(value) => {
-            dispatch(
-              updateDashboardEmployeeData({
-                location: value,
-              })
-            );
+            dispatch(updateDashboardEmployeeData({ qualification: value }));
           }}
           styles={reactSelectColorStyles}
         />
-        <div className="flex flex-row justify-center gap-2 w-full p-4">
+        <div className="flex flex-row gap-2 justify-center select-none my-6">
           <button
             type="submit"
             className={`w-max text-xs bg-white p-2 text-primary border border-primary grid place-items-center rounded-md cursor-pointer`}
@@ -121,4 +119,4 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
   );
 };
 
-export default EmployeeLocationEdit;
+export default EmployeeQualificationEdit;

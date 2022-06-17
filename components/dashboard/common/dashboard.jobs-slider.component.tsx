@@ -13,7 +13,7 @@ const JobsSlider = () => {
   );
 
   return (
-    <div className="w-full mt-2 overflow-x-auto overscroll-x-contain">
+    <div className="w-full h-1/5 mt-2 overflow-x-auto overscroll-x-contain">
       <div className="px-8 py-4 grid grid-flow-col gap-4 last:after:w-8">
         {jobs
           ?.filter(

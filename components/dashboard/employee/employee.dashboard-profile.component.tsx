@@ -25,12 +25,30 @@ import {
 } from "../../../generated/graphql";
 import Modal from "../../reusables/Modal.component";
 import DashboardPageHeading from "../common/dashboard.heading.component";
+import EmployeeCurrentPayEdit from "../modals/employee/currentpay.modal.component";
+import EmployeeDomainEdit from "../modals/employee/domain.modal.component";
+import EmployeeExpectedPayEdit from "../modals/employee/expectedpay.modal.component";
+import EmployeeIndustryEdit from "../modals/employee/industry.modal.component";
 import EmployeeLocationEdit from "../modals/employee/location.modal.component";
+import EmployeeQualificationEdit from "../modals/employee/qualification.modal.component";
 import EmployeeRadiusEdit from "../modals/employee/radius.modal.component";
+import EmployeeRelevantExpEdit from "../modals/employee/relevantexp.modal.component";
+import EmployeeSkillEdit from "../modals/employee/skills.modal.component";
+import EmployeeSubDomainEdit from "../modals/employee/subdomains.modal.component";
+import EmployeeTotalExpEdit from "../modals/employee/totalexp.modal.component";
 
 export enum editModalsEnum {
   location = "location",
   radius = "radius",
+  industry = "industry",
+  domain = "domain",
+  subdomains = "subdomains",
+  skills = "skills",
+  qualification = "qualification",
+  totalexp = "totalexp",
+  relevantexp = "relevantexp",
+  currentpay = "currentpay",
+  expectedpay = "expectedpay",
 }
 
 const EmployeeDashboardProfile = () => {
@@ -245,16 +263,65 @@ const EmployeeDashboardProfile = () => {
   return (
     <div className="flex flex-col px-8 relative">
       {/* Modals */}
-      <Modal show={editModals !== undefined}>
-        <>
-          {editModals === editModalsEnum.location && (
+      {/* <Modal show={editModals !== undefined} size={"max-w-3xl"}>
+      </Modal> */}
+      <>
+        {editModals === editModalsEnum.location && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
             <EmployeeLocationEdit setEditModals={setEditModals} />
-          )}
-          {editModals === editModalsEnum.radius && (
+          </Modal>
+        )}
+        {editModals === editModalsEnum.radius && (
+          <Modal show={editModals !== undefined} size={"w-4/5"}>
             <EmployeeRadiusEdit setEditModals={setEditModals} />
-          )}
-        </>
-      </Modal>
+          </Modal>
+        )}
+        {editModals === editModalsEnum.industry && (
+          <Modal show={editModals !== undefined} size={"w-4/5"}>
+            <EmployeeIndustryEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.domain && (
+          <Modal show={editModals !== undefined} size={"w-4/5"}>
+            <EmployeeDomainEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.subdomains && (
+          <Modal show={editModals !== undefined} size={"w-3/5"}>
+            <EmployeeSubDomainEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.skills && (
+          <Modal show={editModals !== undefined} size={"w-3/5"}>
+            <EmployeeSkillEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.qualification && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeQualificationEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.totalexp && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeTotalExpEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.relevantexp && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeRelevantExpEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.currentpay && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeCurrentPayEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+        {editModals === editModalsEnum.expectedpay && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeExpectedPayEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
+      </>
 
       <DashboardPageHeading title="My Profile" />
       <div className="overflow-y-auto dashboard-scroll pr-3">
@@ -337,14 +404,22 @@ const EmployeeDashboardProfile = () => {
           <p className="flex-1 text-xs font-light">
             {dashboardEmployee?.industry?.industry}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.industry)}
+          />
         </div>
         <div className="w-full border-t border-b py-2 flex justify-between items-center">
           <p className="flex-1 text-sm font-medium">Domain</p>
           <p className="flex-1 text-xs font-light">
             {dashboardEmployee?.domain?.domain}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.domain)}
+          />
         </div>
         <div className="w-full border-t border-b py-2 flex justify-between items-center">
           <p className="flex-1 text-sm font-medium">Sub Domains</p>
@@ -353,21 +428,33 @@ const EmployeeDashboardProfile = () => {
               .map((el) => el.subDomain)
               .toString()}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.subdomains)}
+          />
         </div>
         <div className="w-full border-t border-b py-2 flex justify-between items-center">
           <p className="flex-1 text-sm font-medium">Skills</p>
           <p className="flex-1 text-xs font-light">
             {(dashboardEmployee?.skills ?? []).map((el) => el.label).toString()}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.skills)}
+          />
         </div>
         <div className="w-full border-t border-b py-2 flex justify-between items-center">
           <p className="flex-1 text-sm font-medium">Qualification</p>
           <p className="flex-1 text-xs font-light">
             {dashboardEmployee?.qualification?.qualification}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.qualification)}
+          />
         </div>
         {!dashboardEmployee?.fresher ? (
           <>
@@ -377,7 +464,11 @@ const EmployeeDashboardProfile = () => {
                 {dashboardEmployee?.totalExp?.years.value} years{" "}
                 {dashboardEmployee?.totalExp?.months.value} months
               </p>
-              <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+              <FontAwesomeIcon
+                icon={faEdit}
+                className="cursor-pointer"
+                onClick={() => setEditModals(editModalsEnum.totalexp)}
+              />
             </div>
             <div className="w-full border-t border-b py-2 flex justify-between items-center">
               <p className="flex-1 text-sm font-medium">Relevant Experience</p>
@@ -385,7 +476,11 @@ const EmployeeDashboardProfile = () => {
                 {dashboardEmployee?.relevantExp?.years.value} years{" "}
                 {dashboardEmployee?.relevantExp?.months.value} months
               </p>
-              <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+              <FontAwesomeIcon
+                icon={faEdit}
+                className="cursor-pointer"
+                onClick={() => setEditModals(editModalsEnum.relevantexp)}
+              />
             </div>
             <div className="w-full border-t border-b py-2 flex justify-between items-center">
               <p className="flex-1 text-sm font-medium">Current Pay</p>
@@ -395,7 +490,11 @@ const EmployeeDashboardProfile = () => {
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               </p>
-              <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+              <FontAwesomeIcon
+                icon={faEdit}
+                className="cursor-pointer"
+                onClick={() => setEditModals(editModalsEnum.currentpay)}
+              />
             </div>
           </>
         ) : (
@@ -403,7 +502,7 @@ const EmployeeDashboardProfile = () => {
             <div className="w-full border-t border-b py-2 flex justify-between items-center">
               <p className="flex-1 text-sm font-medium">Fresher</p>
               <p className="flex-1 text-xs font-light">Yes</p>
-              <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+              {/* <FontAwesomeIcon icon={faEdit} className="cursor-pointer" /> */}
             </div>
           </>
         )}
@@ -415,7 +514,11 @@ const EmployeeDashboardProfile = () => {
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </p>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.expectedpay)}
+          />
         </div>
       </div>
     </div>

@@ -1,35 +1,35 @@
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
 import { toast } from "react-toastify";
 import { RootState } from "../../../../app/store";
 import { toggleLoading } from "../../../../features/common.slice";
 import { updateDashboardEmployeeData } from "../../../../features/dashboard.sice";
 import { useUpdateEmployeeMutation } from "../../../../generated/graphql";
-import { reactSelectColorStyles } from "../../../../utils/common";
-import { PageHeading } from "../../../profile/common/heading.component";
+import {
+  PageHeading,
+  PageSubHeading,
+} from "../../../profile/common/heading.component";
 import { editModalsEnum } from "../../employee/employee.dashboard-profile.component";
 
-interface EmployeeLocationEditProps {
+interface EmployeeDomainEditProps {
   setEditModals: Dispatch<SetStateAction<editModalsEnum | undefined>>;
 }
 
-const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
+const EmployeeDomainEdit = ({ setEditModals }: EmployeeDomainEditProps) => {
   const [updateEmployeeMutation] = useUpdateEmployeeMutation();
 
   const dispatch = useDispatch();
 
-  const allLocations = useSelector(
-    (state: RootState) => state.common.allLocations
-  );
-
-  const location = useSelector(
-    (state: RootState) => state.dashboard.dashboardEmployee?.location
+  const allDomains = useSelector((state: RootState) => state.common.allDomains);
+  const domain = useSelector(
+    (state: RootState) => state.dashboard.dashboardEmployee?.domain
   );
 
   const submitHandler = async () => {
-    if (location === null) {
-      toast.info("Select location to continue", {
+    if (domain === null) {
+      toast.info("Select domain to continue", {
         autoClose: 2000,
         hideProgressBar: true,
       });
@@ -39,7 +39,7 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
     // Update Employee Data
     dispatch(toggleLoading());
     const { data, errors } = await updateEmployeeMutation({
-      variables: { input: { location: location?._id } },
+      variables: { input: { domain: domain?._id, subDomain: [] } },
     });
     dispatch(toggleLoading());
     if (errors !== undefined) {
@@ -58,7 +58,7 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
       return null;
     }
 
-    toast.success("Location Updated Successfully!", {
+    toast.success("Domain Updated Successfully!", {
       hideProgressBar: true,
       autoClose: 1500,
     });
@@ -73,9 +73,52 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
       data-aos-mirror="true"
       className="w-full h-full grid place-items-center px-8"
     >
-      <div className="flex flex-col max-w-2xl w-full h-full justify-center">
-        <PageHeading text="Update Location" />
-        <Select<{ _id: string; location: string }>
+      <div className="flex flex-col max-w-xl w-full h-full justify-center">
+        <PageHeading text={"Domain"} />
+        <div className="flex flex-col justify-start">
+          <PageSubHeading text="Choose Domain" />
+
+          <div className="flex flex-row gap-4 flex-wrap">
+            {allDomains.map((i, idx) => (
+              <p
+                key={idx}
+                className={`${
+                  i._id === domain?._id
+                    ? "bg-primary text-white"
+                    : "bg-lightGray text-black"
+                } rounded-full py-2 px-3 font-normal text-xs transition-all flex justify-center items-center gap-2 cursor-pointer`}
+                onClick={() => {
+                  if (domain !== null) {
+                    if (domain?._id !== i._id) {
+                      dispatch(
+                        updateDashboardEmployeeData({
+                          domain: i,
+                          subDomain: [],
+                        })
+                      );
+                    }
+                  } else {
+                    dispatch(
+                      updateDashboardEmployeeData({
+                        domain: i,
+                      })
+                    );
+                  }
+                }}
+              >
+                {i.domain}
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  size="1x"
+                  className={`${
+                    i._id === domain?._id ? "block" : "hidden"
+                  } text-white`}
+                />
+              </p>
+            ))}
+          </div>
+        </div>
+        {/* <Select<{ _id: string; location: string }>
           options={allLocations}
           getOptionLabel={(location: { _id: string; location: string }) =>
             location.location
@@ -87,15 +130,11 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
           placeholder="Select Location..."
           value={location}
           onChange={(value) => {
-            dispatch(
-              updateDashboardEmployeeData({
-                location: value,
-              })
-            );
+            dispatch(updateEmployeeData({ location: value }));
           }}
           styles={reactSelectColorStyles}
-        />
-        <div className="flex flex-row justify-center gap-2 w-full p-4">
+        /> */}
+        <div className="flex flex-row gap-2 justify-center select-none my-6">
           <button
             type="submit"
             className={`w-max text-xs bg-white p-2 text-primary border border-primary grid place-items-center rounded-md cursor-pointer`}
@@ -121,4 +160,4 @@ const EmployeeLocationEdit = ({ setEditModals }: EmployeeLocationEditProps) => {
   );
 };
 
-export default EmployeeLocationEdit;
+export default EmployeeDomainEdit;

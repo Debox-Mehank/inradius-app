@@ -68,6 +68,12 @@ const EmployeeRadiusEdit = ({ setEditModals }: EmployeeRadiusEditProps) => {
       });
       return null;
     }
+
+    toast.success("Radius Updated Successfully!", {
+      hideProgressBar: true,
+      autoClose: 1500,
+    });
+    setEditModals(undefined);
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -85,7 +91,7 @@ const EmployeeRadiusEdit = ({ setEditModals }: EmployeeRadiusEditProps) => {
       data-aos-duration="500"
       data-aos-easing="ease-in-out"
       data-aos-mirror="true"
-      className="w-full h-full grid place-items-center"
+      className="w-full h-full grid place-items-center px-8"
     >
       <div className="flex flex-col max-w-2xl w-full h-full justify-center">
         <PageHeading
@@ -96,7 +102,7 @@ const EmployeeRadiusEdit = ({ setEditModals }: EmployeeRadiusEditProps) => {
           <GoogleMap
             zoom={12}
             center={{ lat: latitude ?? 0, lng: longitude ?? 0 }}
-            mapContainerClassName="w-full h-3/5 rounded-md"
+            mapContainerClassName="w-full h-80 rounded-md"
             options={{
               disableDefaultUI: false,
               streetViewControl: false,

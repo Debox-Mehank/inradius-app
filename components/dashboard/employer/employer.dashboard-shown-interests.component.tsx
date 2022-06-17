@@ -70,9 +70,9 @@ const EmployerDashboardShownInterests = () => {
   }, [dispatch, getShownInterestsQuery, currentPage, selectedJob]);
 
   return (
-    <div className="flex flex-col px-8 relative">
+    <div className="flex flex-1 h-full flex-col px-8 relative">
       <DashboardPageHeading title="Shown Interest" />
-      <div className="overflow-y-auto dashboard-scroll">
+      <div className="overflow-y-auto h-4/5">
         {interestsList.length > 0 ? (
           <>
             {interestsList.map((emp, idx) => {

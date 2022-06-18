@@ -32,6 +32,7 @@ query Me {
     isAccountVerified
     isSurveyCompleted
     isProfileCompleted
+    userStatus
   }
 }
 

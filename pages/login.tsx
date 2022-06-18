@@ -123,7 +123,7 @@ const Login: NextPage = () => {
       }
     };
     fetchFun();
-  }, []);
+  }, [allLoginContentQuery, dispatch]);
 
   useEffect(() => {
     var contentInterval: NodeJS.Timeout;

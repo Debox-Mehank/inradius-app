@@ -1108,7 +1108,7 @@ export type LogoutQuery = { __typename?: 'Query', logout: boolean };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', user: { __typename?: 'User', _id: string, firstName: string, lastName: string, email: string, number: string, image?: string | null, type: UserRole, isAccountVerified: boolean, isSurveyCompleted: boolean, isProfileCompleted: boolean } };
+export type MeQuery = { __typename?: 'Query', user: { __typename?: 'User', _id: string, firstName: string, lastName: string, email: string, number: string, image?: string | null, type: UserRole, isAccountVerified: boolean, isSurveyCompleted: boolean, isProfileCompleted: boolean, userStatus: UserStatus } };
 
 export type UpdateSurveyStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2478,6 +2478,7 @@ export const MeDocument = gql`
     isAccountVerified
     isSurveyCompleted
     isProfileCompleted
+    userStatus
   }
 }
     `;

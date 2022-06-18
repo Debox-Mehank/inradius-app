@@ -73,6 +73,7 @@ const AuthChecker = ({ children, page }: AuthCheckerProps) => {
               type: data.user.type,
               createdAt: undefined,
               updatedAt: undefined,
+              userStatus: data.user.userStatus,
             };
 
             dispatch(setDashboardUser(user));

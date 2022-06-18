@@ -117,7 +117,7 @@ const EmployeeRegister: NextPage = () => {
       }
     };
     fetchFun();
-  }, []);
+  }, [dispatch, allRegisterContentQuery]);
 
   return (
     <>

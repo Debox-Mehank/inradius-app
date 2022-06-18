@@ -15,9 +15,12 @@ import {
   useLoginLazyQuery,
   useMeLazyQuery,
   UserRole,
+  useAllLoginContentLazyQuery,
 } from "../generated/graphql";
 import { useRouter } from "next/router";
 import client from "../utils/apollo_client";
+import { useEffect, useState } from "react";
+import { formatText } from "../utils/common";
 
 export interface UserLoginFormFields {
   email: string;
@@ -26,6 +29,13 @@ export interface UserLoginFormFields {
 
 const Login: NextPage = () => {
   const router = useRouter();
+
+  const [loginContents, setLoginContents] = useState<
+    { loginContent: string; imageUrl: string }[]
+  >([]);
+  const [allLoginContentQuery] = useAllLoginContentLazyQuery();
+  const [currentContent, setCurrentContent] = useState<number>(0);
+
   const [loginQuery] = useLoginLazyQuery();
   const [meQuery] = useMeLazyQuery();
   const {
@@ -78,6 +88,58 @@ const Login: NextPage = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchFun = async () => {
+      try {
+        // dispatch(toggleLoading());
+        const { data, error } = await allLoginContentQuery();
+
+        if (error !== undefined) {
+          toast.error(error.message, {
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+          dispatch(toggleLoading());
+          return;
+        }
+
+        if (data === undefined) {
+          toast.error("Something went wrong!", {
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+          dispatch(toggleLoading());
+          return;
+        }
+
+        // dispatch(toggleLoading());
+        setLoginContents(data.allLoginContent);
+      } catch (error: any) {
+        toast.error(error.toString(), {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return;
+      }
+    };
+    fetchFun();
+  }, []);
+
+  useEffect(() => {
+    var contentInterval: NodeJS.Timeout;
+    // Slider
+    if (loginContents.length > 1) {
+      console.log(loginContents);
+      contentInterval = setInterval(() => {
+        setCurrentContent((prev) =>
+          loginContents.length - 1 === prev ? 0 : prev + 1
+        );
+      }, 10000);
+    }
+
+    return () => clearInterval(contentInterval);
+  }, [loginContents]);
+
   return (
     <>
       {/* Page Header */}
@@ -101,30 +163,48 @@ const Login: NextPage = () => {
 
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2">
           {/* Left Content */}
-          <div className="w-full h-full bg-white hidden lg:flex flex-col">
-            <div
-              className="w-full flex items-end pt-16 px-16"
-              style={{ height: "45%" }}
-            >
-              <h2 className="whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16">
-                {"Continue to get a job "}{" "}
-                <span className="text-primary">closer</span> {" to your home!"}
-              </h2>
-            </div>
-            <div
-              className="w-full flex items-center justify-center p-12"
-              style={{ height: "55%" }}
-            >
-              <div className="h-full w-full relative">
-                <Image
-                  alt=""
-                  src={login_static}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-xl"
-                />
-              </div>
-            </div>
+          <div className="w-full h-full bg-white hidden lg:flex flex-row">
+            {loginContents.map((loginContent, idx) => {
+              if (idx === currentContent) {
+                return (
+                  <div
+                    data-aos="slide-right"
+                    data-aos-duration="500"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    className="w-full h-full bg-white hidden lg:flex flex-col"
+                    key={idx}
+                  >
+                    <div
+                      className="w-full flex items-end pt-16 px-16"
+                      style={{ height: "45%" }}
+                    >
+                      <h2
+                        dangerouslySetInnerHTML={{
+                          __html: formatText(loginContent.loginContent),
+                        }}
+                        className="whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16"
+                      ></h2>
+                    </div>
+                    <div
+                      className="w-full flex items-center justify-center p-12"
+                      style={{ height: "55%" }}
+                    >
+                      <div className="h-full w-full relative">
+                        <Image
+                          alt=""
+                          src={loginContent.imageUrl}
+                          layout="fill"
+                          objectFit="cover"
+                          className="rounded-xl"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
 
           {/*Main Form */}

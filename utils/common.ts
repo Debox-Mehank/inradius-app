@@ -85,3 +85,24 @@ export const reactMultiSelectColorStyles: StylesConfig<
     },
   }),
 };
+
+export const formatText = (text: string): string => {
+  return (
+    text
+      // bold
+      .replace(/(?:\*)(?:(?!\s))((?:(?!\*|\n).)+)(?:\*)/g, "<b>$1</b>")
+      // italics
+      .replace(/(?:_)(?:(?!\s))((?:(?!\n|_).)+)(?:_)/g, "<i>$1</i>")
+      // strikethrough
+      .replace(/(?:~)(?:(?!\s))((?:(?!\n|~).)+)(?:~)/g, "<s>$1</s>")
+      // underline
+      .replace(/(?:--)(?:(?!\s))((?:(?!\n|--).)+)(?:--)/g, "<u>$1</u>")
+      // monospace
+      .replace(/(?:```)(?:(?!\s))((?:(?!\n|```).)+)(?:```)/g, "<tt>$1</tt>")
+      // primary color
+      .replace(
+        /(?:!)(?:(?!\s))((?:(?!\n|!).)+)(?:!)/g,
+        "<span style='color: #ff4100;'>$1</span>"
+      )
+  );
+};

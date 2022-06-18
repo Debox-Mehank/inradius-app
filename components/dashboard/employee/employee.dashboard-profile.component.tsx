@@ -30,6 +30,7 @@ import EmployeeDomainEdit from "../modals/employee/domain.modal.component";
 import EmployeeExpectedPayEdit from "../modals/employee/expectedpay.modal.component";
 import EmployeeIndustryEdit from "../modals/employee/industry.modal.component";
 import EmployeeLocationEdit from "../modals/employee/location.modal.component";
+import EmployeeProfileEdit from "../modals/employee/profile.modal.component";
 import EmployeeQualificationEdit from "../modals/employee/qualification.modal.component";
 import EmployeeRadiusEdit from "../modals/employee/radius.modal.component";
 import EmployeeRelevantExpEdit from "../modals/employee/relevantexp.modal.component";
@@ -38,6 +39,7 @@ import EmployeeSubDomainEdit from "../modals/employee/subdomains.modal.component
 import EmployeeTotalExpEdit from "../modals/employee/totalexp.modal.component";
 
 export enum editModalsEnum {
+  image = "image",
   location = "location",
   radius = "radius",
   industry = "industry",
@@ -266,6 +268,11 @@ const EmployeeDashboardProfile = () => {
       {/* <Modal show={editModals !== undefined} size={"max-w-3xl"}>
       </Modal> */}
       <>
+        {editModals === editModalsEnum.image && (
+          <Modal show={editModals !== undefined} size={"w-2/5"}>
+            <EmployeeProfileEdit setEditModals={setEditModals} />
+          </Modal>
+        )}
         {editModals === editModalsEnum.location && (
           <Modal show={editModals !== undefined} size={"w-2/5"}>
             <EmployeeLocationEdit setEditModals={setEditModals} />
@@ -372,7 +379,11 @@ const EmployeeDashboardProfile = () => {
               alt={"profile image"}
             />
           </div>
-          <FontAwesomeIcon icon={faEdit} className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="cursor-pointer"
+            onClick={() => setEditModals(editModalsEnum.image)}
+          />
         </div>
         <h4 className="font-semibold text-base text-black mt-3 mb-3">
           Job Preferences

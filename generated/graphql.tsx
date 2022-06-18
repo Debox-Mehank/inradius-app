@@ -293,6 +293,12 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
+/** Enum For Type of Matches i.e. Hard Match for parameters that should be definately matched and soft match for those parameters that would make up the score. */
+export enum MatchType {
+  HardMatch = 'hardMatch',
+  SoftMatch = 'softMatch'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   addBenefit: Benefit;
@@ -302,6 +308,8 @@ export type Mutation = {
   addLocation: Location;
   addLoginContent: LoginContent;
   addQualification: Qualification;
+  addRegisterContent: RegisterContent;
+  addRule: Rule;
   addSkill: Skill;
   addSkills: Scalars['Boolean'];
   addSubDomain: SubDomain;
@@ -318,6 +326,8 @@ export type Mutation = {
   updateLocation: Location;
   updateLoginContent: LoginContent;
   updateQualification: Qualification;
+  updateRegisterContent: RegisterContent;
+  updateRule: Rule;
   updateSkill: Skill;
   updateSubDomain: SubDomain;
   updateSurveyQuestion: Survey;
@@ -351,6 +361,16 @@ export type MutationAddLoginContentArgs = {
 
 export type MutationAddQualificationArgs = {
   input: QualificationInput;
+};
+
+
+export type MutationAddRegisterContentArgs = {
+  input: RegisterContentInput;
+};
+
+
+export type MutationAddRuleArgs = {
+  input: RuleInput;
 };
 
 
@@ -437,6 +457,16 @@ export type MutationUpdateQualificationArgs = {
 };
 
 
+export type MutationUpdateRegisterContentArgs = {
+  input: UpdateRegisterContentInput;
+};
+
+
+export type MutationUpdateRuleArgs = {
+  input: UpdateRuleInput;
+};
+
+
 export type MutationUpdateSkillArgs = {
   input: UpdateSkillInput;
 };
@@ -472,9 +502,12 @@ export type Query = {
   allBenefits: Array<Benefit>;
   allDomains: Array<Domain>;
   allIndustries: Array<Industry>;
+  allJobs: Array<EmployerJob>;
   allLocations: Array<Location>;
   allLoginContent: Array<LoginContent>;
   allQualifications: Array<Qualification>;
+  allRegisterContent: Array<RegisterContent>;
+  allRule: Array<Rule>;
   allSkills: Array<Skill>;
   allSubDomains: Array<SubDomain>;
   allSurveyQuestion: Array<Survey>;
@@ -495,6 +528,7 @@ export type Query = {
   updateProfileStatus: Scalars['Boolean'];
   updateSurveyStatus: Scalars['Boolean'];
   updateUserImage: Scalars['Boolean'];
+  updateUserStatus: Scalars['Boolean'];
   user: User;
   verifyEmail: Scalars['Boolean'];
   verifyEmployer: Scalars['Boolean'];
@@ -503,6 +537,11 @@ export type Query = {
 
 export type QueryAdminLoginArgs = {
   input: AdminLoginInput;
+};
+
+
+export type QueryAllRegisterContentArgs = {
+  type?: InputMaybe<RegisterContentType>;
 };
 
 
@@ -551,6 +590,11 @@ export type QueryUpdateUserImageArgs = {
 };
 
 
+export type QueryUpdateUserStatusArgs = {
+  status: UpdateUserStatusInput;
+};
+
+
 export type QueryVerifyEmailArgs = {
   input: EmailVerifyInput;
 };
@@ -560,6 +604,30 @@ export type QueryVerifyEmployerArgs = {
   input: UpdateEmployerVerifyInput;
 };
 
+export type RegisterContent = {
+  __typename?: 'RegisterContent';
+  _id: Scalars['ID'];
+  active: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  imageUrl: Scalars['String'];
+  registerContent: Scalars['String'];
+  type: RegisterContentType;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type RegisterContentInput = {
+  active: Scalars['Boolean'];
+  imageUrl: Scalars['String'];
+  registerContent: Scalars['String'];
+  type: RegisterContentType;
+};
+
+/** Enum For Type of Register Content i.e. Employer & Employee */
+export enum RegisterContentType {
+  Employee = 'employee',
+  Employer = 'employer'
+}
+
 export type RegisterInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -567,6 +635,24 @@ export type RegisterInput = {
   number: Scalars['String'];
   password: Scalars['String'];
   type: UserRole;
+};
+
+export type Rule = {
+  __typename?: 'Rule';
+  _id: Scalars['ID'];
+  active: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  matchType: MatchType;
+  type: TypeCriterion;
+  updatedAt: Scalars['DateTime'];
+  weightage: Scalars['Float'];
+};
+
+export type RuleInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  matchType: MatchType;
+  type: TypeCriterion;
+  weightage: Scalars['Float'];
 };
 
 export type Skill = {
@@ -621,6 +707,18 @@ export type SurveyInput = {
 export enum SurveyType {
   Employee = 'employee',
   Employer = 'employer'
+}
+
+/** Enum For Type of Criteria for matching algorithm */
+export enum TypeCriterion {
+  DomainMatch = 'domainMatch',
+  ExpRangeMatch = 'expRangeMatch',
+  IndustryMatch = 'industryMatch',
+  LocationMatch = 'locationMatch',
+  RadiusMatch = 'radiusMatch',
+  SalaryRangeMatch = 'salaryRangeMatch',
+  SkillMatch = 'skillMatch',
+  SubDomainMatch = 'subDomainMatch'
 }
 
 export type UpdateBenefitInput = {
@@ -712,6 +810,21 @@ export type UpdateQualificationInput = {
   qualification?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateRegisterContentInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  imageUrl?: InputMaybe<Scalars['String']>;
+  registerContent?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateRuleInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  matchType?: InputMaybe<MatchType>;
+  type?: InputMaybe<TypeCriterion>;
+  weightage?: InputMaybe<Scalars['Float']>;
+};
+
 export type UpdateSkillInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
@@ -731,6 +844,11 @@ export type UpdateSurveyInput = {
   question?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateUserStatusInput = {
+  id: Scalars['String'];
+  userStatus: UserStatus;
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
@@ -741,10 +859,13 @@ export type User = {
   isAccountVerified: Scalars['Boolean'];
   isProfileCompleted: Scalars['Boolean'];
   isSurveyCompleted: Scalars['Boolean'];
+  lastLoggedIn?: Maybe<Scalars['DateTime']>;
+  lastLoggedOut?: Maybe<Scalars['DateTime']>;
   lastName: Scalars['String'];
   number: Scalars['String'];
   type: UserRole;
   updatedAt: Scalars['DateTime'];
+  userStatus: UserStatus;
 };
 
 export type UserExpInYearMonths = {
@@ -762,6 +883,17 @@ export type UserExpInYearMonthsInput = {
 export enum UserRole {
   Employee = 'employee',
   Employer = 'employer'
+}
+
+/** Enum For Type of User Status */
+export enum UserStatus {
+  Active = 'active',
+  BlockedByAdmin = 'blockedByAdmin',
+  Hired = 'hired',
+  Inactive = 'inactive',
+  PaymentPending = 'paymentPending',
+  PenaltyPending = 'penaltyPending',
+  Pending = 'pending'
 }
 
 export type UserSurvey = {
@@ -799,6 +931,18 @@ export type UserWorkExpInput = {
   onNotice: Scalars['Boolean'];
   start: Scalars['DateTime'];
 };
+
+export type AllLoginContentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllLoginContentQuery = { __typename?: 'Query', allLoginContent: Array<{ __typename?: 'LoginContent', loginContent: string, imageUrl: string }> };
+
+export type AllRegisterContentQueryVariables = Exact<{
+  type?: InputMaybe<RegisterContentType>;
+}>;
+
+
+export type AllRegisterContentQuery = { __typename?: 'Query', allRegisterContent: Array<{ __typename?: 'RegisterContent', registerContent: string, imageUrl: string }> };
 
 export type EmployeeExploreQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -984,6 +1128,77 @@ export type UpdateProfileStatusQueryVariables = Exact<{ [key: string]: never; }>
 export type UpdateProfileStatusQuery = { __typename?: 'Query', updateProfileStatus: boolean };
 
 
+export const AllLoginContentDocument = gql`
+    query AllLoginContent {
+  allLoginContent {
+    loginContent
+    imageUrl
+  }
+}
+    `;
+
+/**
+ * __useAllLoginContentQuery__
+ *
+ * To run a query within a React component, call `useAllLoginContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllLoginContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllLoginContentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllLoginContentQuery(baseOptions?: Apollo.QueryHookOptions<AllLoginContentQuery, AllLoginContentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllLoginContentQuery, AllLoginContentQueryVariables>(AllLoginContentDocument, options);
+      }
+export function useAllLoginContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllLoginContentQuery, AllLoginContentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllLoginContentQuery, AllLoginContentQueryVariables>(AllLoginContentDocument, options);
+        }
+export type AllLoginContentQueryHookResult = ReturnType<typeof useAllLoginContentQuery>;
+export type AllLoginContentLazyQueryHookResult = ReturnType<typeof useAllLoginContentLazyQuery>;
+export type AllLoginContentQueryResult = Apollo.QueryResult<AllLoginContentQuery, AllLoginContentQueryVariables>;
+export const AllRegisterContentDocument = gql`
+    query AllRegisterContent($type: RegisterContentType) {
+  allRegisterContent(type: $type) {
+    registerContent
+    imageUrl
+  }
+}
+    `;
+
+/**
+ * __useAllRegisterContentQuery__
+ *
+ * To run a query within a React component, call `useAllRegisterContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllRegisterContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllRegisterContentQuery({
+ *   variables: {
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useAllRegisterContentQuery(baseOptions?: Apollo.QueryHookOptions<AllRegisterContentQuery, AllRegisterContentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllRegisterContentQuery, AllRegisterContentQueryVariables>(AllRegisterContentDocument, options);
+      }
+export function useAllRegisterContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllRegisterContentQuery, AllRegisterContentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllRegisterContentQuery, AllRegisterContentQueryVariables>(AllRegisterContentDocument, options);
+        }
+export type AllRegisterContentQueryHookResult = ReturnType<typeof useAllRegisterContentQuery>;
+export type AllRegisterContentLazyQueryHookResult = ReturnType<typeof useAllRegisterContentLazyQuery>;
+export type AllRegisterContentQueryResult = Apollo.QueryResult<AllRegisterContentQuery, AllRegisterContentQueryVariables>;
 export const EmployeeExploreDocument = gql`
     query EmployeeExplore {
   employeeExplore {

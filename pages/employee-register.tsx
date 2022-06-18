@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -12,7 +12,11 @@ import register_static from "../assets/register_static.png";
 import ReusableButton from "../components/reusables/ReusableButton";
 import PasswordField from "../components/reusables/PasswordField";
 import { toggleLoading } from "../features/common.slice";
-import { useRegisterMutation, UserRole } from "../generated/graphql";
+import {
+  useAllRegisterContentLazyQuery,
+  useRegisterMutation,
+  UserRole,
+} from "../generated/graphql";
 import { GraphQLError } from "graphql";
 
 export interface EmployeeRegisterFormFields {
@@ -26,6 +30,11 @@ export interface EmployeeRegisterFormFields {
 
 const EmployeeRegister: NextPage = () => {
   const [registerMutation] = useRegisterMutation();
+
+  const [registerContents, setRegisterContents] = useState<
+    { registerContent: string; imageUrl: string }[]
+  >([]);
+  const [allRegisterContentQuery] = useAllRegisterContentLazyQuery();
 
   const {
     register: fieldRegister,
@@ -72,6 +81,43 @@ const EmployeeRegister: NextPage = () => {
     }
     dispatch(toggleLoading());
   };
+
+  useEffect(() => {
+    const fetchFun = async () => {
+      try {
+        // dispatch(toggleLoading());
+        const { data, error } = await allRegisterContentQuery();
+
+        if (error !== undefined) {
+          toast.error(error.message, {
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+          dispatch(toggleLoading());
+          return;
+        }
+
+        if (data === undefined) {
+          toast.error("Something went wrong!", {
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+          dispatch(toggleLoading());
+          return;
+        }
+
+        // dispatch(toggleLoading());
+        setRegisterContents(data.allRegisterContent);
+      } catch (error: any) {
+        toast.error(error.toString(), {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return;
+      }
+    };
+    fetchFun();
+  }, []);
 
   return (
     <>

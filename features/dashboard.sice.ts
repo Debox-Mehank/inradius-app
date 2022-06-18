@@ -138,36 +138,6 @@ export interface DashboardEmployerState {
 }
 
 export interface DashboardEmployeeState {
-  // shortDescription?: string | undefined | null;
-  // radius?: number | undefined | null;
-  // location?: { _id: string; location: string } | null | undefined;
-  // qualification?: { _id: string; qualification: string } | null | undefined;
-  // industry?: { _id: string; industry: string } | null | undefined;
-  // domain?: { _id: string; domain: string } | null | undefined;
-  // subDomain: string[];
-  // skills: string[];
-  // fresher: boolean;
-  // workExp: {
-  //   company: string;
-  //   designation: string;
-  //   desc: string;
-  //   start: string;
-  //   end?: string;
-  //   current: boolean;
-  // }[];
-  // totalExp: string;
-  // relevantExp: string;
-  // currentPay: number;
-  // expectedPay: number;
-  // linkedIn: string;
-  // resume: string;
-  // gender?: EmployeeGenderEnum | null;
-  // currentAddress: string;
-  // dob: string;
-  // panCard: string;
-  // aadharCard: string;
-  // latitude?: number | undefined | null;
-  // longitude?: number | undefined | null;
   _id?: string | undefined | null;
   aadharCard?: string | null | undefined;
   shortDescription?: string | null | undefined;
@@ -249,6 +219,12 @@ export const dashboardSlice = createSlice({
     setDashboardUser: (state, action: PayloadAction<User>) => {
       state.dashboardUser = action.payload;
     },
+    updateDashboardUserImage: (state, action: PayloadAction<string>) => {
+      state.dashboardUser = {
+        ...state.dashboardUser!,
+        image: action.payload,
+      };
+    },
     updateDashboardEmployerData: (
       state,
       action: PayloadAction<DashboardEmployerState>
@@ -283,6 +259,7 @@ export const {
   setInitialStateDashboardSlice,
   setCurrentPage,
   setDashboardUser,
+  updateDashboardUserImage,
   updateDashboardEmployerData,
   updateDashboardEmployeeData,
   setSelectedJob,

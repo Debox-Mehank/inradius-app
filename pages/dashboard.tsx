@@ -241,6 +241,22 @@ const Dashboard = () => {
           minPay: job.minPay,
           maxPay: job.maxPay,
         })),
+        companyLetterHead: employer.companyLetterHead,
+        linkedIn: employer.linkedIn,
+        gstNo: employer.gstNo,
+        panNo: employer.panNo,
+        registeredAddress: employer.registeredAddress,
+        currentAddress: employer.currentAddress,
+        noOfLocations: employer.noOfLocations,
+        landline: employer.landline,
+        noOfEmployees: employer.noOfEmployees,
+        lastTurnover: employer.lastTurnover,
+        noOfHiring: employer.noOfHiring,
+        attritionRate: employer.attritionRate,
+        benefits: employer.benefits?.map((s) => ({
+          label: s.benefit,
+          value: s._id,
+        })),
       };
 
       dispatch(updateDashboardEmployerData(empData));

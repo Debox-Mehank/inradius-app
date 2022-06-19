@@ -9,5 +9,6 @@ query AllRegisterContent($type: RegisterContentType) {
   allRegisterContent(type: $type) {
     registerContent
     imageUrl
+    type
   }
 }

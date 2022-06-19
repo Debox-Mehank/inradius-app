@@ -942,7 +942,7 @@ export type AllRegisterContentQueryVariables = Exact<{
 }>;
 
 
-export type AllRegisterContentQuery = { __typename?: 'Query', allRegisterContent: Array<{ __typename?: 'RegisterContent', registerContent: string, imageUrl: string }> };
+export type AllRegisterContentQuery = { __typename?: 'Query', allRegisterContent: Array<{ __typename?: 'RegisterContent', registerContent: string, imageUrl: string, type: RegisterContentType }> };
 
 export type EmployeeExploreQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1168,6 +1168,7 @@ export const AllRegisterContentDocument = gql`
   allRegisterContent(type: $type) {
     registerContent
     imageUrl
+    type
   }
 }
     `;

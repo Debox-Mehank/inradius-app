@@ -13,11 +13,13 @@ import ReusableButton from "../components/reusables/ReusableButton";
 import PasswordField from "../components/reusables/PasswordField";
 import { toggleLoading } from "../features/common.slice";
 import {
+  RegisterContentType,
   useAllRegisterContentLazyQuery,
   useRegisterMutation,
   UserRole,
 } from "../generated/graphql";
 import { GraphQLError } from "graphql";
+import { formatText } from "../utils/common";
 
 export interface EmployeeRegisterFormFields {
   firstName: string;
@@ -35,6 +37,7 @@ const EmployeeRegister: NextPage = () => {
     { registerContent: string; imageUrl: string }[]
   >([]);
   const [allRegisterContentQuery] = useAllRegisterContentLazyQuery();
+  const [currentContent, setCurrentContent] = useState<number>(0);
 
   const {
     register: fieldRegister,
@@ -86,7 +89,9 @@ const EmployeeRegister: NextPage = () => {
     const fetchFun = async () => {
       try {
         // dispatch(toggleLoading());
-        const { data, error } = await allRegisterContentQuery();
+        const { data, error } = await allRegisterContentQuery({
+          variables: { type: RegisterContentType.Employee },
+        });
 
         if (error !== undefined) {
           toast.error(error.message, {
@@ -119,6 +124,21 @@ const EmployeeRegister: NextPage = () => {
     fetchFun();
   }, [dispatch, allRegisterContentQuery]);
 
+  useEffect(() => {
+    var contentInterval: NodeJS.Timeout;
+    // Slider
+    if (registerContents.length > 1) {
+      console.log(registerContents);
+      contentInterval = setInterval(() => {
+        setCurrentContent((prev) =>
+          registerContents.length - 1 === prev ? 0 : prev + 1
+        );
+      }, 5000);
+    }
+
+    return () => clearInterval(contentInterval);
+  }, [registerContents]);
+
   return (
     <>
       {/* Page Header */}
@@ -143,29 +163,46 @@ const EmployeeRegister: NextPage = () => {
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
           {/* Left Content */}
           <div className="w-full h-full bg-white hidden lg:flex flex-col">
-            <div
-              className="w-full flex items-end pt-16 px-16"
-              style={{ height: "45%" }}
-            >
-              <h2 className="whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16">
-                {"You don't have to do this\nyou "}{" "}
-                <span className="text-primary">choose</span> {" to!"}
-              </h2>
-            </div>
-            <div
-              className=" w-full flex items-center justify-center p-12"
-              style={{ height: "55%" }}
-            >
-              <div className="h-full w-full relative">
-                <Image
-                  alt=""
-                  src={register_static}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-xl"
-                />
-              </div>
-            </div>
+            {registerContents.map((registerContent, idx) => {
+              if (idx === currentContent) {
+                return (
+                  <div
+                    data-aos="slide-right"
+                    data-aos-duration="500"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    className="w-full h-full bg-white hidden lg:flex flex-col"
+                    key={idx}
+                  >
+                    <div
+                      className="w-full flex items-end pt-16 px-16"
+                      style={{ height: "45%" }}
+                    >
+                      <h2
+                        dangerouslySetInnerHTML={{
+                          __html: formatText(registerContent.registerContent),
+                        }}
+                        className="whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16"
+                      ></h2>
+                    </div>
+                    <div
+                      className=" w-full flex items-center justify-center p-12"
+                      style={{ height: "55%" }}
+                    >
+                      <div className="h-full w-full relative">
+                        <Image
+                          alt=""
+                          src={registerContent.imageUrl}
+                          layout="fill"
+                          objectFit="cover"
+                          className="rounded-xl"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
 
           {/* Main Form */}

@@ -134,7 +134,20 @@ export interface DashboardEmployerCardData {
 export interface DashboardEmployerState {
   companyName?: string | null | undefined;
   companyImage?: string | null | undefined;
-  jobs: EmployerJobState[];
+  jobs?: EmployerJobState[];
+  companyLetterHead?: string | null | undefined;
+  linkedIn?: string | null | undefined;
+  gstNo?: string | null | undefined;
+  panNo?: string | null | undefined;
+  registeredAddress?: string | null | undefined;
+  currentAddress?: string | null | undefined;
+  noOfLocations?: number | null | undefined;
+  landline?: number | null | undefined;
+  noOfEmployees?: number | null | undefined;
+  lastTurnover?: number | null | undefined;
+  noOfHiring?: number | null | undefined;
+  attritionRate?: number | null | undefined;
+  benefits?: { label: string; value: string }[];
 }
 
 export interface DashboardEmployeeState {
@@ -234,7 +247,7 @@ export const dashboardSlice = createSlice({
         ...action.payload,
       };
 
-      if (action.payload.jobs.length > 0) {
+      if (action.payload.jobs && action.payload.jobs.length > 0) {
         state.selectedJob = action.payload.jobs[0];
       }
     },

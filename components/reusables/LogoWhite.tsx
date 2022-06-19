@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 
 const LogoWhite = () => {
+  const router = useRouter();
   return (
     <svg
       id="Layer_2"
@@ -8,6 +10,9 @@ const LogoWhite = () => {
       viewBox="0 0 400.21 251.53"
       width={500}
       style={{ overflow: "overlay" }}
+      onClick={() => {
+        router.replace("/");
+      }}
     >
       <defs></defs>
       <g id="Layer_1-2">

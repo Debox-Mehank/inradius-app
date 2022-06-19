@@ -134,7 +134,7 @@ const Login: NextPage = () => {
         setCurrentContent((prev) =>
           loginContents.length - 1 === prev ? 0 : prev + 1
         );
-      }, 10000);
+      }, 5000);
     }
 
     return () => clearInterval(contentInterval);
@@ -183,7 +183,7 @@ const Login: NextPage = () => {
                         dangerouslySetInnerHTML={{
                           __html: formatText(loginContent.loginContent),
                         }}
-                        className="whitespace-pre-line text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16"
+                        className="whitespace-normal text-2xl lg:text-3xl xl:text-4xl font-bold tracking-widest leading-relaxed mb-16"
                       ></h2>
                     </div>
                     <div

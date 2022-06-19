@@ -130,13 +130,13 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
                 {user.firstName.split("")[0] + user.lastName.split("")[0]}
               </div>
             )}
-            <p className="text-sm font-medium text-white">
+            <p className="text-sm font-medium text-white flex-1">
               {user.firstName} {user.lastName}
             </p>
             <FontAwesomeIcon
               icon={faPowerOff}
               size={"lg"}
-              className="flex-1 cursor-pointer"
+              className="cursor-pointer"
               onClick={logoutHandler}
             />
           </div>
@@ -163,13 +163,13 @@ const DashboardSidebar = ({ list }: DashboardSidebarProps) => {
                 {(dashboardEmployer?.companyName ?? "").split("")[0]}
               </div>
             )}
-            <p className="text-sm font-medium text-white">
+            <p className="text-sm font-medium text-white flex-1">
               {dashboardEmployer?.companyName ?? ""}
             </p>
             <FontAwesomeIcon
               icon={faPowerOff}
               size={"lg"}
-              className="flex-1 cursor-pointer"
+              className="cursor-pointer"
               onClick={logoutHandler}
             />
           </div>

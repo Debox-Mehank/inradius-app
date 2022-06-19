@@ -264,9 +264,6 @@ const EmployeeDashboardProfile = () => {
 
   return (
     <div className="flex flex-col px-8 relative">
-      {/* Modals */}
-      {/* <Modal show={editModals !== undefined} size={"max-w-3xl"}>
-      </Modal> */}
       <>
         {editModals === editModalsEnum.image && (
           <Modal show={editModals !== undefined} size={"w-2/5"}>

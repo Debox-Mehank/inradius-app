@@ -225,7 +225,7 @@ const EmployerDashboardProfile = () => {
           </p>
         </div>
         <div className="w-full border-t border-b py-2 flex justify-between items-center">
-          <p className="flex-1 text-xs font-medium">Last year's turnover</p>
+          <p className="flex-1 text-xs font-medium">{"Last year's turnover"}</p>
           <p className="flex-1 text-xs font-light">
             ₹{" "}
             {(dashboardEmployer?.lastTurnover ?? 0)
